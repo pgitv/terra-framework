@@ -30,6 +30,7 @@
     "prop-types": "^15.5.8",
     "react-intl": "^2.3.0",
     "react-router-dom": "^4.0.0",
+    "terra-application-toolbar": "^0.x",
     "terra-base": "^2.6.1",
     "terra-collapsible-menu-view": "^1.1.1",
     "terra-content-container": "^1.11.1",

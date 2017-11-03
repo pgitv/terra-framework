@@ -4,10 +4,8 @@ import PropTypes from 'prop-types';
 import Image from 'terra-image';
 import Menu from 'terra-menu';
 
-import Toolbar from 'terra-navigation/lib/toolbar/Toolbar';
-import Logo from 'terra-navigation/lib/toolbar/Logo';
-import Utility from 'terra-navigation/lib/toolbar/Utility';
-import NavTabs from 'terra-navigation/lib/toolbar/NavTabs';
+import Toolbar from 'terra-application-toolbar';
+import NavTabs from 'terra-application-toolbar/lib/NavTabs';
 
 const propTypes = {
   layoutConfig: PropTypes.object,
@@ -82,7 +80,7 @@ class ApplicationHeader extends React.Component {
     }
 
     const utility = (
-      <Utility
+      <Toolbar.Utility
         title={'Utilities'}
         menuItems={[themeSwitcher, localeContent, <Menu.Divider key="DIVIDER-1" />, bidiContent]}
       />
@@ -97,7 +95,7 @@ class ApplicationHeader extends React.Component {
       <Toolbar
         layoutConfig={this.props.layoutConfig}
         logo={(
-          <Logo
+          <Toolbar.Logo
             title="Terra"
             subtitle="Framework"
             accessory={<Image variant="rounded" src="https://github.com/cerner/terra-core/raw/master/terra.png" height="26px" width="26px" isFluid />}

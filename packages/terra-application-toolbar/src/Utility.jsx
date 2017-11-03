@@ -107,5 +107,8 @@ class Utility extends React.Component {
 
 Utility.propTypes = propTypes;
 Utility.Item = Menu.Item;
+Utility.ItemGroup = Menu.ItemGroup;
+Utility.Divider = Menu.Divider;
+Utility.Opts = Menu.Opts;
 
 export default Utility;
