@@ -1,13 +1,12 @@
 import React from 'react';
-import Toolbar from 'terra-navigation/lib/toolbar/Toolbar';
-import Menu from 'terra-menu';
+import Toolbar from 'terra-application-toolbar';
 
 const items = [
-  <Menu.Item
+  <Toolbar.Utility.Item
     text="Toggle Item 1"
     key="Toggle1"
   />,
-  <Menu.Item
+  <Toolbar.Utility.Item
     text="Toggle Item 2"
     key="Toggle2"
   />,

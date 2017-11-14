@@ -32,6 +32,10 @@ const propTypes = {
   title: PropTypes.string,
 };
 
+const defaultProps = {
+  size: 'tiny',
+};
+
 const Logo = ({
     accessory,
     app,
@@ -55,5 +59,6 @@ const Logo = ({
 };
 
 Logo.propTypes = propTypes;
+Logo.defaultProps = defaultProps;
 
 export default Logo;

@@ -9,7 +9,7 @@ import Button from 'terra-button';
 import Utility from './Utility';
 import Logo from './Logo';
 
-import styles from './Toolbar.scss';
+import styles from './ApplicationToolbar.scss';
 
 const cx = classNames.bind(styles);
 

@@ -44,7 +44,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  menuBreakpoint: 'tiny',
+  size: 'tiny',
 };
 
 class Utility extends React.Component {
@@ -52,9 +52,17 @@ class Utility extends React.Component {
   constructor(props) {
     super(props);
 
+    this.getUtilityNode = this.getUtilityNode.bind(this);
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.state = { menuIsOpen: false };
+  }
+
+  getUtilityNode() {
+    if (this.utilityNode) {
+      return this.utilityNode.querySelector('[data-utility-more-icon=true]');
+    }
+    return null;
   }
 
   handleOnClick() {
@@ -84,10 +92,10 @@ class Utility extends React.Component {
     ]);
 
     return (
-      <div>
+      <div ref={(node) => { this.utilityNode = node; }}>
         <Menu
           isOpen={this.state.menuIsOpen}
-          targetRef={() => document.getElementById('terra-clinical-nav-utils')}
+          targetRef={this.getUtilityNode}
           onRequestClose={this.handleRequestClose}
           contentHeight={contentHeight}
           contentWidth={contentWidth}
@@ -98,14 +106,15 @@ class Utility extends React.Component {
         <Button {...customProps} className={utilityClassNames} onClick={this.handleOnClick} variant="link">
           {!!accessory && <div className={cx('accessory')}>{accessory}</div>}
           {!!title && size !== 'tiny' && <div className={cx('title')}>{title}</div>}
-          {<IconExpandMore id="terra-clinical-nav-utils" />}
+          {<IconExpandMore data-utility-more-icon />}
         </Button>
       </div>
     );
-  };  
-};
+  }
+}
 
 Utility.propTypes = propTypes;
+Utility.defaultProps = defaultProps;
 Utility.Item = Menu.Item;
 Utility.ItemGroup = Menu.ItemGroup;
 Utility.Divider = Menu.Divider;

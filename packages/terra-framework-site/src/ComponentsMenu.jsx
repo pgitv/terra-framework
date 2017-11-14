@@ -13,6 +13,8 @@ const ComponentsMenu = () => (
     <br />
     <Link to="/components/navigation">Navigation</Link>
     <br />
+    <Link to="/components/application-toolbar">Application Toolbar</Link>
+    <br />
   </div>
 );
 ComponentsMenu.propTypes = propTypes;
