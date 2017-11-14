@@ -1,7 +1,6 @@
 import React from 'react';
 import Toolbar from 'terra-application-toolbar';
-import IconPrinter from 'terra-icon/lib/icon/IconPrinter';
-import IconPill from 'terra-icon/lib/icon/IconPill';
+import PlaceHolder from './ToolbarPlaceHolder';
 
 class ToolbarStandard extends React.Component {
   constructor(props) {
@@ -35,35 +34,10 @@ class ToolbarStandard extends React.Component {
         </form>
         <br />
         <Toolbar
-          layoutConfig={{
-            size: this.state.toolbarSize,
-            toggleMenu: () => {},
-          }}
-          logo={(
-            <Toolbar.Logo
-              accessory={<IconPill />}
-              title="Title"
-              subtitle="subtitle"
-            />
-          )}
-          utility={(
-            <Toolbar.Utility
-              accessory={<IconPrinter />}
-              contentHeight="80"
-              contentWidth="240"
-              menuItems={[
-                <Toolbar.Utility.Item
-                  text="Utility Menu Item 1"
-                  key="Toggle1"
-                />,
-                <Toolbar.Utility.Item
-                  text="Utility Menu Item 2"
-                  key="Toggle2"
-                />,
-              ]}
-              title="Utility Title"
-            />
-          )}
+          layoutConfig={{ size: this.state.toolbarSize, toggleMenu: () => {} }}
+          logo={<PlaceHolder text="Logo" width="100%" />}
+          utility={<PlaceHolder text="Utility" width="250px" />}
+          content={<PlaceHolder text="Content" width="100%" />}
         />
       </div>
     );

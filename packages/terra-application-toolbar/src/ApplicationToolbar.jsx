@@ -27,7 +27,7 @@ const propTypes = {
    * */
   logo: PropTypes.element,
   /**
-   * .
+   * Layout configuration to handle size and toggle functionality.
    * */
   layoutConfig: PropTypes.shape({
     size: PropTypes.string,
@@ -37,6 +37,10 @@ const propTypes = {
    * Utility element to be placed at the end of the toolbar.
    * */
   utility: PropTypes.element,
+};
+
+const defaultProps = {
+  layoutConfig: {},
 };
 
 const appendPropsToElement = (app, size, element) => React.cloneElement(element, { app, size });
@@ -106,6 +110,7 @@ const Toolbar = ({
 };
 
 Toolbar.propTypes = propTypes;
+Toolbar.defaultProps = defaultProps;
 Toolbar.Utility = Utility;
 Toolbar.Logo = Logo;
 

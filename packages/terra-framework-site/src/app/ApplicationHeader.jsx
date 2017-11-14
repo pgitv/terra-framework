@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Image from 'terra-image';
 import IconSettings from 'terra-icon/lib/icon/IconSettings';
 import Toolbar from 'terra-application-toolbar';
-import NavTabs from 'terra-application-toolbar/lib/NavTabs';
+import NavTabs from './common/nav-tabs/NavTabs';
 
 const propTypes = {
   layoutConfig: PropTypes.object,
