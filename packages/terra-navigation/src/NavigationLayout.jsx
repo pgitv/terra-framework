@@ -5,8 +5,8 @@ import {
 } from 'react-router-dom';
 
 import AppDelegate from 'terra-app-delegate';
-import { navigationConfigPropType, configHasMatchingRoute } from './routing/RoutingConfigUtils';
 import Layout from 'terra-layout';
+import { navigationConfigPropType, configHasMatchingRoute } from './routing/RoutingConfigUtils';
 
 const propTypes = {
   app: AppDelegate.propType,

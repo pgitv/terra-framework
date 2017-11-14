@@ -26,7 +26,13 @@ const propTypes = {
    * Logo element to be placed at the start of the toolbar.
    * */
   logo: PropTypes.element,
-  layoutConfig: PropTypes.object,
+  /**
+   * .
+   * */
+  layoutConfig: PropTypes.shape({
+    size: PropTypes.string,
+    toggleMenu: PropTypes.func,
+  }),
   /**
    * Utility element to be placed at the end of the toolbar.
    * */
@@ -47,7 +53,6 @@ const Toolbar = ({
 
   const toolbarClassNames = cx([
     'toolbar',
-    { 'is-compact': isCompact },
     customProps.className,
   ]);
 

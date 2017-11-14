@@ -2,16 +2,17 @@
 :local {
   .utility {
     align-items: center;
+    color: #fff;
     display: flex;
     flex: 0 0 auto;
 
     & > *:not(:last-child) {
-      padding-right: 5px;
+      padding-right: 0.3571rem;
     }
-  }
 
-  .is-compact {
-    color: #fff;
+    &:hover {
+      color: #fff;
+    }
   }
 
   .title {

@@ -2,21 +2,18 @@
 :local {
   .logo {
     align-items: center;
+    color: #fff;
     display: flex;
     flex: 0 0 auto;
   }
 
-  .is-compact {
-    color: #fff;
-  }
-
   .accessory {
-    padding-left: 5px;
+    padding-left: 0.3571rem;
   }
 
   .title {
     overflow: hidden;
-    padding-left: 5px;
+    padding-left: 0.3571rem;
     padding-right: 4rem;
     text-overflow: ellipsis;
     white-space: nowrap;

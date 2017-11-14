@@ -87,7 +87,6 @@ class Utility extends React.Component {
 
     const utilityClassNames = cx([
       'utility',
-      { 'is-compact': size === 'tiny' || size === 'small' },
       customProps.className,
     ]);
 

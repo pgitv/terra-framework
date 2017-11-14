@@ -46,7 +46,6 @@ const Logo = ({
   }) => {
   const logoClassNames = cx([
     'logo',
-    { 'is-compact': size === 'tiny' || size === 'small' },
     customProps.className,
   ]);
 

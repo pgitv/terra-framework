@@ -7,23 +7,15 @@ import BaseWrapper from './_BaseWrapper';
 const propTypes = {
   app: AppDelegate.propType,
   routingManager: PropTypes.object,
-  size: PropTypes.string,
 };
 
-class ContentWrapper extends React.Component {
-  render() {
-    const { app, routingManager, size } = this.props;
-
-    return (
-      <BaseWrapper
-        app={app}
-        size={size}
-        routingManager={routingManager}
-        routes={routingManager.routeConfig.contentRoutes}
-      />
-    );
-  }
-}
+const ContentWrapper = ({ app, routingManager }) => (
+  <BaseWrapper
+    app={app}
+    routingManager={routingManager}
+    routes={routingManager.routeConfig.contentRoutes}
+  />
+);
 
 ContentWrapper.propTypes = propTypes;
 

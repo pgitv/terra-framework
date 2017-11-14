@@ -1,40 +1,43 @@
 import React from 'react';
 import Toolbar from 'terra-application-toolbar';
+import IconPrinter from 'terra-icon/lib/icon/IconPrinter';
+import IconPill from 'terra-icon/lib/icon/IconPill';
+import NavTabs from 'terra-application-toolbar/lib/NavTabs';
 
 const items = [
   <Toolbar.Utility.Item
-    text="Toggle Item 1"
+    text="Utility Menu Item 1"
     key="Toggle1"
   />,
   <Toolbar.Utility.Item
-    text="Toggle Item 2"
+    text="Utility Menu Item 2"
     key="Toggle2"
   />,
 ];
 
-const logo = (
-  <Toolbar.Logo
-    title="Title"
-    subtitle="subtitle"
-  />
-);
-
-const utility = (
-  <Toolbar.Utility
-    contentHeight="80"
-    contentWidth="240"
-    menuItems={items}
-    title="Utilities"
-  />
-);
-
 const toolbar = () => (
   <Toolbar
+    content={<NavTabs links={[{ path: '123', text: 'Tab 1' }, { path: '234', text: 'Tab 2' }]} />}
     layoutConfig={{
-      size: 'tiny',
+      size: 'small',
+      toggleMenu: () => {},
     }}
-    logo={logo}
-    utility={utility}
+    logo={(
+      <Toolbar.Logo
+        accessory={<IconPill />}
+        title="Title"
+        subtitle="subtitle"
+      />
+    )}
+    utility={(
+      <Toolbar.Utility
+        accessory={<IconPrinter />}
+        contentHeight="80"
+        contentWidth="240"
+        menuItems={items}
+        title="Utility Title"
+      />
+    )}
   />
 );
 

@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import Overlay from 'terra-overlay';
+import OverlayContainer from 'terra-overlay/lib/OverlayContainer';
+
 import 'terra-base/lib/baseStyles';
 
 import HoverTarget from './_HoverTarget';
@@ -71,12 +73,12 @@ const LayoutSlidePanel = ({
   const isSmall = size === 'small';
   const compactSize = isTiny || isSmall;
   const isOverlay = compactSize ? true : panelBehavior === 'overlay';
-  const isOverlayOpen = isOpen && isOverlay && isToggleEnabled;
+  const isOverlayOpen = isOpen && isOverlay;
   const overlayBackground = compactSize ? 'dark' : 'clear';
 
   const slidePanelClassNames = cx([
     'layout-slide-panel',
-    { 'is-open': isOpen && isToggleEnabled },
+    { 'is-open': isOpen },
     { 'is-overlay': isOverlay },
     { 'is-squish': !isOverlay },
     { 'hover-toggle-enabled': !compactSize && isToggleEnabled },
@@ -87,26 +89,23 @@ const LayoutSlidePanel = ({
     'panel',
     { 'is-tiny': isTiny },
     { 'is-small': isSmall },
-    { 'is-animated': isAnimated },
+    { 'is-animated': isAnimated && isOverlay && !!panelContent },
   ]);
 
-  let panel;
-  if (isToggleEnabled) {
-    panel = (
-      <div className={panelClasses} aria-hidden={!isOpen ? 'true' : null}>
-        <HoverTarget
-          text={toggleText}
-          isOpen={isOpen}
-          hoverIsEnabled={!compactSize && isOverlay}
-          onHoverOff={() => { if (isOpen) { onToggle(); } }}
-          onHoverOn={() => { if (!isOpen) { onToggle(); } }}
-          onClick={onToggle}
-        >
-          {panelContent}
-        </HoverTarget>
-      </div>
-    );
-  }
+  const panel = (
+    <div className={panelClasses} aria-hidden={!isOpen ? 'true' : null}>
+      <HoverTarget
+        text={toggleText}
+        isOpen={isOpen || !isToggleEnabled}
+        hoverIsEnabled={!compactSize && isOverlay}
+        onHoverOff={() => { if (isOpen) { onToggle(); } }}
+        onHoverOn={() => { if (!isOpen) { onToggle(); } }}
+        onClick={onToggle}
+      >
+        {panelContent}
+      </HoverTarget>
+    </div>
+  );
 
   return (
     <div
@@ -114,10 +113,10 @@ const LayoutSlidePanel = ({
       className={slidePanelClassNames}
     >
       {panel}
-      <div className={cx('content')}>
+      <OverlayContainer className={cx('content')}>
         <Overlay isRelativeToContainer onRequestClose={onToggle} isOpen={isOverlayOpen} backgroundStyle={overlayBackground} />
         {children}
-      </div>
+      </OverlayContainer>
     </div>
   );
 };

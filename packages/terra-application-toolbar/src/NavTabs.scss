@@ -21,37 +21,32 @@
   }
 
   .nav-links {
-    border-right: 1px solid #dedfe0;
-    box-shadow: inset -1px 0 0 0 #fff;
-    color: #434A4D;
+    border-right: 0.07143rem solid #dedfe0;
+    color: #fff;
     display: block;
     flex: 0 0 auto;
-    font-size: 13px;
+    font-size: 0.9286rem;
     height: 100%;
     line-height: 2.7;
-    min-width: 80px;
-    max-width: 240px;
-    padding: 0 21px;
+    min-width: 5.714rem;
+    max-width: 17.143rem;
+    padding: 0 1.5rem;
     position: relative;
     text-align: center;
     text-decoration: none;
 
     &:first-child {
-      border-left: 1px solid #fff;
-      box-shadow: inset 1px 0 0 0 #dedfe0;
+      border-left: 0.07143rem solid #fff;
     }
 
     &:hover {
-      background-color: #e6e6e6;
-      border-left: none;
-      box-shadow: inset -1px 0 0 0 #e6e6e6;
+      background-color: #015085;
     }
 
     &[aria-current='true'] {
-      background-color: #e6e6e6;
+      background-color: #fff;
       border-left: none;
-      box-shadow: 0 -1px 0 0 #868A8C, -1px 0 0 0 #BCBFC0,1px 0 0 0 #BCBFC0, inset 0 -7px 7px 0 #DEDFE0, inset 0 8px 16px 0 rgba(28,31,33,0.17), inset 0 7px 5px -5px rgba(0,0,0,0.31);
-      bottom:-1px;
+      bottom:-0.07143rem;
       color: #1c1f21;
       font-weight: 600;
     }
