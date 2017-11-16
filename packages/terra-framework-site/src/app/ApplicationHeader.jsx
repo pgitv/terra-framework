@@ -76,7 +76,7 @@ class ApplicationHeader extends React.Component {
     const utility = (
       <Toolbar.Utility
         accessory={<IconSettings />}
-        title={'Utilities'}
+        title={'Config'}
         menuItems={[themeSwitcher, localeContent, <Toolbar.Utility.Divider key="DIVIDER-1" />, bidiContent]}
       />
     );

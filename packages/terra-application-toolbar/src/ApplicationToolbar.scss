@@ -3,8 +3,8 @@
   .toolbar {
     background-color: #2481ca;
     display: flex;
-    justify-content: space-between;
     height: 2.5rem;
+    justify-content: space-between;
     position: relative;
     width: 100%;
   }
@@ -18,10 +18,10 @@
     justify-content: flex-start;
     position: relative;
     width: 3.0714em;
+  }
 
-    & > * {
-      width: 100%;
-    }
+  .toolbar-toggle > * {
+    width: 100%;
   }
 
   .toolbar-body {

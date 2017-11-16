@@ -10,7 +10,7 @@ import ApplicationHeader from './ApplicationHeader';
 import './App.scss';
 
 const propTypes = {
-  routes: PropTypes.object,
+  routeConfig: PropTypes.object,
   navigation: PropTypes.object,
 };
 
@@ -56,7 +56,6 @@ class App extends React.Component {
         onDirChange={this.handleBidiChange}
         theme={this.state.theme}
         onThemeChange={this.handleThemeChange}
-        routes={this.props.routes}
         navigation={this.props.navigation}
       />
     );
@@ -66,12 +65,12 @@ class App extends React.Component {
         <Route
           render={() => (
             <ThemeProvider id="framework-site" themeName={themes[this.state.theme]} isGlobalTheme>
-              <Base style={{ height: '100%' }} locale={this.state.locale}>
+              <Base className="base" locale={this.state.locale}>
                 <NavigationLayout
                   header={applicationHeader}
                   menuText="Menu"
                   indexRoute={this.props.navigation.index}
-                  routeConfig={this.props.routes}
+                  config={this.props.routeConfig}
                 />
               </Base>
             </ThemeProvider>

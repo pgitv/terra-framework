@@ -3,10 +3,11 @@ import LayoutDefault from 'terra-layout/tests/nightwatch/LayoutDefault';
 import LayoutNoMenu from 'terra-layout/tests/nightwatch/LayoutNoMenu';
 import LayoutLongText from 'terra-layout/tests/nightwatch/LayoutLongText';
 import LayoutNoHeader from 'terra-layout/tests/nightwatch/LayoutNoHeader';
-import LayoutExample from './examples/layout/Index';
 
-import ToolbarExample from './examples/application-toolbar/Index';
 import ApplicationToolbarDefault from 'terra-application-toolbar/tests/nightwatch/ApplicationToolbarDefault';
+
+import LayoutExample from './examples/layout/Index';
+import ToolbarExample from './examples/application-toolbar/Index';
 
 const itemConfigPropType = PropTypes.shape({
   path: PropTypes.string,
