@@ -1,4 +1,5 @@
 import LayoutTests from './LayoutTests';
+import ApplicationToolbarTests from './ApplicationToolbarTests';
 
 const menuConfig = {
   '/tests/layout': {
@@ -6,6 +7,14 @@ const menuConfig = {
     component: {
       default: {
         componentClass: LayoutTests,
+      },
+    },
+  },
+  '/tests/application-toolbar': {
+    path: '/tests/application-toolbar',
+    component: {
+      default: {
+        componentClass: ApplicationToolbarTests,
       },
     },
   },

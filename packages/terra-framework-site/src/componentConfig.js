@@ -6,6 +6,7 @@ import LayoutNoHeader from 'terra-layout/tests/nightwatch/LayoutNoHeader';
 import LayoutExample from './examples/layout/Index';
 
 import ToolbarExample from './examples/application-toolbar/Index';
+import ApplicationToolbarDefault from 'terra-application-toolbar/tests/nightwatch/ApplicationToolbarDefault';
 
 const itemConfigPropType = PropTypes.shape({
   path: PropTypes.string,
@@ -54,6 +55,12 @@ const componentConfig = {
       component: ToolbarExample,
       description: 'ApplicationToolbar',
     },
+    testRoot: '/tests/application-toolbar',
+    tests: [{
+      path: '/default',
+      component: ApplicationToolbarDefault,
+      description: 'Default',
+    }],
   },
 };
 

@@ -9,7 +9,7 @@ import { version } from 'terra-application-toolbar/package.json';
 /* eslint-disable import/no-webpack-loader-syntax, import/first, import/no-unresolved, import/extensions */
 import ToolbarSrc from '!raw-loader!terra-application-toolbar/src/ApplicationToolbar.jsx';
 import LogoSrc from '!raw-loader!terra-application-toolbar/src/Logo.jsx';
-import UtilitySrc from '!raw-loader!terra-application-toolbar/src/ApplicationToolbar.jsx';
+import UtilitySrc from '!raw-loader!terra-application-toolbar/src/Utility.jsx';
 /* eslint-enable import/no-webpack-loader-syntax, import/first, import/no-unresolved, import/extensions */
 
 // Example Files
