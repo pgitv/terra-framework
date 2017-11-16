@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ApplicationToolbar should render with provided props 1`] = `
+<div>
+  <Menu
+    contentHeight="auto"
+    contentWidth="auto"
+    isArrowDisplayed={true}
+    isOpen={false}
+    onRequestClose={[Function]}
+    targetRef={[Function]}
+  />
+  <Button
+    className="utility"
+    isBlock={false}
+    isCompact={false}
+    isDisabled={false}
+    isReversed={false}
+    onClick={[Function]}
+    type="button"
+    variant="link"
+  >
+    <div
+      className="accessory"
+    >
+      <div>
+        test accessory
+      </div>
+    </div>
+    <div
+      className="title"
+    >
+      title
+    </div>
+    <IconExpandMore
+      className=""
+      data-name="Layer 1"
+      data-utility-more-icon={true}
+      isBidi={true}
+      viewBox="0 0 48 48"
+      xmlns="http://www.w3.org/2000/svg"
+    />
+  </Button>
+</div>
+`;
+
+exports[`ApplicationToolbar should render without optional props 1`] = `
+<div>
+  <Menu
+    contentWidth="240"
+    isArrowDisplayed={true}
+    isOpen={false}
+    onRequestClose={[Function]}
+    targetRef={[Function]}
+  />
+  <Button
+    className="utility"
+    isBlock={false}
+    isCompact={false}
+    isDisabled={false}
+    isReversed={false}
+    onClick={[Function]}
+    type="button"
+    variant="link"
+  >
+    <IconExpandMore
+      className=""
+      data-name="Layer 1"
+      data-utility-more-icon={true}
+      isBidi={true}
+      viewBox="0 0 48 48"
+      xmlns="http://www.w3.org/2000/svg"
+    />
+  </Button>
+</div>
+`;
