@@ -11,6 +11,7 @@ import ApplicationMenuDefault from 'terra-application-menu/tests/nightwatch/Appl
 import LayoutExample from './examples/layout/Index';
 import HeaderExample from './examples/application-header/Index';
 import MenuExample from './examples/application-menu/Index';
+import NavigationLayoutExample from './examples/navigation-layout/Index';
 
 const itemConfigPropType = PropTypes.shape({
   path: PropTypes.string,
@@ -32,6 +33,32 @@ const componentConfig = {
       path: '/components/layout',
       component: LayoutExample,
       description: 'Layout',
+    },
+    testRoot: '/tests/layout',
+    tests: [{
+      path: '/default',
+      component: LayoutDefault,
+      description: 'Default',
+    }, {
+      path: '/no-menu',
+      component: LayoutNoMenu,
+      description: 'No Menu',
+    }, {
+      path: '/long-text',
+      component: LayoutLongText,
+      description: 'Long Text',
+    }, {
+      path: '/no-header',
+      component: LayoutNoHeader,
+      description: 'No Header',
+    }],
+  },
+  navigationLayout: {
+    name: 'Navigation Layout',
+    example: {
+      path: '/components/navigation-layout',
+      component: NavigationLayoutExample,
+      description: 'Navigation Layout',
     },
     testRoot: '/tests/layout',
     tests: [{
