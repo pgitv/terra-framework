@@ -32,6 +32,7 @@ const propTypes = {
   layoutConfig: PropTypes.shape({
     size: PropTypes.string,
     toggleMenu: PropTypes.func,
+    menuIsOpen: PropTypes.bool,
   }),
   /**
    * Utility element to be placed at the end of the header.
@@ -44,7 +45,9 @@ const propTypes = {
 };
 
 const defaultProps = {
-  layoutConfig: {},
+  layoutConfig: {
+    menuIsOpen: false,
+  },
 };
 
 const appendPropsToElement = (app, size, element) => React.cloneElement(element, { app, size });

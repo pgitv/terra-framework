@@ -6,8 +6,11 @@ import LayoutNoHeader from 'terra-layout/tests/nightwatch/LayoutNoHeader';
 
 import ApplicationHeaderDefault from 'terra-application-header/tests/nightwatch/ApplicationHeaderDefault';
 
+import ApplicationMenuDefault from 'terra-application-menu/tests/nightwatch/ApplicationMenuDefault';
+
 import LayoutExample from './examples/layout/Index';
-import ToolbarExample from './examples/application-header/Index';
+import HeaderExample from './examples/application-header/Index';
+import MenuExample from './examples/application-menu/Index';
 
 const itemConfigPropType = PropTypes.shape({
   path: PropTypes.string,
@@ -49,17 +52,31 @@ const componentConfig = {
       description: 'No Header',
     }],
   },
-  applicationToolbar: {
+  applicationHeader: {
     name: 'Application Header',
     example: {
       path: '/components/application-header',
-      component: ToolbarExample,
+      component: HeaderExample,
       description: 'Application Header',
     },
     testRoot: '/tests/application-header',
     tests: [{
       path: '/default',
       component: ApplicationHeaderDefault,
+      description: 'Default',
+    }],
+  },
+  applicationMenu: {
+    name: 'Application Menu',
+    example: {
+      path: '/components/application-menu',
+      component: MenuExample,
+      description: 'Application Menu',
+    },
+    testRoot: '/tests/application-menu',
+    tests: [{
+      path: '/default',
+      component: ApplicationMenuDefault,
       description: 'Default',
     }],
   },

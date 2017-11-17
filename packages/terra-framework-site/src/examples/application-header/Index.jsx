@@ -7,7 +7,7 @@ import { version } from 'terra-application-header/package.json';
 
 // Component Source
 /* eslint-disable import/no-webpack-loader-syntax, import/first, import/no-unresolved, import/extensions */
-import ToolbarSrc from '!raw-loader!terra-application-header/src/ApplicationHeader.jsx';
+import HeaderSrc from '!raw-loader!terra-application-header/src/ApplicationHeader.jsx';
 import LogoSrc from '!raw-loader!terra-application-header/src/Logo.jsx';
 import UtilitySrc from '!raw-loader!terra-application-header/src/Utility.jsx';
 /* eslint-enable import/no-webpack-loader-syntax, import/first, import/no-unresolved, import/extensions */
@@ -20,7 +20,7 @@ const NavigationExamples = () => (
   <div>
     <div id="version">Version: {version}</div>
     <Markdown id="readme" src={ReadMe} />
-    <PropsTable id="props-toolbar" src={ToolbarSrc} componentName="Application Header" />
+    <PropsTable id="props-header" src={HeaderSrc} componentName="Application Header" />
     <PropsTable id="props-logo" src={LogoSrc} componentName="Logo" />
     <PropsTable id="props-utility" src={UtilitySrc} componentName="Utility" />
     <h2 id="header-wireframe">Header Wireframe</h2>

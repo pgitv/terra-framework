@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from 'terra-application-header';
-import PlaceHolder from './HeaderPlaceHolder';
+import PlaceHolder from '../common/PlaceHolder';
 
 class ToolbarStandard extends React.Component {
   constructor(props) {
@@ -35,10 +35,10 @@ class ToolbarStandard extends React.Component {
         <br />
         <Header
           layoutConfig={{ size: this.state.headerSize, toggleMenu: () => {} }}
-          logo={<PlaceHolder text="Logo" width="100%" />}
-          utility={<PlaceHolder text="Utility" width="250px" />}
-          widget={<PlaceHolder text="Widgets" width="150px" />}
-          content={<PlaceHolder text="Content" width="100%" />}
+          logo={<PlaceHolder color="#fff" text="Logo" />}
+          utility={<PlaceHolder color="#fff" text="Utility" width="250px" />}
+          widget={<PlaceHolder color="#fff" text="Widgets" width="150px" />}
+          content={<PlaceHolder color="#fff" text="Content" />}
         />
       </div>
     );
