@@ -1,18 +1,18 @@
-# Terra Layout
+# Terra Application Header
 
 
-[![NPM version](http://img.shields.io/npm/v/terra-application-toolbar.svg)](https://www.npmjs.org/package/terra-application-toolbar)
+[![NPM version](http://img.shields.io/npm/v/terra-application-header.svg)](https://www.npmjs.org/package/terra-application-header)
 [![Build Status](https://travis-ci.org/cerner/terra.svg?branch=master)](https://travis-ci.org/cerner/terra-framework)
 
-This component renders an application toolbar template. To be used with a layout.
+This component renders an application header template. To be used with a layout.
 
 - [Getting Started](#getting-started)
-- [Documentation](https://github.com/cerner/terra-framework/tree/master/packages/terra-application-toolbar/docs)
+- [Documentation](https://github.com/cerner/terra-framework/tree/master/packages/terra-application-header/docs)
 - [LICENSE](#license)
 
 ## Getting Started
 
-- Install from [npmjs](https://www.npmjs.com): `npm install terra-application-toolbar`
+- Install from [npmjs](https://www.npmjs.com): `npm install terra-application-header`
 
 ## LICENSE
 

@@ -1,20 +1,21 @@
-# Terra Application Toolbar
+# Terra Application Header
 
-This component renders an application toolbar template. To be used with a layout.
+This component renders an application header template. To be used with a layout.
 
 ## Getting Started
 
 - Install with [npmjs](https://www.npmjs.com):
-  - `npm install terra-application-toolbar`
-  - `yarn add terra-application-toolbar`
+  - `npm install terra-application-header`
+  - `yarn add terra-application-header`
 
 ## Usage
 
 ```jsx
 import React from 'react';
-import ApplicationToolbar from 'terra-application-toolbar';
+import ApplicationHeader from 'terra-application-header';
 
-<Toolbar
+<ApplicationHeader
+  content={<div>content</div>}
   logo={logo}
   utility={utility}
 />

@@ -20,12 +20,12 @@ const NavigationExamples = () => (
   <div>
     <div id="version">Version: {version}</div>
     <Markdown id="readme" src={ReadMe} />
-    <PropsTable id="props-toolbar" src={ToolbarSrc} componentName="Application Toolbar" />
+    <PropsTable id="props-toolbar" src={ToolbarSrc} componentName="Application Header" />
     <PropsTable id="props-logo" src={LogoSrc} componentName="Logo" />
     <PropsTable id="props-utility" src={UtilitySrc} componentName="Utility" />
-    <h2 id="toolbar-wireframe">Toolbar Wireframe</h2>
+    <h2 id="toolbar-wireframe">Header Wireframe</h2>
     <ToolbarWireframe />
-    <h2 id="toolbar-standard">Toolbar Standard</h2>
+    <h2 id="toolbar-standard">Header Standard</h2>
     <ToolbarStandard />
   </div>
 );

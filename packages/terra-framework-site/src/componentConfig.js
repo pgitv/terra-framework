@@ -50,11 +50,11 @@ const componentConfig = {
     }],
   },
   applicationToolbar: {
-    name: 'Application Toolbar',
+    name: 'Application Header',
     example: {
       path: '/components/application-toolbar',
       component: ToolbarExample,
-      description: 'ApplicationToolbar',
+      description: 'Application Header',
     },
     testRoot: '/tests/application-toolbar',
     tests: [{
