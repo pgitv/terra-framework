@@ -4,7 +4,7 @@ import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 
 import LayoutExamples from './examples/layout/Index';
 import NavigationExamples from './examples/navigation/Index';
-import ApplicationToolbarExamples from './examples/application-toolbar/Index';
+import ApplicationHeaderExamples from './examples/application-header/Index';
 
 const propTypes = {
 //   app: AppDelegate.propType,
@@ -16,7 +16,7 @@ const Components = () => (
     <Switch>
       <Route path="/components/layout" component={LayoutExamples} />
       <Route path="/components/navigation" component={NavigationExamples} />
-      <Route path="/components/application-toolbar" component={ApplicationToolbarExamples} />
+      <Route path="/components/application-header" component={ApplicationHeaderExamples} />
       <Redirect to="/components/layout" />
     </Switch>
   </div>

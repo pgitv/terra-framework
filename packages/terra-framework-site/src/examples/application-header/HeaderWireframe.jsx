@@ -1,6 +1,6 @@
 import React from 'react';
-import Toolbar from 'terra-application-toolbar';
-import PlaceHolder from './ToolbarPlaceHolder';
+import Header from 'terra-application-header';
+import PlaceHolder from './HeaderPlaceHolder';
 
 class ToolbarStandard extends React.Component {
   constructor(props) {
@@ -8,7 +8,7 @@ class ToolbarStandard extends React.Component {
 
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.getId = this.getId.bind(this);
-    this.state = { toolbarSize: 'tiny' };
+    this.state = { headerSize: 'tiny' };
   }
 
   getId(name) {
@@ -23,8 +23,8 @@ class ToolbarStandard extends React.Component {
     return (
       <div>
         <form>
-          <label htmlFor={this.getId('toolbarSize')}>Toolbar Size</label>
-          <select id={this.getId('toolbarSize')} name="toolbarSize" value={this.state.toolbarSize} onChange={this.handleSelectChange}>
+          <label htmlFor={this.getId('headerSize')}>Header Size</label>
+          <select id={this.getId('headerSize')} name="headerSize" value={this.state.headerSize} onChange={this.handleSelectChange}>
             <option value={'tiny'}>Tiny</option>
             <option value={'small'}>Small</option>
             <option value={'medium'}>Medium</option>
@@ -33,10 +33,11 @@ class ToolbarStandard extends React.Component {
           </select>
         </form>
         <br />
-        <Toolbar
-          layoutConfig={{ size: this.state.toolbarSize, toggleMenu: () => {} }}
+        <Header
+          layoutConfig={{ size: this.state.headerSize, toggleMenu: () => {} }}
           logo={<PlaceHolder text="Logo" width="100%" />}
           utility={<PlaceHolder text="Utility" width="250px" />}
+          widget={<PlaceHolder text="Widgets" width="150px" />}
           content={<PlaceHolder text="Content" width="100%" />}
         />
       </div>

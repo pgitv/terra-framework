@@ -1,5 +1,5 @@
 import React from 'react';
-import Toolbar from 'terra-application-toolbar';
+import Header from 'terra-application-header';
 import IconPrinter from 'terra-icon/lib/icon/IconPrinter';
 import IconPill from 'terra-icon/lib/icon/IconPill';
 
@@ -9,7 +9,7 @@ class ToolbarStandard extends React.Component {
 
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.getId = this.getId.bind(this);
-    this.state = { toolbarSize: 'tiny' };
+    this.state = { headerSize: 'tiny' };
   }
 
   getId(name) {
@@ -24,8 +24,8 @@ class ToolbarStandard extends React.Component {
     return (
       <div>
         <form>
-          <label htmlFor={this.getId('toolbarSize')}>Toolbar Size</label>
-          <select id={this.getId('toolbarSize')} name="toolbarSize" value={this.state.toolbarSize} onChange={this.handleSelectChange}>
+          <label htmlFor={this.getId('headerSize')}>Header Size</label>
+          <select id={this.getId('headerSize')} name="headerSize" value={this.state.headerSize} onChange={this.handleSelectChange}>
             <option value={'tiny'}>Tiny</option>
             <option value={'small'}>Small</option>
             <option value={'medium'}>Medium</option>
@@ -34,29 +34,29 @@ class ToolbarStandard extends React.Component {
           </select>
         </form>
         <br />
-        <Toolbar
+        <Header
           layoutConfig={{
-            size: this.state.toolbarSize,
+            size: this.state.headerSize,
             toggleMenu: () => {},
           }}
           logo={(
-            <Toolbar.Logo
+            <Header.Logo
               accessory={<IconPill />}
               title="Title"
               subtitle="subtitle"
             />
           )}
           utility={(
-            <Toolbar.Utility
+            <Header.Utility
               accessory={<IconPrinter />}
               contentHeight="80"
               contentWidth="240"
               menuItems={[
-                <Toolbar.Utility.Item
+                <Header.Utility.Item
                   text="Utility Menu Item 1"
                   key="Toggle1"
                 />,
-                <Toolbar.Utility.Item
+                <Header.Utility.Item
                   text="Utility Menu Item 2"
                   key="Toggle2"
                 />,

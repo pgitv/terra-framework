@@ -2,7 +2,7 @@ import React from 'react';
 
 import Logo from '../../src/Logo';
 
-describe('ApplicationToolbar', () => {
+describe('Logo', () => {
   it('should render without optional props', () => {
     const result = shallow((
       <Logo />

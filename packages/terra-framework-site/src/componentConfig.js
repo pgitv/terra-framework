@@ -4,10 +4,10 @@ import LayoutNoMenu from 'terra-layout/tests/nightwatch/LayoutNoMenu';
 import LayoutLongText from 'terra-layout/tests/nightwatch/LayoutLongText';
 import LayoutNoHeader from 'terra-layout/tests/nightwatch/LayoutNoHeader';
 
-import ApplicationToolbarDefault from 'terra-application-toolbar/tests/nightwatch/ApplicationToolbarDefault';
+import ApplicationHeaderDefault from 'terra-application-header/tests/nightwatch/ApplicationHeaderDefault';
 
 import LayoutExample from './examples/layout/Index';
-import ToolbarExample from './examples/application-toolbar/Index';
+import ToolbarExample from './examples/application-header/Index';
 
 const itemConfigPropType = PropTypes.shape({
   path: PropTypes.string,
@@ -52,14 +52,14 @@ const componentConfig = {
   applicationToolbar: {
     name: 'Application Header',
     example: {
-      path: '/components/application-toolbar',
+      path: '/components/application-header',
       component: ToolbarExample,
       description: 'Application Header',
     },
-    testRoot: '/tests/application-toolbar',
+    testRoot: '/tests/application-header',
     tests: [{
       path: '/default',
-      component: ApplicationToolbarDefault,
+      component: ApplicationHeaderDefault,
       description: 'Default',
     }],
   },

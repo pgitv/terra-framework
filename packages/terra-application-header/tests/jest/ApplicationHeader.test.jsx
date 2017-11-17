@@ -1,20 +1,20 @@
 import React from 'react';
 
-import ApplicationToolbar from '../../src/ApplicationToolbar';
+import ApplicationHeader from '../../src/ApplicationHeader';
 
-describe('ApplicationToolbar', () => {
+describe('ApplicationHeader', () => {
   it('should render without optional props', () => {
     const result = shallow((
-      <ApplicationToolbar />
+      <ApplicationHeader />
     ));
     expect(result).toMatchSnapshot();
   });
 
   it('should render with provided logo and utility props', () => {
     const result = shallow((
-      <ApplicationToolbar
-        logo={<ApplicationToolbar.Logo />}
-        utility={<ApplicationToolbar.Utility />}
+      <ApplicationHeader
+        logo={<ApplicationHeader.Logo />}
+        utility={<ApplicationHeader.Utility />}
       />
     ));
 

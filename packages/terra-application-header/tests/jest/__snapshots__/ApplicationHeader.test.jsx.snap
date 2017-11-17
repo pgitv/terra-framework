@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ApplicationHeader should render with provided logo and utility props 1`] = `
+<div
+  className="header fill"
+>
+  <div
+    className="fill header-body"
+  >
+    <div
+      className="fit start logo"
+    >
+      <Logo
+        size="tiny"
+      />
+    </div>
+    <div
+      className="fill"
+    />
+    <div
+      className="fit end utility"
+    >
+      <Utility
+        size="tiny"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ApplicationHeader should render without optional props 1`] = `
+<div
+  className="header fill"
+/>
+`;

@@ -2,7 +2,7 @@ import React from 'react';
 
 import Utility from '../../src/Utility';
 
-describe('ApplicationToolbar', () => {
+describe('Utility', () => {
   it('should render without optional props', () => {
     const result = shallow((
       <Utility />

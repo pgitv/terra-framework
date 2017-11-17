@@ -9,7 +9,7 @@ import Button from 'terra-button';
 import Utility from './Utility';
 import Logo from './Logo';
 
-import styles from './ApplicationToolbar.scss';
+import styles from './ApplicationHeader.scss';
 
 const cx = classNames.bind(styles);
 
@@ -19,11 +19,11 @@ const propTypes = {
    * */
   app: AppDelegate.propType,
   /**
-   * Content element to be placed within the fill area of the toolbar.
+   * Content element to be placed within the fill area of the header.
    * */
   content: PropTypes.element,
   /**
-   * Logo element to be placed at the start of the toolbar.
+   * Logo element to be placed at the start of the header.
    * */
   logo: PropTypes.element,
   /**
@@ -34,9 +34,13 @@ const propTypes = {
     toggleMenu: PropTypes.func,
   }),
   /**
-   * Utility element to be placed at the end of the toolbar.
+   * Utility element to be placed at the end of the header.
    * */
   utility: PropTypes.element,
+  /**
+   * Widget element to be placed beforethe end of the header.
+   * */
+  widget: PropTypes.element,
 };
 
 const defaultProps = {
@@ -45,73 +49,81 @@ const defaultProps = {
 
 const appendPropsToElement = (app, size, element) => React.cloneElement(element, { app, size });
 
-const Toolbar = ({
+const ApplicationHeader = ({
   app,
   content,
   layoutConfig,
   logo,
   utility,
+  widget,
   ...customProps
 }) => {
   const isCompact = layoutConfig.size === 'tiny' || layoutConfig.size === 'small';
 
-  const toolbarClassNames = cx([
-    'toolbar',
+  const headerClassNames = cx([
+    'header',
+    'fill',
     customProps.className,
   ]);
 
   let logoElement;
   if (logo) {
     const clonedElement = appendPropsToElement(app, layoutConfig.size, logo);
-    logoElement = <div className={cx('start')}>{clonedElement}</div>;
+    logoElement = <div className={cx(['fit', 'start', 'logo'])}>{clonedElement}</div>;
   }
 
   let contentElement;
   if (content) {
     const clonedElement = appendPropsToElement(app, layoutConfig.size, content);
-    contentElement = <div className={cx('content')}>{clonedElement}</div>;
+    contentElement = <div className={cx('fill', 'content')}>{clonedElement}</div>;
+  }
+
+  let widgetElement;
+  if (widget) {
+    const clonedElement = appendPropsToElement(app, layoutConfig.size, widget);
+    widgetElement = <div className={cx(['fit', 'end', 'widget'])}>{clonedElement}</div>;
   }
 
   let utilityElement;
   if (utility) {
     const clonedElement = appendPropsToElement(app, layoutConfig.size, utility);
-    utilityElement = <div className={cx('end')}>{clonedElement}</div>;
+    utilityElement = <div className={cx(['fit', 'end', 'utility'])}>{clonedElement}</div>;
   }
 
-  let toolbarToggle;
+  let headerToggle;
   if (layoutConfig.toggleMenu && isCompact) {
-    toolbarToggle = (
-      <div className={cx('toolbar-toggle')}>
+    headerToggle = (
+      <div className={cx(['fit', 'header-toggle'])}>
         <Button className={cx('toggle-button')} variant="link" icon={<IconMenu />} onClick={layoutConfig.toggleMenu} />
       </div>
     );
   }
 
-  let toolbarBody;
+  let headerBody;
   if (logoElement || contentElement || utilityElement) {
-    toolbarBody = (
-      <div className={cx('toolbar-body')}>
+    headerBody = (
+      <div className={cx(['fill', 'header-body'])}>
         {logoElement}
-        {contentElement}
+        <div className={cx(['fill'])}>
+          {contentElement}
+          {widgetElement}
+        </div>
         {utilityElement}
       </div>
     );
   }
 
   return (
-    <div>
-      {!isCompact && <div className={cx('toolbar-splash')} />}
-      <div {...customProps} className={toolbarClassNames}>
-        {toolbarToggle}
-        {toolbarBody}
-      </div>
+    <div {...customProps} className={headerClassNames}>
+      {headerToggle}
+      {headerBody}
     </div>
   );
 };
 
-Toolbar.propTypes = propTypes;
-Toolbar.defaultProps = defaultProps;
-Toolbar.Utility = Utility;
-Toolbar.Logo = Logo;
+ApplicationHeader.propTypes = propTypes;
+ApplicationHeader.defaultProps = defaultProps;
+ApplicationHeader.Utility = Utility;
+ApplicationHeader.Logo = Logo;
 
-export default Toolbar;
+export default ApplicationHeader;
