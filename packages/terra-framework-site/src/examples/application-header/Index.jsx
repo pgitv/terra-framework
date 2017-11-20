@@ -18,8 +18,6 @@ const NavigationExamples = () => (
     <div id="version">Version: {version}</div>
     <Markdown id="readme" src={ReadMe} />
     <PropsTable id="props-header" src={HeaderSrc} componentName="Application Header" />
-    <PropsTable id="props-logo" src={LogoSrc} componentName="Logo" />
-    <PropsTable id="props-utility" src={UtilitySrc} componentName="Utility" />
     <h2 id="header-wireframe">Header Wireframe</h2>
     <HeaderWireframe />
   </div>
