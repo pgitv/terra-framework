@@ -6,8 +6,6 @@ import 'terra-base/lib/baseStyles';
 import AppDelegate from 'terra-app-delegate';
 import IconMenu from 'terra-icon/lib/icon/IconMenu';
 import Button from 'terra-button';
-import Utility from './Utility';
-import Logo from './Logo';
 
 import styles from './ApplicationHeader.scss';
 
@@ -126,7 +124,5 @@ const ApplicationHeader = ({
 
 ApplicationHeader.propTypes = propTypes;
 ApplicationHeader.defaultProps = defaultProps;
-ApplicationHeader.Utility = Utility;
-ApplicationHeader.Logo = Logo;
 
 export default ApplicationHeader;

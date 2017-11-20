@@ -11,7 +11,6 @@ import MenuSrc from '!raw-loader!terra-application-menu/src/ApplicationMenu.jsx'
 /* eslint-enable import/no-webpack-loader-syntax, import/first, import/no-unresolved, import/extensions */
 
 // Example Files
-import MenuStandard from './MenuStandard';
 import MenuWireframe from './MenuWireframe';
 
 const NavigationExamples = () => (
@@ -21,8 +20,6 @@ const NavigationExamples = () => (
     <PropsTable id="props-menu" src={MenuSrc} componentName="Application Menu" />
     <h2 id="menu-wireframe">Menu Wireframe</h2>
     <MenuWireframe />
-    <h2 id="menu-standard">Menu Standard</h2>
-    <MenuStandard />
   </div>
 );
 
