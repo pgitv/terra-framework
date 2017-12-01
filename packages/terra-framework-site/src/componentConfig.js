@@ -4,13 +4,13 @@ import LayoutNoMenu from 'terra-layout/tests/nightwatch/LayoutNoMenu';
 import LayoutLongText from 'terra-layout/tests/nightwatch/LayoutLongText';
 import LayoutNoHeader from 'terra-layout/tests/nightwatch/LayoutNoHeader';
 
-import ApplicationHeaderDefault from 'terra-application-header/tests/nightwatch/ApplicationHeaderDefault';
+import ApplicationHeaderDefault from 'terra-application-header-layout/tests/nightwatch/ApplicationHeaderDefault';
 
-import ApplicationMenuDefault from 'terra-application-menu/tests/nightwatch/ApplicationMenuDefault';
+import ApplicationMenuDefault from 'terra-application-menu-layout/tests/nightwatch/ApplicationMenuDefault';
 
 import LayoutExample from './examples/layout/Index';
-import HeaderExample from './examples/application-header/Index';
-import MenuExample from './examples/application-menu/Index';
+import HeaderExample from './examples/application-header-layout/Index';
+import MenuExample from './examples/application-menu-layout/Index';
 import NavigationLayoutExample from './examples/navigation-layout/Index';
 
 const itemConfigPropType = PropTypes.shape({
@@ -62,13 +62,13 @@ const componentConfig = {
     },
   },
   applicationHeader: {
-    name: 'Application Header',
+    name: 'Application Header Layout',
     example: {
-      path: '/components/application-header',
+      path: '/components/application-header-layout',
       component: HeaderExample,
-      description: 'Application Header',
+      description: 'Application Header Layout',
     },
-    testRoot: '/tests/application-header',
+    testRoot: '/tests/application-header-layout',
     tests: [{
       path: '/default',
       component: ApplicationHeaderDefault,
@@ -76,13 +76,13 @@ const componentConfig = {
     }],
   },
   applicationMenu: {
-    name: 'Application Menu',
+    name: 'Application Menu Layout',
     example: {
-      path: '/components/application-menu',
+      path: '/components/application-menu-layout',
       component: MenuExample,
-      description: 'Application Menu',
+      description: 'Application Menu Layout',
     },
-    testRoot: '/tests/application-menu',
+    testRoot: '/tests/application-menu-layout',
     tests: [{
       path: '/default',
       component: ApplicationMenuDefault,

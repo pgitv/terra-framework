@@ -2,10 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Image from 'terra-image';
 import IconSettings from 'terra-icon/lib/icon/IconSettings';
-import Header from 'terra-application-header';
+import Header from 'terra-application-header-layout';
+import classNames from 'classnames/bind';
 import NavTabs from './common/nav-tabs/NavTabs';
 import Utility from './common/header-templates/Utility';
 import Logo from './common/header-templates/Logo';
+import Toggle from './ApplicationToggle';
+
+import styles from './ApplicationHeader.scss';
+
+const cx = classNames.bind(styles);
 
 const propTypes = {
   layoutConfig: PropTypes.object,
@@ -90,6 +96,7 @@ class ApplicationHeader extends React.Component {
 
     return (
       <Header
+        className={cx(['header'])}
         layoutConfig={this.props.layoutConfig}
         logo={(
           <Logo
@@ -98,8 +105,9 @@ class ApplicationHeader extends React.Component {
             accessory={<Image variant="rounded" src="https://github.com/cerner/terra-core/raw/master/terra.png" height="26px" width="26px" isFluid />}
           />
         )}
-        utility={utility}
-        content={navTabs}
+        utilities={utility}
+        navigation={navTabs}
+        toggle={<Toggle />}
       />
     );
   }
