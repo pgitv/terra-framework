@@ -36,11 +36,11 @@ class ToolbarStandard extends React.Component {
         <div style={{ border: '1px solid black', height: '60px', position: 'relative', width: '100%' }}>
           <ApplicationHeaderLayout
             layoutConfig={{ size: this.state.headerSize, toggleMenu: () => {} }}
-            logo={<PlaceHolder text="Logo" width="120px" />}
-            utilities={<PlaceHolder text="Utilities" width="250px" />}
+            logo={<PlaceHolder text="Logo" width="150px" />}
+            utilities={<PlaceHolder text="Utilities" width="150px" />}
             extensions={<PlaceHolder text="Extensions" width="150px" />}
             navigation={<PlaceHolder text="Navigation" />}
-            toggle={<PlaceHolder text="Toggle" width="80px" />}
+            toggle={<PlaceHolder text="Toggle" width="150px" />}
           />
         </div>
       </div>
