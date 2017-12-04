@@ -6,6 +6,9 @@ module.exports = resizeTo(['large'], {
   'Displays a default application menu': (browser) => {
     browser.url(`${browser.launchUrl}/#/tests/application-menu/default`);
 
-    browser.expect.element('#test-menu').to.be.present;
+    browser.expect.element('#test-menu #test-header').to.be.present;
+    browser.expect.element('#test-menu #test-extensions').to.be.present;
+    browser.expect.element('#test-menu #test-content').to.be.present;
+    browser.expect.element('#test-menu #test-footer').to.be.present;
   },
 });

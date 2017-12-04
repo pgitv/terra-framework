@@ -2,7 +2,7 @@ import React from 'react';
 
 import ApplicationHeaderLayout from '../../src/ApplicationHeaderLayout';
 
-describe('ApplicationHeader', () => {
+describe('ApplicationHeaderLayout', () => {
   it('should render without optional props', () => {
     const result = shallow((
       <ApplicationHeaderLayout />
@@ -10,11 +10,14 @@ describe('ApplicationHeader', () => {
     expect(result).toMatchSnapshot();
   });
 
-  it('should render with provided logo and utility props', () => {
+  it('should render with provided props', () => {
     const result = shallow((
       <ApplicationHeaderLayout
-        logo={<ApplicationHeader.Logo />}
-        utility={<ApplicationHeader.Utility />}
+        extensions={<div id="test-extensions">Extensions</div>}
+        navigation={<div id="test-navigation">Navigation</div>}
+        logo={<div id="test-logo">Logo</div>}
+        toggle={<div id="test-toggle">Toggle</div>}
+        utilities={<div id="test-utilities">Utilities</div>}
       />
     ));
 
