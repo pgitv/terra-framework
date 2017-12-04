@@ -103,7 +103,7 @@ const ApplicationHeader = ({
     headerBody = (
       <div className={cx(['fill', 'header-body'])}>
         {logoElement}
-        <div className={cx(['fill'])}>
+        <div className={cx(['fill', 'header-inner'])}>
           {navigationElement}
           {extensionsElement}
         </div>
