@@ -9,6 +9,7 @@ const HeaderWireframe = () => (
       logo={<PlaceHolder text="Logo" width="150px" />}
       utilities={<PlaceHolder text="Utilities" width="150px" />}
       extensions={<PlaceHolder text="Extensions" width="150px" />}
+      navigation={<PlaceHolder text="Navigation" />}
       toggle={<PlaceHolder text="Toggle" width="150px" />}
     />
   </div>

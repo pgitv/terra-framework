@@ -99,7 +99,7 @@ const ApplicationHeader = ({
   }
 
   let headerBody;
-  if (logoElement || navigationElement || utilitiesElement) {
+  if (logoElement || navigationElement || utilitiesElement || extensionsElement) {
     headerBody = (
       <div className={cx(['fill', 'header-body'])}>
         {logoElement}
