@@ -16,7 +16,7 @@ import ApplicationHeaderLayout from 'terra-application-header-layout';
 
 <ApplicationHeaderLayout
   toggle={toggle}
-  navigation={<div>content</div>}
+  navigation={content}
   logo={logo}
   extensions={extensions}
   utilities={utility}

@@ -7,7 +7,9 @@ module.exports = resizeTo(['large'], {
     browser.url(`${browser.launchUrl}/#/tests/application-header/default`);
 
     browser.expect.element('#test-header #test-logo').to.be.present;
-    browser.expect.element('#test-header #test-content').to.be.present;
-    browser.expect.element('#test-header #test-utility').to.be.present;
+    browser.expect.element('#test-header #test-navigation').to.be.present;
+    browser.expect.element('#test-header #test-utilities').to.be.present;
+    browser.expect.element('#test-header #test-toggle').to.be.present;
+    browser.expect.element('#test-header #test-extensions').to.be.present;
   },
 });

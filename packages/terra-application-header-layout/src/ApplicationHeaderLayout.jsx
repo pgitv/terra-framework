@@ -30,7 +30,7 @@ const propTypes = {
     menuIsOpen: PropTypes.bool,
   }),
   /**
-   * navigation element to be placed within the fill area of the header.
+   * Navigation element to be placed within the fill area of the header.
    * */
   navigation: PropTypes.element,
   /**

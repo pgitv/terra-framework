@@ -4,9 +4,11 @@ import ApplicationHeaderLayout from '../../src/ApplicationHeaderLayout';
 const ApplicationHeaderDefault = () => (
   <ApplicationHeaderLayout
     id="test-header"
-    content={<div id="test-content">test content</div>}
-    logo={<div id="test-logo" />}
-    utility={<div id="test-utility" />}
+    extensions={<div id="test-extensions">Extensions&nbsp;</div>}
+    navigation={<div style={{ width: '100%', textAlign: 'center' }} id="test-navigation">Navigation&nbsp;</div>}
+    logo={<div id="test-logo">Logo&nbsp;</div>}
+    toggle={<div id="test-toggle">Toggle&nbsp;</div>}
+    utilities={<div id="test-utilities">Utilities&nbsp;</div>}
   />
 );
 

@@ -15,6 +15,10 @@ import React from 'react';
 import ApplicationMenuLayout from 'terra-application-menu-layout';
 
 <ApplicationMenuLayout
+  content={content}
+  extensions={extensions}
+  footer={footer}
+  header={header}
 />
 ```
 
