@@ -3,9 +3,9 @@ import LayoutDefault from 'terra-layout/tests/nightwatch/LayoutDefault';
 import LayoutNoMenu from 'terra-layout/tests/nightwatch/LayoutNoMenu';
 import LayoutLongText from 'terra-layout/tests/nightwatch/LayoutLongText';
 import LayoutNoHeader from 'terra-layout/tests/nightwatch/LayoutNoHeader';
-
+import NavigationLayoutBasic from 'terra-navigation-layout/tests/nightwatch/NavigationLayoutBasic';
+import NavigationLayoutComplex from 'terra-navigation-layout/tests/nightwatch/NavigationLayoutComplex';
 import ApplicationHeaderDefault from 'terra-application-header-layout/tests/nightwatch/ApplicationHeaderDefault';
-
 import ApplicationMenuDefault from 'terra-application-menu-layout/tests/nightwatch/ApplicationMenuDefault';
 
 import LayoutExample from './examples/layout/Index';
@@ -60,6 +60,16 @@ const componentConfig = {
       component: NavigationLayoutExample,
       description: 'Navigation Layout',
     },
+    testRoot: '/tests/navigation-layout',
+    tests: [{
+      path: '/basic',
+      component: NavigationLayoutBasic,
+      description: 'Basic',
+    }, {
+      path: '/complex',
+      component: NavigationLayoutComplex,
+      description: 'Complex',
+    }],
   },
   applicationHeader: {
     name: 'Application Header Layout',

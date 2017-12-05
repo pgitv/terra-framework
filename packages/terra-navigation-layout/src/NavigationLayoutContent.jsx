@@ -6,8 +6,8 @@ import {
 import classNames from 'classnames/bind';
 
 import AppDelegate from 'terra-app-delegate';
-import RoutingStack from './routing/RoutingStack';
-import { supportedComponentBreakpoints, routeConfigPropType } from './configurationPropTypes';
+import RoutingStack from './RoutingStack';
+import { processedRoutesPropType } from './configurationPropTypes';
 
 import styles from './NavigationLayoutContent.scss';
 
@@ -21,31 +21,26 @@ const propTypes = {
   /**
    * The routing configuration from which Routes will be generated.
    */
-  routeConfig: routeConfigPropType,
-  /**
-   * The current responsive size.
-   */
-  navigationLayoutSize: PropTypes.oneOf(supportedComponentBreakpoints),
+  navigationLayoutRoutes: processedRoutesPropType,
   /**
    * The String path to redirect to should the routes specified by the routeConfig all fail to match.
    */
-  redirect: PropTypes.string,
+  redirectPath: PropTypes.string,
   /**
    * Flag to enable navigation within the RoutingStack.
    */
   stackNavigationIsEnabled: PropTypes.bool,
 };
 
-const NavigationLayoutContent = ({ app, routeConfig, navigationLayoutSize, redirect, stackNavigationIsEnabled, ...customProps }) => (
+const NavigationLayoutContent = ({ app, navigationLayoutRoutes, redirectPath, stackNavigationIsEnabled, ...customProps }) => (
   <div className={cx('content')}>
     <RoutingStack
       navEnabled={stackNavigationIsEnabled}
-      size={navigationLayoutSize}
       app={app}
-      routeConfig={routeConfig}
+      routes={navigationLayoutRoutes}
       ancestorProps={customProps}
     >
-      {redirect && <Redirect to={redirect} />}
+      {redirectPath && <Redirect to={redirectPath} />}
     </RoutingStack>
   </div>
 );
