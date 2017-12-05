@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import ApplicationMenuLayout from 'terra-application-menu-layout';
 import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
 import MenuToolbar from './MenuToolbar';
+import MenuLinkWrapper from './MenuLinkWrapper';
 
 import './MenuList.scss';
 
@@ -21,7 +22,7 @@ const MenuList = ({ routingStackDelegate, links, headerText }) => (
   <ApplicationMenuLayout
     header={<MenuToolbar text={headerText} routingStackDelegate={routingStackDelegate} />}
     content={
-      <div>
+      <MenuLinkWrapper>
         {links.map(link => (
           <NavLink
             key={link.id}
@@ -35,7 +36,7 @@ const MenuList = ({ routingStackDelegate, links, headerText }) => (
             {link.text}
           </NavLink>
         ))}
-      </div>
+      </MenuLinkWrapper>
     }
   />
 );

@@ -31,7 +31,7 @@ exports[`ApplicationHeaderLayout should render with provided props 1`] = `
       </div>
     </div>
     <div
-      className="fill"
+      className="fill header-inner"
     >
       <div
         className="fill navigation"

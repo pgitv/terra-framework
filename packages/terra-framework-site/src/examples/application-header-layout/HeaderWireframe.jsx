@@ -1,19 +1,68 @@
 import React from 'react';
 import ApplicationHeaderLayout from 'terra-application-header-layout';
-import PlaceHolder from '../../app/common/Placeholder';
+import ResponsiveElement from 'terra-responsive-element';
+import ExtensionsExample from './ExtensionsExample';
+import LogoExample from './LogoExample';
+import NavigationExample from './NavigationExample';
+import ToggleExample from './ToggleExample';
+import UtilitiesExample from './UtilitiesExample';
 
-const HeaderWireframe = () => (
-  <div style={{ height: '60px', position: 'relative', width: '100%' }}>
+const HeaderWireframe = () => {
+  const defaultHeader = (
     <ApplicationHeaderLayout
-      layoutConfig={{ size: 'large', toggleMenu: () => {} }}
-      logo={<PlaceHolder text="Logo" width="150px" />}
-      utilities={<PlaceHolder text="Utilities" width="150px" />}
-      extensions={<PlaceHolder text="Extensions" width="150px" />}
-      navigation={<PlaceHolder text="Navigation" />}
-      toggle={<PlaceHolder text="Toggle" width="150px" />}
+      layoutConfig={{ size: 'tiny', toggleMenu: () => {} }}
+      logo={<LogoExample />}
+      utilities={<UtilitiesExample />}
+      extensions={<ExtensionsExample />}
+      navigation={<NavigationExample />}
+      toggle={<ToggleExample />}
     />
-  </div>
-);
+  );
 
+  const tinyHeader = (
+    <ApplicationHeaderLayout
+      layoutConfig={{ size: 'tiny', toggleMenu: () => {} }}
+      logo={<LogoExample />}
+      utilities={<UtilitiesExample />}
+      extensions={<ExtensionsExample />}
+      navigation={<NavigationExample />}
+      toggle={<ToggleExample />}
+    />
+  );
+
+  const smallHeader = (
+    <ApplicationHeaderLayout
+      layoutConfig={{ size: 'small', toggleMenu: () => {} }}
+      logo={<LogoExample />}
+      utilities={<UtilitiesExample />}
+      extensions={<ExtensionsExample />}
+      navigation={<NavigationExample />}
+      toggle={<ToggleExample />}
+    />
+  );
+
+  const mediumHeader = (
+    <ApplicationHeaderLayout
+      layoutConfig={{ size: 'medium', toggleMenu: () => {} }}
+      logo={<LogoExample />}
+      utilities={<UtilitiesExample />}
+      extensions={<ExtensionsExample />}
+      navigation={<NavigationExample />}
+      toggle={<ToggleExample />}
+    />
+  );
+
+  return (
+    <div style={{ height: '60px', position: 'relative', width: '100%' }}>
+      <ResponsiveElement
+        defaultElement={defaultHeader}
+        tiny={tinyHeader}
+        small={smallHeader}
+        medium={mediumHeader}
+        style={{ height: '100%' }}
+      />
+    </div>
+  );
+};
 
 export default HeaderWireframe;
