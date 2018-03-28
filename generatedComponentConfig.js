@@ -11,6 +11,7 @@ import TerraApplicationLinksIndex from './packages/terra-application-links/examp
 import TerraApplicationMenuLayoutIndex from './packages/terra-application-menu-layout/examples/Index.site-page';
 import TerraApplicationNameIndex from './packages/terra-application-name/examples/Index.site-page';
 import TerraApplicationUtilityIndex from './packages/terra-application-utility/examples/Index.site-page';
+import TerraDataGridIndex from './packages/terra-data-grid/examples/Index.site-page';
 import TerraDisclosureManagerIndex from './packages/terra-disclosure-manager/examples/Index.site-page';
 import TerraInfiniteListIndex from './packages/terra-infinite-list/examples/Index.site-page';
 import TerraLayoutIndex from './packages/terra-layout/examples/Index.site-page';
@@ -324,6 +325,17 @@ const componentConfig = {
         name: 'Default Menu Utility Menu',
         path: '/default-menu-utility-menu',
         component: DefaultMenuUtilityMenu,
+      },
+    ],
+  },
+  'terra-data-grid': {
+    name: 'Data Grid',
+    path: '/data-grid',
+    pages: [
+      {
+        name: 'Index',
+        path: '/index',
+        component: TerraDataGridIndex,
       },
     ],
   },

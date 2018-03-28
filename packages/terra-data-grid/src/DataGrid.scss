@@ -1,0 +1,32 @@
+:local {
+  .container {
+    display: flex;
+    overflow: hidden;
+
+    height: 100%;
+    width: 100%;
+  }
+
+  .fixed {
+    align-items: stretch;
+    display: flex;
+
+    flex: 0 0 auto;
+    max-width: 80%;
+  }
+
+  .fill {
+    align-items: stretch;
+    display: flex;
+    flex: 1 1 auto;
+
+    overflow: auto;
+  }
+
+  .column {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1 1 auto;
+  }
+}
