@@ -1,32 +1,79 @@
 :local {
   .container {
     display: flex;
-    overflow: hidden;
-
     height: 100%;
+    overflow: auto;
     width: 100%;
   }
 
   .fixed {
-    align-items: stretch;
+    box-shadow: 0.07143rem 0 0.3571rem var(--data-grid-shadow-color, #1c1f21);
+    margin-right: 0.07143rem;
+    min-height: 0px;
     display: flex;
 
     flex: 0 0 auto;
     max-width: 80%;
+    position: relative;
   }
 
   .fill {
-    align-items: stretch;
     display: flex;
     flex: 1 1 auto;
+    min-height: 0px;
 
-    overflow: auto;
+    overflow-x: scroll;
+    position: relative;
   }
 
   .column {
     display: flex;
     flex-direction: column;
-
     flex: 1 1 auto;
+    position: relative;
+
+    min-width: 100px;
+  }
+
+  .cell, .header-cell {
+    flex: 0 0 auto;
+    border-right: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
+    padding: 5px;
+    overflow: hidden;
+  }
+
+  .header-cell + .cell {
+    margin-top: 29px;
+  }
+
+  .header-cell {
+    background-color: grey;
+    position: fixed;
+    width: 100px;
+  }
+
+  .container-size-1 {
+    .cell, .header-cell {
+      height: 29px;
+    }
+  }
+
+  .container-size-2 {
+    .cell, .header-cell {
+      height: 48px;
+    }
+  }
+
+  .container-size-3 {
+    .cell, .header-cell {
+      height: 67px;
+    }
+  }
+
+  .container-size-4 {
+    .cell, .header-cell {
+      height: 83px;
+    }
   }
 }
