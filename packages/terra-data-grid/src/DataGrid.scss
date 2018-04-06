@@ -1,56 +1,79 @@
 :local {
+
   .container {
-    display: flex;
-    height: 100%;
+    position: relative;
     overflow: auto;
-    width: 100%;
+    height: 100%;
   }
 
-  .fixed {
-    box-shadow: 0.07143rem 0 0.3571rem var(--data-grid-shadow-color, #1c1f21);
-    margin-right: 0.07143rem;
-    min-height: 0px;
-    display: flex;
-
-    flex: 0 0 auto;
-    max-width: 80%;
-    position: relative;
-  }
-
-  .fill {
-    display: flex;
-    flex: 1 1 auto;
-    min-height: 0px;
-
-    overflow-x: scroll;
-    position: relative;
-  }
-
-  .column {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 auto;
-    position: relative;
-
-    min-width: 100px;
-  }
-
-  .cell, .header-cell {
-    flex: 0 0 auto;
-    border-right: 1px solid lightgrey;
-    border-bottom: 1px solid lightgrey;
-    padding: 5px;
+  .wrapper-wrapper {
+    height: 29px;
     overflow: hidden;
   }
 
-  .header-cell + .cell {
-    margin-top: 29px;
+  .wrapper {
+    overflow-x: auto;
+    margin-left: 300px;
+  }
+
+  .row {
+    display: inline-flex;
+  }
+
+  .row.stripe-row {
+    background-color: lightgreen;
+
+    .fixed-column-container {
+      background-color: lightgreen;
+    }
+  }
+
+  .header-row {
+    border-bottom: 1px solid grey;
+
+    .fixed-column-container {
+      border-bottom: 1px solid grey;
+    }
+  }
+
+  .cell, .header-cell {
+    flex: 1 1 auto;
+    min-width: 50px;
+    // border-bottom: 1px solid lightgrey;
+    border-right: 1px solid lightgrey;
+  }
+
+  .cell:last-child, .header-cell:last-child {
+    border-right: none;
+  }
+
+  .fixed-column-container {
+    position: absolute;
+    transform: translateX(-100%);
+    display: flex;
+    // border-bottom: 1px solid grey;
+    border-right: 1px solid grey;
   }
 
   .header-cell {
-    background-color: grey;
-    position: fixed;
-    width: 100px;
+    background-color: lightgrey;
+  }
+
+  .section-header {
+    height: 33px;
+    background: lightgrey;
+  }
+
+  .section-header-fixed {
+    position: absolute;
+    left: 0;
+    top: auto;
+    width: 100%;
+    background: lightgrey;
+    height: 33px;
+    padding: .5rem 1rem .5rem 1rem;
+    word-wrap: normal;
+    white-space: nowrap;
   }
 
   .container-size-1 {
@@ -75,5 +98,16 @@
     .cell, .header-cell {
       height: 83px;
     }
+  }
+
+  .custom-cell {
+    height: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    word-break: normal;
+    word-wrap: normal;
+    padding: 5px;
   }
 }
