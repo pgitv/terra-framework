@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import ContentContainer from 'terra-content-container';
+// import ContentContainer from 'terra-content-container';
+import Draggable from 'react-draggable';
 
 import styles from './DataGrid.scss';
 
@@ -17,61 +18,45 @@ const CustomCell = ({ text }) => (
   </div>
 );
 
-// const Row = ({ name, columnCount }) => (
-//   <div className={cx(['row'])}>
-//     {(new Array(columnCount)).fill().map((derp, index) => index === 0 ? (
-//       <div className={cx(['cell', 'start-cell'])}><CustomCell text={name} /></div>
-//     ) : (
-//       <div className={cx('cell')}><CustomCell text={`Cell ${index} skdfj;a lskdjf;alkjsdf;lajk sd;fljk as;dljf a;lsdkj f;alksj df;lajk sdf;lajk sdf`} /></div>
-//     ))}
-//   </div>
-// );
-
-// const HeaderRow = ({ name, columnCount }) => (
-//   <div className={cx(['row', 'header-row'])}>
-//     {(new Array(columnCount)).fill().map((derp, index) => index === 0 ? (
-//       <div className={cx(['header-cell', 'start-cell'])}><CustomCell text={name} /></div>
-//     ) : (
-//       <div className={cx('header-cell')}><CustomCell text={`Cell ${index}`} /></div>
-//     ))}
-//   </div>
-// );
-
-// const SectionHeader = () => (
-//   <div className={cx('section-header')}>
-//     <div className={cx('section-header-fixed')}>
-//       Section Header that is long long long long long long long long long long long long long long long long long long long long long
-//     </div>
-//   </div>
-// );
-
-// const rowSet = (num) => {
-//   const rows = [];
-//   for (let i = 0; i < num; i += 1) {
-//     rows.push((
-//       <Row name={`Row ${i}`} columnCount={100} />
-//     ));
-//   }
-//   return rows;
-// };
-
 class DataGrid extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
+    this.updateWidths = this.updateWidths.bind(this);
 
+    const fixedColumnWidth = props.fixedColumnKeys.map(key => props.columns[key].startWidth).reduce((totalWidth, width) => totalWidth + width);
+
+    const columnWidths = {};
+    Object.keys(props.columns).forEach((columnKey) => {
+      columnWidths[columnKey] = props.columns[columnKey].startWidth;
+    });
+
+    this.state = {
+      fixedColumnWidth,
+      columnWidths,
     };
   }
 
-  componentDidMount() {
-  }
+  // componentDidMount() {
+  //   this.updateWidths();
+  // }
 
+  updateWidths(columnKey, widthDelta) {
+    const columnWidths = Object.assign({}, this.state.columnWidths);
+    columnWidths[columnKey] += widthDelta;
+
+    const fixedColumnWidth = this.props.fixedColumnKeys.map(key => columnWidths[key]).reduce((totalWidth, width) => totalWidth + width);
+
+    this.setState({
+      fixedColumnWidth,
+      columnWidths,
+    });
+  }
 
   render() {
     const { columns, rows, fixedColumnKeys, flexColumnKeys, rowSize } = this.props;
 
-    const fixedColumnWidth = fixedColumnKeys.map(key => columns[key].startWidth).reduce((totalWidth, width) => totalWidth + width);
+    const fixedColumnWidth = this.state.fixedColumnWidth;
 
     const headerRow = (
       <div className={cx(['row', 'header-row'])}>
@@ -80,8 +65,20 @@ class DataGrid extends React.Component {
             const columnData = columns[columnKey];
 
             return (
-              <div className={cx(['header-cell'])} style={{ width: columnData.startWidth }}>
+              <div className={cx(['header-cell', 'selectable'])} style={{ width: `${this.state.columnWidths[columnKey]}px` }} tabIndex="0">
                 <CustomCell text={columnData.title} />
+                <Draggable
+                  axis="x"
+                  position={{ x: 0 }}
+                  grid={[15, 0]}
+                  defaultClassNameDragging={cx('react-draggable-dragging')}
+                  handle=".drag-handle"
+                  onStop={(event, data) => {
+                    this.updateWidths(columnKey, data.x);
+                  }}
+                >
+                  <div className={cx(['drag-header', 'drag-handle'])} />
+                </Draggable>
               </div>
             );
           })}
@@ -90,8 +87,20 @@ class DataGrid extends React.Component {
           const columnData = columns[columnKey];
 
           return (
-            <div className={cx(['header-cell'])} style={{ width: columnData.startWidth }}>
+            <div className={cx(['header-cell', 'selectable'])} style={{ width: `${this.state.columnWidths[columnKey]}px` }} tabIndex="0">
               <CustomCell text={columnData.title} />
+              <Draggable
+                axis="x"
+                position={{ x: 0 }}
+                grid={[15, 0]}
+                defaultClassNameDragging={cx('react-draggable-dragging')}
+                handle=".drag-handle"
+                onDrag={(event, data) => {
+                  this.updateWidths(columnKey, data.deltaX);
+                }}
+              >
+                <div className={cx(['drag-header', 'drag-handle'])} />
+              </Draggable>
             </div>
           );
         })}
@@ -117,7 +126,7 @@ class DataGrid extends React.Component {
               const rowData = row[columnKey];
 
               return (
-                <div className={cx(['cell'])} style={{ width: columnData.startWidth }}>
+                <div className={cx(['cell', 'selectable'])} style={{ width: `${this.state.columnWidths[columnKey]}px` }} tabIndex="0">
                   <CustomCell text={rowData.title} />
                 </div>
               );
@@ -128,7 +137,7 @@ class DataGrid extends React.Component {
             const rowData = row[columnKey];
 
             return (
-              <div className={cx(['cell'])} style={{ width: columnData.startWidth }}>
+              <div className={cx(['cell', 'selectable'])} style={{ width: `${this.state.columnWidths[columnKey]}px` }} tabIndex="0">
                 <CustomCell text={rowData.title} />
               </div>
             );

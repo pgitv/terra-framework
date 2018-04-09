@@ -21,10 +21,10 @@
   }
 
   .row.stripe-row {
-    background-color: lightgreen;
+    background-color: #f4f4f4;
 
     .fixed-column-container {
-      background-color: lightgreen;
+      background-color: #f4f4f4;
     }
   }
 
@@ -39,24 +39,50 @@
   .cell, .header-cell {
     flex: 1 1 auto;
     min-width: 50px;
-    // border-bottom: 1px solid lightgrey;
-    border-right: 1px solid lightgrey;
+    border-right: 1px solid #c8cacb;
   }
 
   .cell:last-child, .header-cell:last-child {
     border-right: none;
   }
 
+  .row > .cell:nth-child(2), .row > .header-cell:nth-child(2) {
+    border-left: 2px solid rgb(155, 159, 161);
+  }
+
+  .cell.selectable:hover {
+    background: #ebf6fd;
+  }
+
+  .cell.disabled {
+    background: repeating-linear-gradient(-45deg, #dedfe0, #dedfe0 3px, transparent 0, transparent 6px)
+  }
+
   .fixed-column-container {
     position: absolute;
     transform: translateX(-100%);
     display: flex;
-    // border-bottom: 1px solid grey;
-    border-right: 1px solid grey;
+    border-right: 1px solid #c8cacb;
   }
 
   .header-cell {
     background-color: lightgrey;
+    position: relative;
+  }
+
+  .drag-header {
+    height: 100%;
+    position: absolute;
+    width: 5px;
+    right: 0;
+    top:0;
+    background-color: grey;
+    cursor: col-resize;
+    z-index: 500;
+
+    &.react-draggable-dragging {
+      background-color: darkslategrey;
+    }
   }
 
   .section-header {
