@@ -14,14 +14,18 @@
   .wrapper {
     overflow-x: auto;
     margin-left: 300px;
+    background-color: grey;
   }
 
   .row {
     display: inline-flex;
+    z-index: 500;
+    background-color: white;
+    min-width: 100%;
   }
 
   .row.stripe-row {
-    background: #f4f4f4;
+    background-color: #f4f4f4;
 
     .fixed-column-container {
       background: #f4f4f4;
@@ -36,19 +40,25 @@
     }
   }
 
-  .cell, .header-cell {
+  .buffer-cell, .buffer-header-cell {
+    min-width: 150px;
+    max-width: 100%;
     flex: 1 1 auto;
+  }
+
+  .buffer-header-cell {
+    background-color: lightgrey;
+  }
+
+  .cell, .header-cell {
+    flex: 0 1 auto;
     min-width: 50px;
     border-right: 1px solid #c8cacb;
   }
 
-  .cell:last-child, .header-cell:last-child {
-    border-right: none;
-  }
-
-  .row > .cell:nth-child(2), .row > .header-cell:nth-child(2) {
-    border-left: 2px solid rgb(155, 159, 161);
-  }
+  // .row > .cell:nth-child(2), .row > .header-cell:nth-child(2) {
+  //   border-left: 2px solid rgb(155, 159, 161);
+  // }
 
   .cell.selectable:hover {
     background: #ebf6fd;
@@ -60,14 +70,14 @@
 
   .fixed-column-container {
     position: absolute;
-    transform: translateX(-100%);
+    transform: translate3d(-100%, 0, -1px);
     display: flex;
-    border-right: 1px solid #c8cacb;
+    border-right: 2px solid rgb(155, 159, 161);
     z-index: 1000;
 
-    .drag-header {
-      z-index: 1001;
-    }
+    // .drag-header {
+    //   z-index: 1001;
+    // }
   }
 
   .header-cell {
@@ -83,23 +93,26 @@
     top:0;
     background-color: grey;
     cursor: col-resize;
-    z-index: 500;
+    // z-index: 500;
 
-    .inner-drag {
-      display: none;
-      position: absolute;
-      height: 1000px;
-      width: 100%;
-    }
+    // .inner-drag {
+    //   display: none;
+    //   position: absolute;
+    //   height: 1000px;
+    //   width: 100%;
+    //   z-index: 10000;
+    // }
 
     &.react-draggable-dragging {
       background-color: darkslategrey;
-      z-index: 800;
+      z-index: 10000;
 
-      .inner-drag {
-        display: block;
-        background-color: darkslategray;
-      }
+      // .inner-drag {
+      //   display: block;
+      //   position: fixed;
+      //   background-color: darkslategray;
+      //   z-index: 99999;
+      // }
     }
   }
 

@@ -39,7 +39,11 @@ class DataGrid extends React.Component {
 
   updateWidths(columnKey, widthDelta) {
     const columnWidths = Object.assign({}, this.state.columnWidths);
-    columnWidths[columnKey] += widthDelta;
+    if (columnWidths[columnKey] + widthDelta < 50) {
+      columnWidths[columnKey] = 50;
+    } else {
+      columnWidths[columnKey] += widthDelta;
+    }
 
     const fixedColumnWidth = this.props.fixedColumnKeys.map(key => columnWidths[key]).reduce((totalWidth, width) => totalWidth + width);
 
@@ -76,7 +80,7 @@ class DataGrid extends React.Component {
                   }}
                   onDrag={(event, data) => {
                     this.scrollPosition += data.deltaX;
-                    data.node.style.transform = `translateX(${this.scrollPosition}px)`;
+                    data.node.style.transform = `translate3d(${this.scrollPosition}px, 0, 100px)`;
                   }}
                 >
                   <div className={cx(['drag-header', 'drag-handle'])}>
@@ -106,7 +110,7 @@ class DataGrid extends React.Component {
                 }}
                 onDrag={(event, data) => {
                   this.scrollPosition += data.deltaX;
-                  data.node.style.transform = `translateX(${this.scrollPosition}px)`;
+                  data.node.style.transform = `translate3d(${this.scrollPosition}px, 0, 100px)`;
                 }}
               >
                 <div className={cx(['drag-header', 'drag-handle'])}>
@@ -116,6 +120,7 @@ class DataGrid extends React.Component {
             </div>
           );
         })}
+        <div className={cx('buffer-cell', 'buffer-header-cell')} />
       </div>
     );
 
@@ -154,6 +159,7 @@ class DataGrid extends React.Component {
               </div>
             );
           })}
+          <div className={cx('buffer-cell')} />
         </div>
       );
     });
