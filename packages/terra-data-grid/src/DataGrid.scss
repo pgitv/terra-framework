@@ -56,10 +56,6 @@
     border-right: 1px solid #c8cacb;
   }
 
-  // .row > .cell:nth-child(2), .row > .header-cell:nth-child(2) {
-  //   border-left: 2px solid rgb(155, 159, 161);
-  // }
-
   .cell.selectable:hover {
     background: #ebf6fd;
   }
@@ -74,10 +70,6 @@
     display: flex;
     border-right: 2px solid rgb(155, 159, 161);
     z-index: 1000;
-
-    // .drag-header {
-    //   z-index: 1001;
-    // }
   }
 
   .header-cell {
@@ -91,28 +83,15 @@
     width: 5px;
     right: 0;
     top:0;
-    background-color: grey;
     cursor: col-resize;
-    // z-index: 500;
 
-    // .inner-drag {
-    //   display: none;
-    //   position: absolute;
-    //   height: 1000px;
-    //   width: 100%;
-    //   z-index: 10000;
-    // }
+    &:hover {
+      background-color: grey;
+    }
 
     &.react-draggable-dragging {
       background-color: darkslategrey;
       z-index: 10000;
-
-      // .inner-drag {
-      //   display: block;
-      //   position: fixed;
-      //   background-color: darkslategray;
-      //   z-index: 99999;
-      // }
     }
   }
 

@@ -9,8 +9,8 @@ import 'data-grid/dist/css/DataGrid.css';
 
 class DataGridStandard extends React.Component {
   componentDidMount() {
-    // const mainContainer = new MainFile();
-    // mainContainer.mount('data-grid-test').update();
+    const mainContainer = new MainFile();
+    mainContainer.mount('data-grid-test').update();
   }
 
   render() {

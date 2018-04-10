@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-// import ContentContainer from 'terra-content-container';
-import Draggable, { DraggableCore } from 'react-draggable';
+import { DraggableCore } from 'react-draggable';
 
 import styles from './DataGrid.scss';
 
