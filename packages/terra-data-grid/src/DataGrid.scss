@@ -21,10 +21,10 @@
   }
 
   .row.stripe-row {
-    background-color: #f4f4f4;
+    background: #f4f4f4;
 
     .fixed-column-container {
-      background-color: #f4f4f4;
+      background: #f4f4f4;
     }
   }
 
@@ -63,6 +63,11 @@
     transform: translateX(-100%);
     display: flex;
     border-right: 1px solid #c8cacb;
+    z-index: 1000;
+
+    .drag-header {
+      z-index: 1001;
+    }
   }
 
   .header-cell {
@@ -80,8 +85,21 @@
     cursor: col-resize;
     z-index: 500;
 
+    .inner-drag {
+      display: none;
+      position: absolute;
+      height: 1000px;
+      width: 100%;
+    }
+
     &.react-draggable-dragging {
       background-color: darkslategrey;
+      z-index: 800;
+
+      .inner-drag {
+        display: block;
+        background-color: darkslategray;
+      }
     }
   }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 // import ContentContainer from 'terra-content-container';
-import Draggable from 'react-draggable';
+import Draggable, { DraggableCore } from 'react-draggable';
 
 import styles from './DataGrid.scss';
 
@@ -37,10 +37,6 @@ class DataGrid extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.updateWidths();
-  // }
-
   updateWidths(columnKey, widthDelta) {
     const columnWidths = Object.assign({}, this.state.columnWidths);
     columnWidths[columnKey] += widthDelta;
@@ -67,18 +63,26 @@ class DataGrid extends React.Component {
             return (
               <div className={cx(['header-cell', 'selectable'])} style={{ width: `${this.state.columnWidths[columnKey]}px` }} tabIndex="0">
                 <CustomCell text={columnData.title} />
-                <Draggable
-                  axis="x"
-                  position={{ x: 0 }}
-                  grid={[15, 0]}
-                  defaultClassNameDragging={cx('react-draggable-dragging')}
+                <DraggableCore
                   handle=".drag-handle"
+                  onStart={(event, data) => {
+                    data.node.classList.add(cx('react-draggable-dragging'));
+                    this.scrollPosition = 0;
+                  }}
                   onStop={(event, data) => {
-                    this.updateWidths(columnKey, data.x);
+                    data.node.classList.remove(cx('react-draggable-dragging'));
+                    data.node.style.transform = '';
+                    this.updateWidths(columnKey, this.scrollPosition);
+                  }}
+                  onDrag={(event, data) => {
+                    this.scrollPosition += data.deltaX;
+                    data.node.style.transform = `translateX(${this.scrollPosition}px)`;
                   }}
                 >
-                  <div className={cx(['drag-header', 'drag-handle'])} />
-                </Draggable>
+                  <div className={cx(['drag-header', 'drag-handle'])}>
+                    <div className={cx('inner-drag')} />
+                  </div>
+                </DraggableCore>
               </div>
             );
           })}
@@ -89,18 +93,26 @@ class DataGrid extends React.Component {
           return (
             <div className={cx(['header-cell', 'selectable'])} style={{ width: `${this.state.columnWidths[columnKey]}px` }} tabIndex="0">
               <CustomCell text={columnData.title} />
-              <Draggable
-                axis="x"
-                position={{ x: 0 }}
-                grid={[15, 0]}
-                defaultClassNameDragging={cx('react-draggable-dragging')}
+              <DraggableCore
                 handle=".drag-handle"
+                onStart={(event, data) => {
+                  data.node.classList.add(cx('react-draggable-dragging'));
+                  this.scrollPosition = 0;
+                }}
+                onStop={(event, data) => {
+                  data.node.classList.remove(cx('react-draggable-dragging'));
+                  data.node.style.transform = '';
+                  this.updateWidths(columnKey, this.scrollPosition);
+                }}
                 onDrag={(event, data) => {
-                  this.updateWidths(columnKey, data.deltaX);
+                  this.scrollPosition += data.deltaX;
+                  data.node.style.transform = `translateX(${this.scrollPosition}px)`;
                 }}
               >
-                <div className={cx(['drag-header', 'drag-handle'])} />
-              </Draggable>
+                <div className={cx(['drag-header', 'drag-handle'])}>
+                  <div className={cx('inner-drag')} />
+                </div>
+              </DraggableCore>
             </div>
           );
         })}
