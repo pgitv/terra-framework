@@ -13,8 +13,8 @@
 
   .wrapper {
     overflow-x: auto;
-    margin-left: 300px;
-    background-color: grey;
+    // margin-left: 300px;
+    // background-color: grey;
   }
 
   .row {
@@ -51,7 +51,7 @@
   }
 
   .cell, .header-cell {
-    flex: 0 1 auto;
+    flex: 0 0 auto;
     min-width: 50px;
     border-right: 1px solid #c8cacb;
   }

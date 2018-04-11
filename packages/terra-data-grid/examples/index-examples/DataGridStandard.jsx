@@ -15,8 +15,17 @@ class DataGridStandard extends React.Component {
 
   render() {
     const columns = {
-      column1: {
+      column0: {
         startWidth: 200,
+        sortable: true,
+        sortDirection: 'ascending', // 'descending'
+        sortWeight: 'primary', // 'secondary', 'tertiary'
+        resize: true,
+        title: 'Column 0',
+        component: <div>Column 0</div>,
+      },
+      column1: {
+        startWidth: 100,
         sortable: true,
         sortDirection: 'ascending', // 'descending'
         sortWeight: 'primary', // 'secondary', 'tertiary'
@@ -25,7 +34,7 @@ class DataGridStandard extends React.Component {
         component: <div>Column 1</div>,
       },
       column2: {
-        startWidth: 100,
+        startWidth: 300,
         sortable: true,
         sortDirection: 'ascending', // 'descending'
         sortWeight: 'primary', // 'secondary', 'tertiary'
@@ -34,7 +43,7 @@ class DataGridStandard extends React.Component {
         component: <div>Column 2</div>,
       },
       column3: {
-        startWidth: 300,
+        startWidth: 400,
         sortable: true,
         sortDirection: 'ascending', // 'descending'
         sortWeight: 'primary', // 'secondary', 'tertiary'
@@ -78,41 +87,32 @@ class DataGridStandard extends React.Component {
         title: 'Column 7',
         component: <div>Column 7</div>,
       },
-      column8: {
-        startWidth: 400,
-        sortable: true,
-        sortDirection: 'ascending', // 'descending'
-        sortWeight: 'primary', // 'secondary', 'tertiary'
-        resize: true,
-        title: 'Column 8',
-        component: <div>Column 8</div>,
-      },
     };
 
     const generateRows = num => (new Array(num)).fill().map((val, index) => (
       {
-        column1: {
+        column0: {
           title: `Row ${index} Column 0`,
         },
-        column2: {
+        column1: {
           title: `Row ${index} Column 1`,
         },
-        column3: {
+        column2: {
           title: `Row ${index} Column 2`,
         },
-        column4: {
+        column3: {
           title: `Row ${index} Column 3`,
         },
-        column5: {
+        column4: {
           title: `Row ${index} Column 4`,
         },
-        column6: {
+        column5: {
           title: `Row ${index} Column 5`,
         },
-        column7: {
+        column6: {
           title: `Row ${index} Column 6`,
         },
-        column8: {
+        column7: {
           title: `Row ${index} Column 7`,
         },
       }
@@ -125,8 +125,8 @@ class DataGridStandard extends React.Component {
         <div style={{ height: '500px' }}>
           <DataGrid
             columns={columns}
-            fixedColumnKeys={['column1', 'column2', 'column8']}
-            flexColumnKeys={['column3', 'column4', 'column5', 'column6', 'column7']}
+            fixedColumnKeys={['column0', 'column1', 'column7']}
+            flexColumnKeys={['column2', 'column3', 'column4', 'column5', 'column6']}
             rowSize="33px"
             rows={rows}
           />

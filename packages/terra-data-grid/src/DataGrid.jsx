@@ -23,7 +23,7 @@ class DataGrid extends React.Component {
     super(props);
 
     this.updateWidths = this.updateWidths.bind(this);
-    this.handleHorizontalScroll = this.handleHorizontalScroll.bind(this);
+    this.handleVerticalScroll = this.handleVerticalScroll.bind(this);
 
 
     const fixedColumnWidth = props.fixedColumnKeys.map(key => props.columns[key].startWidth).reduce((totalWidth, width) => totalWidth + width);
@@ -40,21 +40,21 @@ class DataGrid extends React.Component {
   }
 
   componentDidMount() {
-    this.verticalOverflowContainer.addEventListener('scroll', this.handleHorizontalScroll);
+    this.verticalOverflowContainer.addEventListener('scroll', this.handleVerticalScroll);
   }
 
   componentWillUnmount() {
-    this.verticalOverflowContainer.removeEventListener('scroll', this.handleHorizontalScroll);
+    this.verticalOverflowContainer.removeEventListener('scroll', this.handleVerticalScroll);
   }
 
-  handleHorizontalScroll() {
+  handleVerticalScroll() {
     if (!this.isScrolling) {
       this.isScrolling = true;
 
-      this.overflowHeaderContainer.style.display = 'none';
-      this.fixedHeaderContainer.style.display = 'block';
+      this.overflowHeaderContainer.style.visibility = 'hidden';
+      this.fixedHeaderContainer.style.display = 'flex';
 
-      this.fixedOverflowContainer.scrollLeft = this.horizontalOverflowContainer.scrollLeft;
+      this.fixedHeaderContainer.scrollLeft = this.horizontalOverflowContainer.scrollLeft;
     }
 
     if (this.verticalScrollTimeout) {
@@ -64,11 +64,9 @@ class DataGrid extends React.Component {
     this.verticalScrollTimeout = setTimeout(() => {
       this.fixedHeaderContainer.style.display = 'none';
 
-      this.overflowHeaderContainer.style.display = 'block';
+      this.overflowHeaderContainer.style.visibility = 'visible';
       this.overflowHeaderContainer.style.position = 'relative';
       this.overflowHeaderContainer.style.top = `${this.verticalOverflowContainer.scrollTop}px`;
-
-      this.fixedOverflowContainer.scrollLeft = this.horizontalOverflowContainer.scrollLeft;
 
       this.isScrolling = false;
     }, 100);
@@ -97,37 +95,6 @@ class DataGrid extends React.Component {
 
     const headerRow = (
       <div className={cx(['row', 'header-row'])}>
-        <div className={cx(['fixed-column-container'])} style={{ width: `${fixedColumnWidth}px` }}>
-          {fixedColumnKeys.map((columnKey) => {
-            const columnData = columns[columnKey];
-
-            return (
-              <div className={cx(['header-cell', 'selectable'])} style={{ width: `${this.state.columnWidths[columnKey]}px` }} tabIndex="0">
-                <CustomCell text={columnData.title} />
-                <DraggableCore
-                  handle=".drag-handle"
-                  onStart={(event, data) => {
-                    data.node.classList.add(cx('react-draggable-dragging'));
-                    this.scrollPosition = 0;
-                  }}
-                  onStop={(event, data) => {
-                    data.node.classList.remove(cx('react-draggable-dragging'));
-                    data.node.style.transform = '';
-                    this.updateWidths(columnKey, this.scrollPosition);
-                  }}
-                  onDrag={(event, data) => {
-                    this.scrollPosition += data.deltaX;
-                    data.node.style.transform = `translate3d(${this.scrollPosition}px, 0, 100px)`;
-                  }}
-                >
-                  <div className={cx(['drag-header', 'drag-handle'])}>
-                    <div className={cx('inner-drag')} />
-                  </div>
-                </DraggableCore>
-              </div>
-            );
-          })}
-        </div>
         {flexColumnKeys.map((columnKey) => {
           const columnData = columns[columnKey];
 
@@ -202,50 +169,71 @@ class DataGrid extends React.Component {
     });
 
     return (
-      <ContentContainer
-        header={(
-          <div className={cx(['container'])}>
-            <div ref={(ref) => { this.fixedOverflowContainer = ref; }} className={cx(['wrapper'])} style={{ marginLeft: `${fixedColumnWidth}px`, overflow: 'hidden' }}>
-              <div ref={(ref) => { this.fixedHeaderContainer = ref; if (ref) { this.fixedHeaderContainer.style.display = 'none'; } }}>
-                {headerRow}
-              </div>
-            </div>
-          </div>
-        )}
-        fill
-      >
-        <div ref={(ref) => { this.verticalOverflowContainer = ref; }} className={cx(['container'])}>
-          <div style={{ position: 'absolute', left: '0', top: '0', width: `${fixedColumnWidth}px`, display: 'flex' }}>
-            {fixedColumnKeys.map((columnKey) => {
-              const columnData = columns[columnKey];
+      <div style={{ height: '100%', overflow: 'hidden', position: 'relative' }}>
+        <div style={{ position: 'absolute', left: '0', top: '0', width: `${fixedColumnWidth}px`, display: 'flex', zIndex: '10000', borderBottom: '1px solid grey' }}>
+          {fixedColumnKeys.map((columnKey) => {
+            const columnData = columns[columnKey];
 
-              return (
-                <div className={cx(['header-cell', 'selectable'])} style={{ width: `${this.state.columnWidths[columnKey]}px` }} tabIndex="0">
-                  <CustomCell text={columnData.title} />
-                  <DraggableCore
-                    handle=".drag-handle"
-                    onStart={(event, data) => {
-                      data.node.classList.add(cx('react-draggable-dragging'));
-                      this.scrollPosition = 0;
-                    }}
-                    onStop={(event, data) => {
-                      data.node.classList.remove(cx('react-draggable-dragging'));
-                      data.node.style.transform = '';
-                      this.updateWidths(columnKey, this.scrollPosition);
-                    }}
-                    onDrag={(event, data) => {
-                      this.scrollPosition += data.deltaX;
-                      data.node.style.transform = `translate3d(${this.scrollPosition}px, 0, 100px)`;
-                    }}
-                  >
-                    <div className={cx(['drag-header', 'drag-handle'])}>
-                      <div className={cx('inner-drag')} />
-                    </div>
-                  </DraggableCore>
-                </div>
-              );
-            })}
-          </div>
+            return (
+              <div className={cx(['header-cell', 'selectable'])} style={{ width: `${this.state.columnWidths[columnKey]}px` }} tabIndex="0">
+                <CustomCell text={columnData.title} />
+                <DraggableCore
+                  handle=".drag-handle"
+                  onStart={(event, data) => {
+                    data.node.classList.add(cx('react-draggable-dragging'));
+                    this.scrollPosition = 0;
+                  }}
+                  onStop={(event, data) => {
+                    data.node.classList.remove(cx('react-draggable-dragging'));
+                    data.node.style.transform = '';
+                    this.updateWidths(columnKey, this.scrollPosition);
+                  }}
+                  onDrag={(event, data) => {
+                    this.scrollPosition += data.deltaX;
+                    data.node.style.transform = `translate3d(${this.scrollPosition}px, 0, 100px)`;
+                  }}
+                >
+                  <div className={cx(['drag-header', 'drag-handle'])}>
+                    <div className={cx('inner-drag')} />
+                  </div>
+                </DraggableCore>
+              </div>
+            );
+          })}
+        </div>
+        <div ref={(ref) => { this.fixedHeaderContainer = ref; }} style={{ display: 'none', position: 'absolute', left: `${fixedColumnWidth}px`, top: '0', width: `calc(100% - ${fixedColumnWidth}px`, zIndex: '10000', overflow: 'hidden', borderBottom: '1px solid grey' }}>
+          {flexColumnKeys.map((columnKey) => {
+            const columnData = columns[columnKey];
+
+            return (
+              <div className={cx(['header-cell', 'selectable'])} style={{ width: `${this.state.columnWidths[columnKey]}px` }} tabIndex="0">
+                <CustomCell text={columnData.title} />
+                <DraggableCore
+                  handle=".drag-handle"
+                  onStart={(event, data) => {
+                    data.node.classList.add(cx('react-draggable-dragging'));
+                    this.scrollPosition = 0;
+                  }}
+                  onStop={(event, data) => {
+                    data.node.classList.remove(cx('react-draggable-dragging'));
+                    data.node.style.transform = '';
+                    this.updateWidths(columnKey, this.scrollPosition);
+                  }}
+                  onDrag={(event, data) => {
+                    this.scrollPosition += data.deltaX;
+                    data.node.style.transform = `translate3d(${this.scrollPosition}px, 0, 100px)`;
+                  }}
+                >
+                  <div className={cx(['drag-header', 'drag-handle'])}>
+                    <div className={cx('inner-drag')} />
+                  </div>
+                </DraggableCore>
+              </div>
+            );
+          })}
+          <div className={cx('buffer-cell', 'buffer-header-cell')} />
+        </div>
+        <div ref={(ref) => { this.verticalOverflowContainer = ref; }} className={cx(['container'])}>
           <div ref={(ref) => { this.horizontalOverflowContainer = ref; }} className={cx(['wrapper'])} style={{ marginLeft: `${fixedColumnWidth}px` }}>
             <div ref={(ref) => { this.overflowHeaderContainer = ref; }}>
               {headerRow}
@@ -253,7 +241,7 @@ class DataGrid extends React.Component {
             {contentRows}
           </div>
         </div>
-      </ContentContainer>
+      </div>
     );
   }
 }
