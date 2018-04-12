@@ -52,9 +52,10 @@ class DataGrid extends React.Component {
       this.isScrolling = true;
 
       this.overflowHeaderContainer.style.visibility = 'hidden';
-      this.fixedHeaderContainer.style.display = 'flex';
 
-      this.fixedHeaderContainer.scrollLeft = this.horizontalOverflowContainer.scrollLeft;
+      this.fixedHeaderOverfowContainer.style.visibility = 'visible';
+      this.fixedHeaderOverfowContainer.style.height = '';
+      this.fixedHeaderOverfowContainer.scrollLeft = this.horizontalOverflowContainer.scrollLeft;
     }
 
     if (this.verticalScrollTimeout) {
@@ -62,7 +63,9 @@ class DataGrid extends React.Component {
     }
 
     this.verticalScrollTimeout = setTimeout(() => {
-      this.fixedHeaderContainer.style.display = 'none';
+      // this.fixedHeaderOverfowContainer.scrollLeft = 0;
+      this.fixedHeaderOverfowContainer.style.visibility = 'hidden';
+      this.fixedHeaderOverfowContainer.style.height = '0px';
 
       this.overflowHeaderContainer.style.visibility = 'visible';
       this.overflowHeaderContainer.style.position = 'relative';
@@ -201,7 +204,7 @@ class DataGrid extends React.Component {
             );
           })}
         </div>
-        <div ref={(ref) => { this.fixedHeaderContainer = ref; }} style={{ display: 'none', position: 'absolute', left: `${fixedColumnWidth}px`, top: '0', width: `calc(100% - ${fixedColumnWidth}px`, zIndex: '10000', overflow: 'hidden', borderBottom: '1px solid grey' }}>
+        <div ref={(ref) => { this.fixedHeaderOverfowContainer = ref; }} style={{ visibility: 'hidden', display: 'flex', height: '0px', position: 'absolute', transform: `translate3d(${fixedColumnWidth}px, 0, 0)`, /* left: `${fixedColumnWidth}px`, */ /* top: '0', */ width: `calc(100% - ${fixedColumnWidth}px`, zIndex: '10000', overflow: 'hidden', borderBottom: '1px solid grey' }}>
           {flexColumnKeys.map((columnKey) => {
             const columnData = columns[columnKey];
 
