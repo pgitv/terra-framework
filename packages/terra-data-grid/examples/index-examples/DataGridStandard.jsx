@@ -1,16 +1,16 @@
 import React from 'react';
 
-import MainFile from 'data-grid/dev/MainFile';
+// import MainFile from 'data-grid/dev/MainFile';
 
 import DataGrid from '../../src/DataGrid';
 
-import 'data-grid/node_modules/MPageFusion/dist/css/mpage-fusion.css';
-import 'data-grid/dist/css/DataGrid.css';
+// import 'data-grid/node_modules/MPageFusion/dist/css/mpage-fusion.css';
+// import 'data-grid/dist/css/DataGrid.css';
 
 class DataGridStandard extends React.Component {
   componentDidMount() {
-    const mainContainer = new MainFile();
-    mainContainer.mount('data-grid-test').update();
+    // const mainContainer = new MainFile();
+    // mainContainer.mount('data-grid-test').update();
   }
 
   render() {
