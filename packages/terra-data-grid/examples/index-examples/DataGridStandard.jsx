@@ -35,7 +35,6 @@ class DataGridStandard extends React.Component {
         sortWeight: 'primary',
         resize: true,
         text: 'Column 1',
-        component: <div>Column 1</div>,
       },
       column2: {
         startWidth: 300,
@@ -44,7 +43,6 @@ class DataGridStandard extends React.Component {
         sortWeight: 'primary',
         resize: true,
         text: 'Column 2',
-        component: <div>Column 2</div>,
       },
       column3: {
         startWidth: 400,
@@ -53,7 +51,6 @@ class DataGridStandard extends React.Component {
         sortWeight: 'primary',
         resize: true,
         text: 'Column 3',
-        component: <div>Column 3</div>,
       },
       column4: {
         startWidth: 400,
@@ -62,7 +59,6 @@ class DataGridStandard extends React.Component {
         sortWeight: 'primary',
         resize: true,
         text: 'Column 4',
-        component: <div>Column 4</div>,
       },
       column5: {
         startWidth: 400,
@@ -71,7 +67,6 @@ class DataGridStandard extends React.Component {
         sortWeight: 'primary',
         resize: true,
         text: 'Column 5',
-        component: <div>Column 5</div>,
       },
       column6: {
         startWidth: 400,
@@ -80,7 +75,6 @@ class DataGridStandard extends React.Component {
         sortWeight: 'primary',
         resize: true,
         text: 'Column 6',
-        component: <div>Column 6</div>,
       },
       column7: {
         startWidth: 400,
@@ -89,14 +83,13 @@ class DataGridStandard extends React.Component {
         sortWeight: 'primary',
         resize: true,
         text: 'Column 7',
-        component: <div>Column 7</div>,
       },
     };
 
     const generateRows = num => (new Array(num)).fill().map((val, index) => (
       {
         column0: {
-          text: `Row ${index} Column 0`,
+          component: <div>Custom Content Component</div>,
         },
         column1: {
           text: `Row ${index} Column 1`,
