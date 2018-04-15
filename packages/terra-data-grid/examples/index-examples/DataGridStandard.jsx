@@ -26,8 +26,7 @@ class DataGridStandard extends React.Component {
         sortDirection: 'ascending',   // Not implemented yet
         sortWeight: 'primary',        // Not implemented yet
         resize: true,
-        text: 'Column 0',
-        component: <div>Column 0</div>,
+        component: <div>Custom Header Component</div>,
       },
       column1: {
         startWidth: 100,

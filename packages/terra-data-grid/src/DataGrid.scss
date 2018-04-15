@@ -36,10 +36,8 @@
 
   .header-row {
     border-bottom: 1px solid grey;
-
-    .fixed-column-container {
-      border-bottom: 1px solid grey;
-    }
+    height: 2em;
+    overflow: hidden;
   }
 
   .buffer-cell, .buffer-header-cell {
@@ -74,13 +72,12 @@
     z-index: 1000;
   }
 
-  .fixed-column-header-contaienr {
+  .fixed-column-header-container {
     position: absolute;
     left: 0;
     top: 0;
     display: flex;
     z-index: 10000;
-    border-bottom: 1px solid grey;
   }
 
   .header-cell {
@@ -129,12 +126,12 @@
     position: absolute;
     overflow: hidden;
     z-index: 10000;
-    border-bottom: 1px solid grey;
     height: 0px;
+    border-bottom: 1px solid grey;
 
     &.visible {
       visibility: visible;
-      height: initial;
+      height: 2rem;
     }
   }
 

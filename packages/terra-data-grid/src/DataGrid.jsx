@@ -180,10 +180,12 @@ class DataGrid extends React.Component {
 
     return (
       <div
-        className={cx('fixed-column-header-contaienr')}
+        className={cx('fixed-column-header-container')}
         style={{ width: `${fixedColumnWidth}px` }}
       >
-        {fixedColumnKeys.map(columnKey => this.renderHeaderCell(columnKey, columns[columnKey], true))}
+        <div className={cx(['row', 'header-row'])}>
+          {fixedColumnKeys.map(columnKey => this.renderHeaderCell(columnKey, columns[columnKey], true))}
+        </div>
       </div>
     );
   }
@@ -193,11 +195,7 @@ class DataGrid extends React.Component {
 
     return (
       <div className={cx(['row', 'header-row'])}>
-        {flexColumnKeys.map((columnKey) => {
-          const columnData = columns[columnKey];
-
-          return this.renderHeaderCell(columnKey, columnData, true);
-        })}
+        {flexColumnKeys.map(columnKey => this.renderHeaderCell(columnKey, columns[columnKey], true))}
         <div className={cx('buffer-cell', 'buffer-header-cell')} />
       </div>
     );
