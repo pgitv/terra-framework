@@ -1,20 +1,22 @@
 :local {
-
   .container {
+    height: 100%;
+    overflow: hidden;
     position: relative;
-    overflow: auto;
+  }
+
+  .vertical-overflow-container {
+    position: relative;
+    overflow-y: auto;
     height: 100%;
   }
 
-  .wrapper-wrapper {
-    height: 29px;
-    overflow: hidden;
+  .horizontal-overflow-container {
+    overflow-x: auto;
   }
 
-  .wrapper {
-    overflow-x: auto;
-    // margin-left: 300px;
-    // background-color: grey;
+  .overflow-disabled {
+    overflow: hidden;
   }
 
   .row {
@@ -72,12 +74,21 @@
     z-index: 1000;
   }
 
+  .fixed-column-header-contaienr {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    z-index: 10000;
+    border-bottom: 1px solid grey;
+  }
+
   .header-cell {
     background-color: lightgrey;
     position: relative;
   }
 
-  .drag-header {
+  .drag-region {
     height: 100%;
     position: absolute;
     width: 5px;
@@ -112,31 +123,31 @@
     white-space: nowrap;
   }
 
-  .container-size-1 {
-    .cell, .header-cell {
-      height: 29px;
+  .vertical-overflow-pinned-header-container {
+    visibility: hidden;
+    display: flex;
+    position: absolute;
+    overflow: hidden;
+    z-index: 10000;
+    border-bottom: 1px solid grey;
+    height: 0px;
+
+    &.visible {
+      visibility: visible;
+      height: initial;
     }
   }
 
-  .container-size-2 {
-    .cell, .header-cell {
-      height: 48px;
+  .overflow-header-container {
+    visibility: hidden;
+    position: relative;
+
+    &.visible {
+      visibility: visible;
     }
   }
 
-  .container-size-3 {
-    .cell, .header-cell {
-      height: 67px;
-    }
-  }
-
-  .container-size-4 {
-    .cell, .header-cell {
-      height: 83px;
-    }
-  }
-
-  .custom-cell {
+  .default-cell {
     height: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
