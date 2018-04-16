@@ -67,7 +67,10 @@ class DataGrid extends React.Component {
       return;
     }
 
-    this.isHorizontalScrolling = true;
+    if (!this.isHorizontalScrolling) {
+      this.isHorizontalScrolling = true;
+      this.verticalOverflowContainer.classList.add(cx('overflow-disabled'));
+    }
 
     if (this.horizontalScrollTimeout) {
       clearTimeout(this.horizontalScrollTimeout);
@@ -75,6 +78,7 @@ class DataGrid extends React.Component {
 
     this.horizontalScrollTimeout = setTimeout(() => {
       this.isHorizontalScrolling = false;
+      this.verticalOverflowContainer.classList.remove(cx('overflow-disabled'));
     }, 100);
   }
 
@@ -86,6 +90,7 @@ class DataGrid extends React.Component {
 
     if (!this.isVerticalScrolling) {
       this.isVerticalScrolling = true;
+      this.horizontalOverflowContainer.classList.add(cx('overflow-disabled'));
 
       this.overflowHeaderContainer.classList.remove(cx('visible'));
 
@@ -101,6 +106,8 @@ class DataGrid extends React.Component {
     }
 
     this.verticalScrollTimeout = setTimeout(() => {
+      this.horizontalOverflowContainer.classList.remove(cx('overflow-disabled'));
+
       this.fixedHeaderOverfowContainer.classList.remove(cx('visible'));
 
       this.overflowHeaderContainer.classList.add(cx('visible'));
@@ -112,8 +119,10 @@ class DataGrid extends React.Component {
 
   updateWidths(columnKey, widthDelta, minWidth) {
     const columnWidths = Object.assign({}, this.state.columnWidths);
-    if (columnWidths[columnKey] + widthDelta < minWidth) {
-      columnWidths[columnKey] = minWidth;
+    const minimumColumnWidth = minWidth || 50;
+
+    if (columnWidths[columnKey] + widthDelta < minimumColumnWidth) {
+      columnWidths[columnKey] = minimumColumnWidth;
     } else {
       columnWidths[columnKey] += widthDelta;
     }
@@ -167,7 +176,7 @@ class DataGrid extends React.Component {
     }
 
     return (
-      <div className={cx(['header-cell', 'selectable'])} style={{ width: `${this.state.columnWidths[columnKey]}px` }} tabIndex="0">
+      <div key={columnKey} className={cx(['header-cell', 'selectable'])} style={{ width: `${this.state.columnWidths[columnKey]}px` }} tabIndex="0">
         {content}
         {resizeHandle}
       </div>
@@ -221,7 +230,7 @@ class DataGrid extends React.Component {
     );
   }
 
-  renderContentCell(columnKey, rowData) {
+  renderContentCell(columnKey, rowKey, rowData) {
     const { columnWidths } = this.state;
 
     let content;
@@ -233,6 +242,7 @@ class DataGrid extends React.Component {
 
     return (
       <div
+        key={`${rowKey} - ${columnKey}`}
         className={cx(['cell', 'selectable'])}
         style={{ width: `${columnWidths[columnKey]}px` }}
         tabIndex="0"
@@ -250,20 +260,20 @@ class DataGrid extends React.Component {
     return rows.map((row, index) => {
       const fixedColumnRowData = [];
       fixedColumnKeys.forEach(fixedColumnKey => (
-        fixedColumnRowData.push(row[fixedColumnKey])
+        fixedColumnRowData.push(row.data[fixedColumnKey])
       ));
 
       const flexColumnRowData = [];
       flexColumnKeys.forEach(flexColumnKey => (
-        flexColumnRowData.push(row[flexColumnKey])
+        flexColumnRowData.push(row.data[flexColumnKey])
       ));
 
       return (
-        <div className={cx(['row', { 'stripe-row': index % 2 > 0 }, sizeClass])}>
+        <div key={row.key} className={cx(['row', { 'stripe-row': index % 2 > 0 }, sizeClass])}>
           <div className={cx(['fixed-column-container', sizeClass])} style={{ width: `${fixedColumnWidth}px` }}>
-            {fixedColumnKeys.map(columnKey => this.renderContentCell(columnKey, row[columnKey]))}
+            {fixedColumnKeys.map(columnKey => this.renderContentCell(columnKey, row.key, row.data[columnKey]))}
           </div>
-          {flexColumnKeys.map(columnKey => this.renderContentCell(columnKey, row[columnKey]))}
+          {flexColumnKeys.map(columnKey => this.renderContentCell(columnKey, row.key, row.data[columnKey]))}
           <div className={cx('buffer-cell')} />
         </div>
       );

@@ -1,6 +1,5 @@
 import React from 'react';
 import classNames from 'classnames/bind';
-// import MainFile from 'data-grid/dev/MainFile';
 
 import DataGrid from '../../src/DataGrid';
 
@@ -8,6 +7,7 @@ import styles from './DataGridStandard.scss';
 
 const cx = classNames.bind(styles);
 
+// import MainFile from 'data-grid/dev/MainFile';
 // import 'data-grid/node_modules/MPageFusion/dist/css/mpage-fusion.css';
 // import 'data-grid/dist/css/DataGrid.css';
 
@@ -88,29 +88,32 @@ class DataGridStandard extends React.Component {
 
     const generateRows = num => (new Array(num)).fill().map((val, index) => (
       {
-        column0: {
-          component: <div>Custom Content Component</div>,
-        },
-        column1: {
-          text: `Row ${index} Column 1`,
-        },
-        column2: {
-          text: `Row ${index} Column 2`,
-        },
-        column3: {
-          text: `Row ${index} Column 3`,
-        },
-        column4: {
-          text: `Row ${index} Column 4`,
-        },
-        column5: {
-          text: `Row ${index} Column 5`,
-        },
-        column6: {
-          text: `Row ${index} Column 6`,
-        },
-        column7: {
-          text: `Row ${index} Column 7`,
+        key: `Row${index}`,
+        data: {
+          column0: {
+            component: <div>Custom Content Component</div>,
+          },
+          column1: {
+            text: `Row ${index} Column 1`,
+          },
+          column2: {
+            text: `Row ${index} Column 2`,
+          },
+          column3: {
+            text: `Row ${index} Column 3`,
+          },
+          column4: {
+            text: `Row ${index} Column 4`,
+          },
+          column5: {
+            text: `Row ${index} Column 5`,
+          },
+          column6: {
+            text: `Row ${index} Column 6`,
+          },
+          column7: {
+            text: `Row ${index} Column 7`,
+          },
         },
       }
     ));
