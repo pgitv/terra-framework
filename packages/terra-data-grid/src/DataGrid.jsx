@@ -37,6 +37,7 @@ class DataGrid extends React.Component {
 
     this.updateWidths = this.updateWidths.bind(this);
     this.handleVerticalScroll = this.handleVerticalScroll.bind(this);
+    this.handleHorizontalScroll = this.handleHorizontalScroll.bind(this);
     this.renderHeaderCell = this.renderHeaderCell.bind(this);
     this.renderFixedColumnHeaderRow = this.renderFixedColumnHeaderRow.bind(this);
     this.renderOverflowHeaderRow = this.renderOverflowHeaderRow.bind(this);
@@ -62,14 +63,17 @@ class DataGrid extends React.Component {
   }
 
   handleHorizontalScroll(event) {
-    if (this.isVerticalScrolling) {
+    const { isHorizontalScrolling, isVerticalScrolling } = this.state;
+
+    if (isVerticalScrolling) {
       event.preventDefault();
       return;
     }
 
-    if (!this.isHorizontalScrolling) {
-      this.isHorizontalScrolling = true;
-      this.verticalOverflowContainer.classList.add(cx('overflow-disabled'));
+    if (!isHorizontalScrolling) {
+      this.setState({
+        isHorizontalScrolling: true,
+      });
     }
 
     if (this.horizontalScrollTimeout) {
@@ -77,28 +81,25 @@ class DataGrid extends React.Component {
     }
 
     this.horizontalScrollTimeout = setTimeout(() => {
-      this.isHorizontalScrolling = false;
-      this.verticalOverflowContainer.classList.remove(cx('overflow-disabled'));
+      this.setState({
+        isHorizontalScrolling: false,
+        horizontalScrollLeft: this.horizontalOverflowContainer.scrollLeft,
+      });
     }, 100);
   }
 
   handleVerticalScroll(event) {
-    if (this.isHorizontalScrolling) {
+    const { isHorizontalScrolling, isVerticalScrolling } = this.state;
+
+    if (isHorizontalScrolling) {
       event.preventDefault();
       return;
     }
 
-    if (!this.isVerticalScrolling) {
-      this.isVerticalScrolling = true;
-      this.horizontalOverflowContainer.classList.add(cx('overflow-disabled'));
-
-      this.overflowHeaderContainer.classList.remove(cx('visible'));
-
-      // Firefox has what must be a bug that causes the DataGrid to render its fixed columns
-      // incorrectly if the fixedHeaderOverfowContainer is hidden using display:none.
-      // This works, but a better solution should be investigated.
-      this.fixedHeaderOverfowContainer.classList.add(cx('visible'));
-      this.fixedHeaderOverfowContainer.scrollLeft = this.horizontalOverflowContainer.scrollLeft;
+    if (!isVerticalScrolling) {
+      this.setState({
+        isVerticalScrolling: true,
+      });
     }
 
     if (this.verticalScrollTimeout) {
@@ -106,12 +107,10 @@ class DataGrid extends React.Component {
     }
 
     this.verticalScrollTimeout = setTimeout(() => {
-      this.horizontalOverflowContainer.classList.remove(cx('overflow-disabled'));
-
-      this.fixedHeaderOverfowContainer.classList.remove(cx('visible'));
-
-      this.overflowHeaderContainer.classList.add(cx('visible'));
-      this.overflowHeaderContainer.style.top = `${this.verticalOverflowContainer.scrollTop}px`;
+      this.setState({
+        isVerticalScrolling: false,
+        verticalScrollTop: this.verticalOverflowContainer.scrollTop,
+      });
 
       this.isVerticalScrolling = false;
     }, 100);
@@ -213,16 +212,31 @@ class DataGrid extends React.Component {
   renderStickyHeader() {
     const { columns, flexColumnKeys } = this.props;
 
-    const { fixedColumnWidth } = this.state;
+    const { fixedColumnWidth, isVerticalScrolling, horizontalScrollLeft } = this.state;
+
+    // if (!isVerticalScrolling) {
+    //   return null;
+    // }
+
+    const fixedHeaderOverfowContainerProps = {
+      className: cx(['vertical-overflow-pinned-header-container', {
+        visible: isVerticalScrolling,
+      }]),
+      style: {
+        transform: `translate3d(${fixedColumnWidth}px, 0, 0)`,
+        width: `calc(100% - ${fixedColumnWidth}px`,
+      },
+    };
 
     return (
       <div
-        ref={(ref) => { this.fixedHeaderOverfowContainer = ref; }}
-        className={cx('vertical-overflow-pinned-header-container')}
-        style={{
-          transform: `translate3d(${fixedColumnWidth}px, 0, 0)`,
-          width: `calc(100% - ${fixedColumnWidth}px`,
+        ref={(ref) => {
+          this.fixedHeaderOverfowContainer = ref;
+          if (this.fixedHeaderOverfowContainer) {
+            this.fixedHeaderOverfowContainer.scrollLeft = horizontalScrollLeft;
+          }
         }}
+        {...fixedHeaderOverfowContainerProps}
       >
         {flexColumnKeys.map(columnKey => this.renderHeaderCell(columnKey, columns[columnKey], false))}
         <div className={cx('buffer-cell', 'buffer-header-cell')} />
@@ -281,7 +295,29 @@ class DataGrid extends React.Component {
   }
 
   render() {
-    const { fixedColumnWidth } = this.state;
+    const { fixedColumnWidth, isHorizontalScrolling, isVerticalScrolling, verticalScrollTop } = this.state;
+
+    const horizontalOverflowContainerProps = {
+      className: cx(['horizontal-overflow-container', {
+        'overflow-disabled': isVerticalScrolling,
+      }]),
+      style: {
+        marginLeft: `${fixedColumnWidth}px`,
+      },
+    };
+
+    const verticalOverflowContainerProps = {
+      className: cx(['vertical-overflow-container', {
+        'overflow-disabled': isHorizontalScrolling,
+      }]),
+    };
+
+    const overflowHeaderContainerProps = {
+      className: cx(['overflow-header-container', {
+        visible: !isVerticalScrolling,
+      }]),
+      style: { top: `${verticalScrollTop}px` },
+    };
 
     return (
       <div className={cx('container')}>
@@ -289,16 +325,15 @@ class DataGrid extends React.Component {
         {this.renderStickyHeader()}
         <div
           ref={(ref) => { this.verticalOverflowContainer = ref; }}
-          className={cx(['vertical-overflow-container'])}
+          {...verticalOverflowContainerProps}
         >
           <div
             ref={(ref) => { this.horizontalOverflowContainer = ref; }}
-            className={cx('horizontal-overflow-container')}
-            style={{ marginLeft: `${fixedColumnWidth}px` }}
+            {...horizontalOverflowContainerProps}
           >
             <div
               ref={(ref) => { this.overflowHeaderContainer = ref; }}
-              className={cx('overflow-header-container', 'visible')}
+              {...overflowHeaderContainerProps}
             >
               {this.renderOverflowHeaderRow()}
             </div>
