@@ -36,7 +36,6 @@
     "terra-base": "^3.0.0",
     "terra-button": "^2.0.1",
     "terra-content-container": "^2.0.1",
-    "data-grid": "file:../../../../data-grid",
     "react-draggable": "^3.0.5"
   },
   "scripts": {
