@@ -51,6 +51,9 @@ class DataGrid extends React.Component {
   componentDidMount() {
     this.verticalOverflowContainer.addEventListener('scroll', this.handleVerticalScroll);
     this.horizontalOverflowContainer.addEventListener('scroll', this.handleHorizontalScroll);
+
+    // Need to ensure the overflow header renders at the appropriate position.
+    this.overflowHeaderContainer.style.top = `${this.verticalOverflowContainer.scrollTop}px`;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -63,17 +66,24 @@ class DataGrid extends React.Component {
   }
 
   handleHorizontalScroll(event) {
-    const { isHorizontalScrolling, isVerticalScrolling } = this.state;
-
-    if (isVerticalScrolling) {
+    if (this.isVerticalScrolling) {
       event.preventDefault();
       return;
     }
 
-    if (!isHorizontalScrolling) {
-      this.setState({
-        isHorizontalScrolling: true,
-      });
+    // Firefox triggers a scroll event on the horizontal overflow container when the vertical overflow container's overflow style
+    // is toggled off and on. We're checking the scroll position here to detect whether or not a scroll actually occurred and abort,
+    // lest we loop infiniitely.
+    if (this.horizontalScrollLeft === this.horizontalOverflowContainer.scrollLeft) {
+      return;
+    }
+
+    this.horizontalScrollLeft = this.horizontalOverflowContainer.scrollLeft;
+
+    if (!this.isHorizontalScrolling) {
+      this.isHorizontalScrolling = true;
+
+      this.verticalOverflowContainer.style.overflow = 'hidden';
     }
 
     if (this.horizontalScrollTimeout) {
@@ -81,25 +91,27 @@ class DataGrid extends React.Component {
     }
 
     this.horizontalScrollTimeout = setTimeout(() => {
-      this.setState({
-        isHorizontalScrolling: false,
-        horizontalScrollLeft: this.horizontalOverflowContainer.scrollLeft,
-      });
+      this.isHorizontalScrolling = false;
+      this.verticalOverflowContainer.style.overflow = '';
     }, 100);
   }
 
   handleVerticalScroll(event) {
-    const { isHorizontalScrolling, isVerticalScrolling } = this.state;
-
-    if (isHorizontalScrolling) {
+    if (this.isHorizontalScrolling) {
       event.preventDefault();
       return;
     }
 
-    if (!isVerticalScrolling) {
-      this.setState({
-        isVerticalScrolling: true,
-      });
+    if (!this.isVerticalScrolling) {
+      this.isVerticalScrolling = true;
+
+      this.fixedHeaderOverfowContainer.style.visibility = 'visible';
+      this.fixedHeaderOverfowContainer.style['z-index'] = '10001';
+      this.fixedHeaderOverfowContainer.scrollLeft = this.horizontalOverflowContainer.scrollLeft;
+
+      this.overflowHeaderContainer.style.visibility = 'hidden';
+
+      this.horizontalOverflowContainer.style.overflow = 'hidden';
     }
 
     if (this.verticalScrollTimeout) {
@@ -107,12 +119,15 @@ class DataGrid extends React.Component {
     }
 
     this.verticalScrollTimeout = setTimeout(() => {
-      this.setState({
-        isVerticalScrolling: false,
-        verticalScrollTop: this.verticalOverflowContainer.scrollTop,
-      });
-
       this.isVerticalScrolling = false;
+
+      this.fixedHeaderOverfowContainer.style.visibility = '';
+      this.fixedHeaderOverfowContainer.style['z-index'] = '';
+
+      this.overflowHeaderContainer.style.visibility = '';
+      this.overflowHeaderContainer.style.top = `${this.verticalOverflowContainer.scrollTop}px`;
+
+      this.horizontalOverflowContainer.style.overflow = '';
     }, 100);
   }
 
@@ -175,7 +190,7 @@ class DataGrid extends React.Component {
     }
 
     return (
-      <div key={columnKey} className={cx(['header-cell', 'selectable'])} style={{ width: `${this.state.columnWidths[columnKey]}px` }} tabIndex="0">
+      <div key={columnKey} className={cx(['cell', 'header-cell', 'selectable'])} style={{ width: `${this.state.columnWidths[columnKey]}px` }} tabIndex="0">
         {content}
         {resizeHandle}
       </div>
@@ -204,7 +219,7 @@ class DataGrid extends React.Component {
     return (
       <div className={cx(['row', 'header-row'])}>
         {flexColumnKeys.map(columnKey => this.renderHeaderCell(columnKey, columns[columnKey], true))}
-        <div className={cx('buffer-cell', 'buffer-header-cell')} />
+        <div className={cx('buffer-cell')} />
       </div>
     );
   }
@@ -212,16 +227,10 @@ class DataGrid extends React.Component {
   renderStickyHeader() {
     const { columns, flexColumnKeys } = this.props;
 
-    const { fixedColumnWidth, isVerticalScrolling, horizontalScrollLeft } = this.state;
-
-    // if (!isVerticalScrolling) {
-    //   return null;
-    // }
+    const { fixedColumnWidth } = this.state;
 
     const fixedHeaderOverfowContainerProps = {
-      className: cx(['vertical-overflow-pinned-header-container', {
-        visible: isVerticalScrolling,
-      }]),
+      className: cx(['vertical-overflow-pinned-header-container']),
       style: {
         transform: `translate3d(${fixedColumnWidth}px, 0, 0)`,
         width: `calc(100% - ${fixedColumnWidth}px`,
@@ -230,16 +239,11 @@ class DataGrid extends React.Component {
 
     return (
       <div
-        ref={(ref) => {
-          this.fixedHeaderOverfowContainer = ref;
-          if (this.fixedHeaderOverfowContainer) {
-            this.fixedHeaderOverfowContainer.scrollLeft = horizontalScrollLeft;
-          }
-        }}
+        ref={(ref) => { this.fixedHeaderOverfowContainer = ref; }}
         {...fixedHeaderOverfowContainerProps}
       >
         {flexColumnKeys.map(columnKey => this.renderHeaderCell(columnKey, columns[columnKey], false))}
-        <div className={cx('buffer-cell', 'buffer-header-cell')} />
+        <div className={cx('buffer-cell')} />
       </div>
     );
   }
@@ -295,28 +299,21 @@ class DataGrid extends React.Component {
   }
 
   render() {
-    const { fixedColumnWidth, isHorizontalScrolling, isVerticalScrolling, verticalScrollTop } = this.state;
+    const { fixedColumnWidth } = this.state;
+
+    const verticalOverflowContainerProps = {
+      className: cx(['vertical-overflow-container']),
+    };
 
     const horizontalOverflowContainerProps = {
-      className: cx(['horizontal-overflow-container', {
-        'overflow-disabled': isVerticalScrolling,
-      }]),
+      className: cx(['horizontal-overflow-container']),
       style: {
         marginLeft: `${fixedColumnWidth}px`,
       },
     };
 
-    const verticalOverflowContainerProps = {
-      className: cx(['vertical-overflow-container', {
-        'overflow-disabled': isHorizontalScrolling,
-      }]),
-    };
-
     const overflowHeaderContainerProps = {
-      className: cx(['overflow-header-container', {
-        visible: !isVerticalScrolling,
-      }]),
-      style: { top: `${verticalScrollTop}px` },
+      className: cx(['overflow-header-container']),
     };
 
     return (

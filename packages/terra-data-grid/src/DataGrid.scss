@@ -36,28 +36,29 @@
 
   .header-row {
     border-bottom: 1px solid grey;
-    height: 2em;
+    height: 2rem;
     overflow: hidden;
+    background-color: lightgrey;
   }
 
-  .buffer-cell, .buffer-header-cell {
+  .buffer-cell {
     min-width: 150px;
     max-width: 100%;
     flex: 1 1 auto;
   }
 
-  .buffer-header-cell {
-    background-color: lightgrey;
-  }
-
-  .cell, .header-cell {
+  .cell {
+    position: relative;
     flex: 0 0 auto;
-    min-width: 50px;
     border-right: 1px solid #c8cacb;
   }
 
   .cell.selectable:hover {
-    background: #ebf6fd;
+    background-color: #ebf6fd;
+  }
+
+  .header-cell.selectable:hover {
+    background-color: grey;
   }
 
   .cell.disabled {
@@ -78,11 +79,6 @@
     top: 0;
     display: flex;
     z-index: 10000;
-  }
-
-  .header-cell {
-    background-color: lightgrey;
-    position: relative;
   }
 
   .drag-region {
@@ -121,27 +117,20 @@
   }
 
   .vertical-overflow-pinned-header-container {
+    background-color: lightgrey;
     visibility: hidden;
     display: flex;
     position: absolute;
     overflow: hidden;
-    z-index: 10000;
-    height: 0px;
+    z-index: 9999;
+    top: 0;
     border-bottom: 1px solid grey;
-
-    &.visible {
-      visibility: visible;
-      height: 2rem;
-    }
+    height: 2rem;
   }
 
   .overflow-header-container {
-    visibility: hidden;
     position: relative;
-
-    &.visible {
-      visibility: visible;
-    }
+    z-index: 10000;
   }
 
   .default-cell {
