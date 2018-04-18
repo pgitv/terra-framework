@@ -32,6 +32,27 @@ class DataGrid extends React.Component {
     };
   }
 
+  static buildSelectionMap(selectionArray) {
+    const selectionMap = {};
+    if (!selectionArray) {
+      return {};
+    }
+
+    selectionArray.forEach((selection) => {
+      if (!selection.rowKey || !selection.columnKey) {
+        return;
+      }
+
+      if (!selectionMap[selection.rowKey]) {
+        selectionMap[selection.rowKey] = {};
+      }
+
+      selectionMap[selection.rowKey][selection.columnKey] = true;
+    });
+
+    return selectionMap;
+  }
+
   constructor(props) {
     super(props);
 
@@ -45,7 +66,7 @@ class DataGrid extends React.Component {
     this.renderContent = this.renderContent.bind(this);
     this.renderContentCell = this.renderContentCell.bind(this);
 
-    this.state = DataGrid.generateWidthState(props);
+    this.state = Object.assign({}, DataGrid.generateWidthState(props), { selectionMap: DataGrid.buildSelectionMap(props.selectedCells) });
   }
 
   componentDidMount() {
@@ -57,7 +78,7 @@ class DataGrid extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState(DataGrid.generateWidthState(nextProps));
+    this.setState(Object.assign({}, DataGrid.generateWidthState(nextProps), { selectionMap: DataGrid.buildSelectionMap(nextProps.selectedCells) }));
   }
 
   componentWillUnmount() {
@@ -249,7 +270,7 @@ class DataGrid extends React.Component {
   }
 
   renderContentCell(columnKey, rowKey, rowData) {
-    const { columnWidths } = this.state;
+    const { columnWidths, selectionMap } = this.state;
 
     let content;
     if (rowData.text) {
@@ -261,9 +282,11 @@ class DataGrid extends React.Component {
     return (
       <div
         key={`${rowKey} - ${columnKey}`}
-        className={cx(['cell', 'selectable'])}
+        className={cx(['cell', 'selectable', { selected: selectionMap[rowKey] && selectionMap[rowKey][columnKey] }])}
         style={{ width: `${columnWidths[columnKey]}px` }}
         tabIndex="0"
+        data-column-key={columnKey}
+        data-row-key={rowKey}
       >
         {content}
       </div>
@@ -299,6 +322,7 @@ class DataGrid extends React.Component {
   }
 
   render() {
+    const { onClick } = this.props;
     const { fixedColumnWidth } = this.state;
 
     const verticalOverflowContainerProps = {
@@ -309,6 +333,22 @@ class DataGrid extends React.Component {
       className: cx(['horizontal-overflow-container']),
       style: {
         marginLeft: `${fixedColumnWidth}px`,
+      },
+      onClick: (event) => {
+        let cellNode = event.target;
+
+        // TODO: Refactor while loop
+        while (!cellNode !== document && !cellNode.classList.contains(cx('cell'))) {
+          cellNode = cellNode.parentNode;
+        }
+
+        if (cellNode === document) {
+          return;
+        }
+
+        if (cellNode.classList.contains(cx('selectable')) && onClick) {
+          onClick(cellNode.getAttribute('data-row-key'), cellNode.getAttribute('data-column-key'));
+        }
       },
     };
 
