@@ -20,6 +20,7 @@ const DefaultCell = ({ text }) => (
 class DataGrid extends React.Component {
   static generateWidthState(props) {
     const fixedColumnWidth = props.fixedColumnKeys.map(key => props.columns[key].startWidth).reduce((totalWidth, width) => totalWidth + width);
+    const flexColumnWidth = props.flexColumnKeys.map(key => props.columns[key].startWidth).reduce((totalWidth, width) => totalWidth + width) + 150;
 
     const columnWidths = {};
     Object.keys(props.columns).forEach((columnKey) => {
@@ -28,6 +29,7 @@ class DataGrid extends React.Component {
 
     return {
       fixedColumnWidth,
+      flexColumnWidth,
       columnWidths,
     };
   }
@@ -66,8 +68,32 @@ class DataGrid extends React.Component {
     this.renderContent = this.renderContent.bind(this);
     this.renderContentCell = this.renderContentCell.bind(this);
 
-    this.state = Object.assign({}, DataGrid.generateWidthState(props), { selectionMap: DataGrid.buildSelectionMap(props.selectedCells) });
+    this.state = Object.assign({}, DataGrid.generateWidthState(props), {
+      selectionMap: DataGrid.buildSelectionMap(props.selectedCells),
+    });
   }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   const { columns, rows, fixedColumnKeys, flexColumnKeys, selectedCells, sizeClass, onClick } = this.props;
+  //   const { fixedColumnWidth, flexColumnWidth, columnWidths, selectionMap } = this.state;
+
+  //   if (nextProps.columns === columns &&
+  //       nextProps.rows === rows &&
+  //       nextProps.fixedColumnKeys === fixedColumnKeys &&
+  //       nextProps.flexColumnKeys === flexColumnKeys &&
+  //       nextProps.selectedCells === selectedCells &&
+  //       nextProps.sizeClass === sizeClass &&
+  //       nextProps.onClick === onClick &&
+  //       nextState.fixedColumnWidth === fixedColumnWidth &&
+  //       nextState.flexColumnWidth === flexColumnWidth &&
+  //       nextState.columnWidths === columnWidths &&
+  //       nextState.selectionMap === selectionMap
+  //     ) {
+  //     return false;
+  //   }
+
+  //   return true;
+  // }
 
   componentDidMount() {
     this.verticalOverflowContainer.addEventListener('scroll', this.handleVerticalScroll);
@@ -78,7 +104,22 @@ class DataGrid extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState(Object.assign({}, DataGrid.generateWidthState(nextProps), { selectionMap: DataGrid.buildSelectionMap(nextProps.selectedCells) }));
+    let newState = {};
+    if (this.props.columns !== nextProps.columns) {
+      /**
+       * The widths are regenerated only if the columns prop has been mutated. This ensures that any temporary column widths
+       * are maintained on subsequent renders.
+       */
+      newState = Object.assign({}, DataGrid.generateWidthState(nextProps));
+    }
+
+    if (this.props.selectedCells !== nextProps.selectedCells) {
+      newState.selectionMap = DataGrid.buildSelectionMap(nextProps.selectedCells);
+    }
+
+    if (Object.keys(newState).length) {
+      this.setState(newState);
+    }
   }
 
   componentWillUnmount() {
@@ -163,9 +204,11 @@ class DataGrid extends React.Component {
     }
 
     const fixedColumnWidth = this.props.fixedColumnKeys.map(key => columnWidths[key]).reduce((totalWidth, width) => totalWidth + width);
+    const flexColumnWidth = this.props.flexColumnKeys.map(key => columnWidths[key]).reduce((totalWidth, width) => totalWidth + width) + 150;
 
     this.setState({
       fixedColumnWidth,
+      flexColumnWidth,
       columnWidths,
     });
   }
@@ -220,14 +263,14 @@ class DataGrid extends React.Component {
 
   renderFixedColumnHeaderRow() {
     const { columns, fixedColumnKeys } = this.props;
-    const fixedColumnWidth = this.state.fixedColumnWidth;
+    const { fixedColumnWidth, flexColumnWidth } = this.state;
 
     return (
       <div
         className={cx('fixed-column-header-container')}
         style={{ width: `${fixedColumnWidth}px` }}
       >
-        <div className={cx(['row', 'header-row'])}>
+        <div className={cx(['row', 'header-row'])} style={{ width: `${flexColumnWidth}px` }}>
           {fixedColumnKeys.map(columnKey => this.renderHeaderCell(columnKey, columns[columnKey], true))}
         </div>
       </div>
@@ -236,9 +279,10 @@ class DataGrid extends React.Component {
 
   renderOverflowHeaderRow() {
     const { columns, flexColumnKeys } = this.props;
+    const { flexColumnWidth } = this.state;
 
     return (
-      <div className={cx(['row', 'header-row'])}>
+      <div className={cx(['row', 'header-row'])} style={{ width: `${flexColumnWidth}px` }}>
         {flexColumnKeys.map(columnKey => this.renderHeaderCell(columnKey, columns[columnKey], true))}
         <div className={cx('buffer-cell')} />
       </div>
@@ -296,7 +340,7 @@ class DataGrid extends React.Component {
   renderContent() {
     const { rows, fixedColumnKeys, flexColumnKeys, sizeClass } = this.props;
 
-    const { fixedColumnWidth } = this.state;
+    const { fixedColumnWidth, flexColumnWidth } = this.state;
 
     return rows.map((row, index) => {
       const fixedColumnRowData = [];
@@ -310,7 +354,7 @@ class DataGrid extends React.Component {
       ));
 
       return (
-        <div key={row.key} className={cx(['row', { 'stripe-row': index % 2 > 0 }, sizeClass])}>
+        <div key={row.key} className={cx(['row', { 'stripe-row': index % 2 > 0 }, sizeClass])} style={{ width: `${flexColumnWidth}px` }}>
           <div className={cx(['fixed-column-container', sizeClass])} style={{ width: `${fixedColumnWidth}px` }}>
             {fixedColumnKeys.map(columnKey => this.renderContentCell(columnKey, row.key, row.data[columnKey]))}
           </div>
@@ -338,7 +382,7 @@ class DataGrid extends React.Component {
         let cellNode = event.target;
 
         // TODO: Refactor while loop
-        while (!cellNode !== document && !cellNode.classList.contains(cx('cell'))) {
+        while (cellNode !== document && !cellNode.classList.contains(cx('cell'))) {
           cellNode = cellNode.parentNode;
         }
 

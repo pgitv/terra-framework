@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import Aggregator from 'terra-aggregator';
 import SlidePanelManager from 'terra-slide-panel-manager';
+import DisclosureComponent from 'terra-disclosure-manager/examples/index-examples/DisclosureComponent';
 
 import DataGrid from '../../src/DataGrid';
 
@@ -9,36 +10,43 @@ import styles from './DataGridStandard.scss';
 
 const cx = classNames.bind(styles);
 
-// import MainFile from 'data-grid/dev/MainFile';
-// import 'data-grid/node_modules/MPageFusion/dist/css/mpage-fusion.css';
-// import 'data-grid/dist/css/DataGrid.css';
-
-const DisclosureComponent = ({ app }) => (
-  <div>
-    <h2>Example Disclosure</h2>
-    {app && app.dismiss ? <button onClick={() => { app.dismiss(); }}>Dismiss</button> : null}
-  </div>
-);
+const generateRows = num => (new Array(num)).fill().map((val, index) => (
+  {
+    key: `Row${index}`,
+    data: {
+      column0: {
+        component: <div>Custom Content Component</div>,
+      },
+      column1: {
+        text: `Row ${index} Column 1`,
+      },
+      column2: {
+        text: `Row ${index} Column 2`,
+      },
+      column3: {
+        text: `Row ${index} Column 3`,
+      },
+      column4: {
+        text: `Row ${index} Column 4`,
+      },
+      column5: {
+        text: `Row ${index} Column 5`,
+      },
+      column6: {
+        text: `Row ${index} Column 6`,
+      },
+      column7: {
+        text: `Row ${index} Column 7`,
+      },
+    },
+  }
+));
 
 class DataGridStandard extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
-  }
-
-  componentDidMount() {
-    // const mainContainer = new MainFile();
-    // mainContainer.mount('data-grid-test').update();
-  }
-
-  render() {
-    const { aggregatorDelegate } = this.props;
-
-    let selectedCells;
-    if (aggregatorDelegate && aggregatorDelegate.hasFocus && aggregatorDelegate.itemState && aggregatorDelegate.itemState.selectedCell) {
-      selectedCells = [aggregatorDelegate.itemState.selectedCell];
-    }
+    this.handleCellClick = this.handleCellClick.bind(this);
 
     const columns = {
       column0: {
@@ -108,65 +116,79 @@ class DataGridStandard extends React.Component {
       },
     };
 
-    const generateRows = num => (new Array(num)).fill().map((val, index) => (
-      {
-        key: `Row${index}`,
-        data: {
-          column0: {
-            component: <div>Custom Content Component</div>,
-          },
-          column1: {
-            text: `Row ${index} Column 1`,
-          },
-          column2: {
-            text: `Row ${index} Column 2`,
-          },
-          column3: {
-            text: `Row ${index} Column 3`,
-          },
-          column4: {
-            text: `Row ${index} Column 4`,
-          },
-          column5: {
-            text: `Row ${index} Column 5`,
-          },
-          column6: {
-            text: `Row ${index} Column 6`,
-          },
-          column7: {
-            text: `Row ${index} Column 7`,
-          },
-        },
-      }
-    ));
+    this.state = {
+      columns,
+      rows: generateRows(30),
+      fixedColumnKeys: ['column0', 'column1', 'column7'],
+      flexColumnKeys: ['column2', 'column3', 'column4', 'column5', 'column6'],
+    };
+  }
 
-    const rows = generateRows(30);
+  shouldComponentUpdate(nextProps) {
+    const { aggregatorDelegate } = this.props;
+
+    const currentSelectedCell = aggregatorDelegate && aggregatorDelegate.hasFocus ? aggregatorDelegate.itemState.selectedCell : undefined;
+    const nextSelectedCell = nextProps.aggregatorDelegate && nextProps.aggregatorDelegate.hasFocus ? nextProps.aggregatorDelegate.itemState.selectedCell : undefined;
+
+    if (currentSelectedCell) {
+      if (!nextSelectedCell) {
+        return true;
+      } else if (nextSelectedCell.rowKey !== currentSelectedCell.rowKey && nextSelectedCell.columnKey !== currentSelectedCell.columnKey) {
+        return true;
+      }
+    } else if (nextSelectedCell) {
+      return true;
+    }
+
+    return false;
+  }
+
+  handleCellClick(rowKey, columnKey) {
+    const { aggregatorDelegate } = this.props;
+    if (!aggregatorDelegate) {
+      return;
+    }
+
+    const currentSelectedItem = aggregatorDelegate && aggregatorDelegate.hasFocus ? aggregatorDelegate.itemState.selectedCell : {};
+    if (currentSelectedItem.rowKey === rowKey && currentSelectedItem.columnKey === columnKey) {
+      aggregatorDelegate.releaseFocus();
+    } else {
+      aggregatorDelegate.requestFocus({
+        selectedCell: {
+          rowKey,
+          columnKey,
+        },
+      }).then(({ disclose }) => {
+        disclose({
+          preferredType: 'panel',
+          size: 'small',
+          content: {
+            key: 'worklist-disclose',
+            component: <DisclosureComponent />,
+          },
+        });
+      });
+    }
+  }
+
+  render() {
+    const { aggregatorDelegate } = this.props;
+    const { columns, rows, flexColumnKeys, fixedColumnKeys } = this.state;
+
+    let selectedCells;
+    if (aggregatorDelegate && aggregatorDelegate.hasFocus) {
+      selectedCells = [aggregatorDelegate.itemState.selectedCell];
+    }
 
     return (
       <DataGrid
-        fixedColumnKeys={['column0', 'column1', 'column7']}
-        flexColumnKeys={['column2', 'column3', 'column4', 'column5', 'column6']}
+        fixedColumnKeys={fixedColumnKeys}
+        flexColumnKeys={flexColumnKeys}
         columns={columns}
         rows={rows}
         sizeClass={cx('small-rows')}
         selectedCells={selectedCells}
-        onClick={(rowKey, columnKey) => {
-          aggregatorDelegate.requestFocus({
-            selectedCell: {
-              rowKey,
-              columnKey,
-            },
-          }).then(({ disclose }) => {
-            disclose({
-              preferredType: 'panel',
-              size: 'small',
-              content: {
-                key: 'worklist-disclose',
-                component: <DisclosureComponent />,
-              },
-            });
-          });
-        }}
+        onClick={this.handleCellClick}
       />
     );
   }
@@ -178,7 +200,7 @@ const AggregatorWrapper = props => (
       key: 'Worklist',
       component: (
         <DataGridStandard />
-        ),
+      ),
     }]}
     disclose={props.app.disclose}
     render={renderData => (
@@ -192,7 +214,9 @@ const AggregatorWrapper = props => (
 
 const SlidePanelManagerWrapper = () => (
   <div style={{ height: '500px' }}>
-    <SlidePanelManager>
+    <SlidePanelManager
+      panelBehavior="squish"
+    >
       <AggregatorWrapper />
     </SlidePanelManager>
   </div>
