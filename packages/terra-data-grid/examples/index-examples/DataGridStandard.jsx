@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames/bind';
 import Aggregator from 'terra-aggregator';
+import ModalManager from 'terra-modal-manager';
 import SlidePanelManager from 'terra-slide-panel-manager';
 import DisclosureComponent from 'terra-disclosure-manager/examples/index-examples/DisclosureComponent';
 
@@ -16,27 +17,34 @@ const generateRows = num => (new Array(num)).fill().map((val, index) => (
     data: {
       column0: {
         component: <div>Custom Content Component</div>,
+        selectable: true,
       },
       column1: {
         text: `Row ${index} Column 1`,
+        selectable: true,
       },
       column2: {
-        text: `Row ${index} Column 2`,
+        text: `Row ${index} Column 2 (Not Selectable)`,
       },
       column3: {
         text: `Row ${index} Column 3`,
+        selectable: true,
       },
       column4: {
         text: `Row ${index} Column 4`,
+        selectable: true,
       },
       column5: {
         text: `Row ${index} Column 5`,
+        selectable: true,
       },
       column6: {
         text: `Row ${index} Column 6`,
+        selectable: true,
       },
       column7: {
         text: `Row ${index} Column 7`,
+        selectable: true,
       },
     },
   }
@@ -186,7 +194,7 @@ class DataGridStandard extends React.Component {
         flexColumnKeys={flexColumnKeys}
         columns={columns}
         rows={rows}
-        sizeClass={cx('small-rows')}
+        sizeClass={cx('large-rows')}
         selectedCells={selectedCells}
         onClick={this.handleCellClick}
       />
@@ -214,11 +222,13 @@ const AggregatorWrapper = props => (
 
 const SlidePanelManagerWrapper = () => (
   <div style={{ height: '500px' }}>
-    <SlidePanelManager
-      panelBehavior="squish"
-    >
-      <AggregatorWrapper />
-    </SlidePanelManager>
+    <ModalManager>
+      <SlidePanelManager
+        panelBehavior="squish"
+      >
+        <AggregatorWrapper />
+      </SlidePanelManager>
+    </ModalManager>
   </div>
 );
 

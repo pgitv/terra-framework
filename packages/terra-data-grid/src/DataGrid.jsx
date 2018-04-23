@@ -73,28 +73,6 @@ class DataGrid extends React.Component {
     });
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   const { columns, rows, fixedColumnKeys, flexColumnKeys, selectedCells, sizeClass, onClick } = this.props;
-  //   const { fixedColumnWidth, flexColumnWidth, columnWidths, selectionMap } = this.state;
-
-  //   if (nextProps.columns === columns &&
-  //       nextProps.rows === rows &&
-  //       nextProps.fixedColumnKeys === fixedColumnKeys &&
-  //       nextProps.flexColumnKeys === flexColumnKeys &&
-  //       nextProps.selectedCells === selectedCells &&
-  //       nextProps.sizeClass === sizeClass &&
-  //       nextProps.onClick === onClick &&
-  //       nextState.fixedColumnWidth === fixedColumnWidth &&
-  //       nextState.flexColumnWidth === flexColumnWidth &&
-  //       nextState.columnWidths === columnWidths &&
-  //       nextState.selectionMap === selectionMap
-  //     ) {
-  //     return false;
-  //   }
-
-  //   return true;
-  // }
-
   componentDidMount() {
     this.verticalOverflowContainer.addEventListener('scroll', this.handleVerticalScroll);
     this.horizontalOverflowContainer.addEventListener('scroll', this.handleHorizontalScroll);
@@ -326,9 +304,9 @@ class DataGrid extends React.Component {
     return (
       <div
         key={`${rowKey} - ${columnKey}`}
-        className={cx(['cell', 'selectable', { selected: selectionMap[rowKey] && selectionMap[rowKey][columnKey] }])}
+        className={cx(['cell', { selectable: rowData.selectable, selected: selectionMap[rowKey] && selectionMap[rowKey][columnKey] }])}
         style={{ width: `${columnWidths[columnKey]}px` }}
-        tabIndex="0"
+        tabIndex={rowData.selectable ? '0' : undefined}
         data-column-key={columnKey}
         data-row-key={rowKey}
       >
@@ -366,6 +344,8 @@ class DataGrid extends React.Component {
   }
 
   render() {
+    console.log('rendering data grid');
+
     const { onClick } = this.props;
     const { fixedColumnWidth } = this.state;
 
