@@ -59,13 +59,14 @@ class DataGrid extends React.Component {
     super(props);
 
     this.updateWidths = this.updateWidths.bind(this);
-    this.handleVerticalScroll = this.handleVerticalScroll.bind(this);
-    this.handleHorizontalScroll = this.handleHorizontalScroll.bind(this);
+    // this.handleVerticalScroll = this.handleVerticalScroll.bind(this);
+    // this.handleHorizontalScroll = this.handleHorizontalScroll.bind(this);
     this.renderHeaderCell = this.renderHeaderCell.bind(this);
     this.renderFixedColumnHeaderRow = this.renderFixedColumnHeaderRow.bind(this);
     this.renderOverflowHeaderRow = this.renderOverflowHeaderRow.bind(this);
     this.renderStickyHeader = this.renderStickyHeader.bind(this);
     this.renderContent = this.renderContent.bind(this);
+    this.renderFixedContent = this.renderFixedContent.bind(this);
     this.renderContentCell = this.renderContentCell.bind(this);
 
     this.state = Object.assign({}, DataGrid.generateWidthState(props), {
@@ -74,11 +75,11 @@ class DataGrid extends React.Component {
   }
 
   componentDidMount() {
-    this.verticalOverflowContainer.addEventListener('scroll', this.handleVerticalScroll);
-    this.horizontalOverflowContainer.addEventListener('scroll', this.handleHorizontalScroll);
+    // this.verticalOverflowContainer.addEventListener('scroll', this.handleVerticalScroll);
+    // this.horizontalOverflowContainer.addEventListener('scroll', this.handleHorizontalScroll);
 
     // Need to ensure the overflow header renders at the appropriate position.
-    this.overflowHeaderContainer.style.top = `${this.verticalOverflowContainer.scrollTop}px`;
+    // this.overflowHeaderContainer.style.top = `${this.verticalOverflowContainer.scrollTop}px`;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -101,75 +102,75 @@ class DataGrid extends React.Component {
   }
 
   componentWillUnmount() {
-    this.verticalOverflowContainer.removeEventListener('scroll', this.handleVerticalScroll);
-    this.horizontalOverflowContainer.removeEventListener('scroll', this.handleHorizontalScroll);
+    // this.verticalOverflowContainer.removeEventListener('scroll', this.handleVerticalScroll);
+    // this.horizontalOverflowContainer.removeEventListener('scroll', this.handleHorizontalScroll);
   }
 
-  handleHorizontalScroll(event) {
-    if (this.isVerticalScrolling) {
-      event.preventDefault();
-      return;
-    }
+  // handleHorizontalScroll(event) {
+  //   if (this.isVerticalScrolling) {
+  //     event.preventDefault();
+  //     return;
+  //   }
 
-    // Firefox triggers a scroll event on the horizontal overflow container when the vertical overflow container's overflow style
-    // is toggled off and on. We're checking the scroll position here to detect whether or not a scroll actually occurred and abort,
-    // lest we loop infiniitely.
-    if (this.horizontalScrollLeft === this.horizontalOverflowContainer.scrollLeft) {
-      return;
-    }
+  //   // Firefox triggers a scroll event on the horizontal overflow container when the vertical overflow container's overflow style
+  //   // is toggled off and on. We're checking the scroll position here to detect whether or not a scroll actually occurred and abort,
+  //   // lest we loop infiniitely.
+  //   if (this.horizontalScrollLeft === this.horizontalOverflowContainer.scrollLeft) {
+  //     return;
+  //   }
 
-    this.horizontalScrollLeft = this.horizontalOverflowContainer.scrollLeft;
+  //   this.horizontalScrollLeft = this.horizontalOverflowContainer.scrollLeft;
 
-    if (!this.isHorizontalScrolling) {
-      this.isHorizontalScrolling = true;
+  //   if (!this.isHorizontalScrolling) {
+  //     this.isHorizontalScrolling = true;
 
-      this.verticalOverflowContainer.style.overflow = 'hidden';
-    }
+  //     this.verticalOverflowContainer.style.overflow = 'hidden';
+  //   }
 
-    if (this.horizontalScrollTimeout) {
-      clearTimeout(this.horizontalScrollTimeout);
-    }
+  //   if (this.horizontalScrollTimeout) {
+  //     clearTimeout(this.horizontalScrollTimeout);
+  //   }
 
-    this.horizontalScrollTimeout = setTimeout(() => {
-      this.isHorizontalScrolling = false;
-      this.verticalOverflowContainer.style.overflow = '';
-    }, 100);
-  }
+  //   this.horizontalScrollTimeout = setTimeout(() => {
+  //     this.isHorizontalScrolling = false;
+  //     this.verticalOverflowContainer.style.overflow = '';
+  //   }, 100);
+  // }
 
-  handleVerticalScroll(event) {
-    if (this.isHorizontalScrolling) {
-      event.preventDefault();
-      return;
-    }
+  // handleVerticalScroll(event) {
+  //   if (this.isHorizontalScrolling) {
+  //     event.preventDefault();
+  //     return;
+  //   }
 
-    if (!this.isVerticalScrolling) {
-      this.isVerticalScrolling = true;
+  //   if (!this.isVerticalScrolling) {
+  //     this.isVerticalScrolling = true;
 
-      this.fixedHeaderOverfowContainer.style.visibility = 'visible';
-      this.fixedHeaderOverfowContainer.style['z-index'] = '10001';
-      this.fixedHeaderOverfowContainer.scrollLeft = this.horizontalOverflowContainer.scrollLeft;
+  //     this.fixedHeaderOverfowContainer.style.visibility = 'visible';
+  //     this.fixedHeaderOverfowContainer.style['z-index'] = '10001';
+  //     this.fixedHeaderOverfowContainer.scrollLeft = this.horizontalOverflowContainer.scrollLeft;
 
-      this.overflowHeaderContainer.style.visibility = 'hidden';
+  //     this.overflowHeaderContainer.style.visibility = 'hidden';
 
-      this.horizontalOverflowContainer.style.overflow = 'hidden';
-    }
+  //     this.horizontalOverflowContainer.style.overflow = 'hidden';
+  //   }
 
-    if (this.verticalScrollTimeout) {
-      clearTimeout(this.verticalScrollTimeout);
-    }
+  //   if (this.verticalScrollTimeout) {
+  //     clearTimeout(this.verticalScrollTimeout);
+  //   }
 
-    this.verticalScrollTimeout = setTimeout(() => {
-      this.isVerticalScrolling = false;
+  //   this.verticalScrollTimeout = setTimeout(() => {
+  //     this.isVerticalScrolling = false;
 
-      this.fixedHeaderOverfowContainer.style.visibility = '';
-      this.fixedHeaderOverfowContainer.style['z-index'] = '';
+  //     this.fixedHeaderOverfowContainer.style.visibility = '';
+  //     this.fixedHeaderOverfowContainer.style['z-index'] = '';
 
-      this.overflowHeaderContainer.style.visibility = '';
-      this.overflowHeaderContainer.style.top = `${this.verticalOverflowContainer.scrollTop}px`;
+  //     this.overflowHeaderContainer.style.visibility = '';
+  //     this.overflowHeaderContainer.style.top = `${this.verticalOverflowContainer.scrollTop}px`;
 
-      this.horizontalOverflowContainer.style.overflow = '';
-    }, 100);
-  }
+  //     this.horizontalOverflowContainer.style.overflow = '';
+  //   }, 100);
+  // }
 
   updateWidths(columnKey, widthDelta, minWidth) {
     const columnWidths = Object.assign({}, this.state.columnWidths);
@@ -233,7 +234,9 @@ class DataGrid extends React.Component {
 
     return (
       <div key={columnKey} className={cx(['cell', 'header-cell', 'selectable'])} style={{ width: `${this.state.columnWidths[columnKey]}px` }} tabIndex="0">
-        {content}
+        <div style={{ height: '100%', width: '100%', overflow: 'hidden' }} >
+          {content}
+        </div>
         {resizeHandle}
       </div>
     );
@@ -248,7 +251,7 @@ class DataGrid extends React.Component {
         className={cx('fixed-column-header-container')}
         style={{ width: `${fixedColumnWidth}px` }}
       >
-        <div className={cx(['row', 'header-row'])} style={{ width: `${flexColumnWidth}px` }}>
+        <div className={cx(['row', 'header-row'])} style={{ width: `${fixedColumnWidth}px` }}>
           {fixedColumnKeys.map(columnKey => this.renderHeaderCell(columnKey, columns[columnKey], true))}
         </div>
       </div>
@@ -333,11 +336,39 @@ class DataGrid extends React.Component {
 
       return (
         <div key={row.key} className={cx(['row', { 'stripe-row': index % 2 > 0 }, sizeClass])} style={{ width: `${flexColumnWidth}px` }}>
-          <div className={cx(['fixed-column-container', sizeClass])} style={{ width: `${fixedColumnWidth}px` }}>
+          {/* <div className={cx(['fixed-column-container', sizeClass])} style={{ width: `${fixedColumnWidth}px` }}>
             {fixedColumnKeys.map(columnKey => this.renderContentCell(columnKey, row.key, row.data[columnKey]))}
-          </div>
+          </div> */}
           {flexColumnKeys.map(columnKey => this.renderContentCell(columnKey, row.key, row.data[columnKey]))}
           <div className={cx('buffer-cell')} />
+        </div>
+      );
+    });
+  }
+
+  renderFixedContent() {
+    const { rows, fixedColumnKeys, flexColumnKeys, sizeClass } = this.props;
+
+    const { fixedColumnWidth, flexColumnWidth } = this.state;
+
+    return rows.map((row, index) => {
+      const fixedColumnRowData = [];
+      fixedColumnKeys.forEach(fixedColumnKey => (
+        fixedColumnRowData.push(row.data[fixedColumnKey])
+      ));
+
+      const flexColumnRowData = [];
+      flexColumnKeys.forEach(flexColumnKey => (
+        flexColumnRowData.push(row.data[flexColumnKey])
+      ));
+
+      return (
+        <div key={row.key} className={cx(['row', { 'stripe-row': index % 2 > 0 }, sizeClass])} style={{ width: `${fixedColumnWidth}px` }}>
+          {/* <div className={cx(['fixed-column-container', sizeClass])} style={{ width: `${fixedColumnWidth}px` }}> */}
+          {fixedColumnKeys.map(columnKey => this.renderContentCell(columnKey, row.key, row.data[columnKey]))}
+          {/* </div> */}
+          {/* {flexColumnKeys.map(columnKey => this.renderContentCell(columnKey, row.key, row.data[columnKey]))}
+          <div className={cx('buffer-cell')} /> */}
         </div>
       );
     });
@@ -383,26 +414,43 @@ class DataGrid extends React.Component {
     return (
       <div className={cx('container')}>
         {this.renderFixedColumnHeaderRow()}
-        {this.renderStickyHeader()}
-        <div
-          ref={(ref) => { this.verticalOverflowContainer = ref; }}
-          {...verticalOverflowContainerProps}
-        >
-          <div
-            ref={(ref) => { this.horizontalOverflowContainer = ref; }}
-            {...horizontalOverflowContainerProps}
-          >
-            <div
-              ref={(ref) => { this.overflowHeaderContainer = ref; }}
-              {...overflowHeaderContainerProps}
-            >
-              {this.renderOverflowHeaderRow()}
-            </div>
+        <div className={cx('overflow-container')}>
+          <div className={cx('scroll-header')} style={{ width: `${this.state.flexColumnWidth}px`, marginLeft: `${this.state.fixedColumnWidth}px` }}>
+            {this.renderOverflowHeaderRow()}
+          </div>
+          <div className={cx('fixed-content')} style={{ width: `${this.state.fixedColumnWidth}px` }}>
+            {this.renderFixedContent()}
+          </div>
+          <div className={cx('scroll-content')} style={{ width: `${this.state.flexColumnWidth}px`, marginLeft: `${this.state.fixedColumnWidth}px` }}>
             {this.renderContent()}
           </div>
         </div>
       </div>
     );
+
+    // return (
+    //   <div className={cx('container')}>
+    //     {this.renderFixedColumnHeaderRow()}
+    //     {this.renderStickyHeader()}
+    //     <div
+    //       ref={(ref) => { this.verticalOverflowContainer = ref; }}
+    //       {...verticalOverflowContainerProps}
+    //     >
+    //       <div
+    //         ref={(ref) => { this.horizontalOverflowContainer = ref; }}
+    //         {...horizontalOverflowContainerProps}
+    //       >
+    //         <div
+    //           ref={(ref) => { this.overflowHeaderContainer = ref; }}
+    //           {...overflowHeaderContainerProps}
+    //         >
+    //           {this.renderOverflowHeaderRow()}
+    //         </div>
+    //         {this.renderContent()}
+    //       </div>
+    //     </div>
+    //   </div>
+    // );
   }
 }
 

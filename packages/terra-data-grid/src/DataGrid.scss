@@ -1,6 +1,7 @@
 :local {
   .container {
     height: 100%;
+    width: 100%;
     overflow: hidden;
     position: relative;
   }
@@ -37,7 +38,6 @@
   .header-row {
     border-bottom: 1px solid grey;
     height: 2rem;
-    overflow: hidden;
     background-color: lightgrey;
   }
 
@@ -79,7 +79,7 @@
 
   .fixed-column-container {
     position: absolute;
-    transform: translate3d(-100%, 0, -1px);
+    transform: translate3d(-100%, 0, 0);
     display: flex;
     z-index: 1000;
 
@@ -114,7 +114,6 @@
 
     &.react-draggable-dragging {
       background-color: darkslategrey;
-      z-index: 10000;
     }
   }
 
@@ -161,5 +160,39 @@
     word-break: normal;
     word-wrap: normal;
     padding: 5px;
+  }
+
+  // Sticky implementation
+
+  .overflow-container {
+    height: 100%;
+    width: 100%;
+    background-color: red;
+    overflow: auto;
+  }
+
+  .fixed-content {
+    background-color: green;
+    position: sticky;
+    position: -webkit-sticky;
+    left: 0;
+    height: 0;
+    overflow: visible;
+    z-index: 100;
+  }
+
+  .scroll-header {
+    height: 2rem;
+    background-color: yellow;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 101;
+    transform: translateY(0);
+  }
+
+  .scroll-content {
+    background-color: blue;
+    position: relative;
   }
 }

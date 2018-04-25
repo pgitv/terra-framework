@@ -172,7 +172,7 @@ class DataGridStandard extends React.Component {
           size: 'small',
           content: {
             key: 'worklist-disclose',
-            component: <DisclosureComponent />,
+            component: <DisclosureComponent name={`${rowKey} - ${columnKey}`} />,
           },
         });
       });
