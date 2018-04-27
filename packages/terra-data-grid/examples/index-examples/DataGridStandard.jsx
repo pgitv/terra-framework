@@ -24,11 +24,10 @@ const generateRows = num => (new Array(num)).fill().map((val, index) => (
         selectable: true,
       },
       column2: {
-        text: `Row ${index} Column 2 (Not Selectable)`,
+        text: `Row ${index} Column 2`,
       },
       column3: {
-        text: `Row ${index} Column 3`,
-        selectable: true,
+        noData: true,
       },
       column4: {
         text: `Row ${index} Column 4`,
@@ -80,7 +79,7 @@ class DataGridStandard extends React.Component {
         sortDirection: 'ascending',
         sortWeight: 'primary',
         resize: true,
-        text: 'Column 2',
+        text: 'Column 2 (Not Selectable)',
       },
       column3: {
         startWidth: 400,
@@ -88,7 +87,7 @@ class DataGridStandard extends React.Component {
         sortDirection: 'ascending',
         sortWeight: 'primary',
         resize: true,
-        text: 'Column 3',
+        text: 'Column 3 (No Data)',
       },
       column4: {
         startWidth: 400,
