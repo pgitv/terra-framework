@@ -332,14 +332,14 @@ class DataGrid extends React.Component {
       >
         {this.renderFixedHeaderRow()}
         <div className={cx('overflow-container')}>
-          <div className={cx('scroll-header')} style={{ width: `${this.state.flexColumnWidth}px`, marginLeft: `${this.state.fixedColumnWidth}px` }}>
+          <div className={cx('scroll-header')} style={{ width: `${this.state.flexColumnWidth}px`, paddingLeft: `${this.state.fixedColumnWidth}px` }}>
             {this.renderOverflowHeaderRow()}
           </div>
           <div className={cx('fixed-content')} style={{ width: `${this.state.fixedColumnWidth}px` }}>
             {this.renderFixedContent()}
           </div>
           <div
-            className={cx('scroll-content')} style={{ width: `${this.state.flexColumnWidth}px`, marginLeft: `${this.state.fixedColumnWidth}px` }}
+            className={cx('scroll-content')} style={{ width: `${this.state.flexColumnWidth}px`, paddingLeft: `${this.state.fixedColumnWidth}px` }}
             ref={(ref) => {
               this.scrollContentRef = ref;
               if (this.scrollContentRef) {
