@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { DraggableCore } from 'react-draggable';
+import IconCaretUp from 'terra-icon/lib/icon/IconCaretUp';
+import IconCaretDown from 'terra-icon/lib/icon/IconCaretDown';
 
 import styles from './DataGrid.scss';
 
@@ -10,11 +12,13 @@ const cx = classNames.bind(styles);
 const propTypes = {
   fixedColumnKeys: PropTypes.arrayOf(PropTypes.string),
   flexColumnKeys: PropTypes.arrayOf(PropTypes.string),
+  sortedColumns: PropTypes.object,
 };
 
 const defaultProps = {
   fixedColumnKeys: [],
   flexColumnKeys: [],
+  sortedColumns: {},
 };
 
 const DefaultCell = ({ text }) => (
@@ -22,6 +26,27 @@ const DefaultCell = ({ text }) => (
     {text}
   </div>
 );
+
+const DefaultHeaderCell = ({ text, sortable, sortDirection }) => {
+  let sortIndicator;
+  if (sortable) {
+    sortIndicator = (
+      <div className={cx('sort-indicator')}>
+        {sortDirection === 'ascending' ? <IconCaretUp /> : null}
+        {sortDirection === 'descending' ? <IconCaretDown /> : null}
+      </div>
+    );
+  }
+
+  return (
+    <div className={cx('default-header-cell')}>
+      <div className={cx('text')}>
+        {text}
+      </div>
+      {sortIndicator}
+    </div>
+  );
+};
 
 class DataGrid extends React.Component {
   static generateWidthState(props) {
@@ -69,6 +94,7 @@ class DataGrid extends React.Component {
 
     this.updateWidths = this.updateWidths.bind(this);
     this.handleContentClick = this.handleContentClick.bind(this);
+    this.handleHeaderClick = this.handleHeaderClick.bind(this);
 
     this.renderHeaderCell = this.renderHeaderCell.bind(this);
     this.renderFixedHeaderRow = this.renderFixedHeaderRow.bind(this);
@@ -124,16 +150,16 @@ class DataGrid extends React.Component {
     });
   }
 
-  renderHeaderCell(columnKey, columnData, enableResize) {
+  renderHeaderCell(columnKey, columnData, sortedColumns) {
     let content;
     if (columnData.text) {
-      content = <DefaultCell text={columnData.text} />;
+      content = <DefaultHeaderCell text={columnData.text} sortable={columnData.sortable} sortDirection={sortedColumns[columnKey]} />;
     } else if (columnData.component) {
       content = columnData.component;
     }
 
     let resizeHandle;
-    if (enableResize) {
+    if (columnData.resizable) {
       resizeHandle = (
         <DraggableCore
           onStart={(event, data) => {
@@ -168,7 +194,14 @@ class DataGrid extends React.Component {
     }
 
     return (
-      <div key={columnKey} className={cx(['cell', 'header-cell', 'selectable'])} style={{ width: `${this.state.columnWidths[columnKey]}px` }} tabIndex="0">
+      <div
+        key={columnKey}
+        data-column-key={columnKey}
+        className={cx(['cell', 'header-cell', { selectable: columnData.sortable }])}
+        style={{ width: `${this.state.columnWidths[columnKey]}px` }}
+        tabIndex={columnData.sortable ? '0' : null}
+        onClick={this.handleHeaderClick}
+      >
         <div style={{ height: '100%', width: '100%', overflow: 'hidden' }} >
           {content}
         </div>
@@ -178,7 +211,7 @@ class DataGrid extends React.Component {
   }
 
   renderFixedHeaderRow() {
-    const { columns, fixedColumnKeys } = this.props;
+    const { columns, fixedColumnKeys, sortedColumns } = this.props;
     const { fixedColumnWidth, flexColumnWidth } = this.state;
 
     return (
@@ -187,19 +220,19 @@ class DataGrid extends React.Component {
         style={{ width: `${fixedColumnWidth}px` }}
       >
         <div className={cx(['row', 'header-row'])} style={{ width: `${fixedColumnWidth}px` }}>
-          {fixedColumnKeys.map(columnKey => this.renderHeaderCell(columnKey, columns[columnKey], true))}
+          {fixedColumnKeys.map(columnKey => this.renderHeaderCell(columnKey, columns[columnKey], sortedColumns))}
         </div>
       </div>
     );
   }
 
   renderOverflowHeaderRow() {
-    const { columns, flexColumnKeys } = this.props;
+    const { columns, flexColumnKeys, sortedColumns } = this.props;
     const { flexColumnWidth } = this.state;
 
     return (
       <div className={cx(['row', 'header-row'])} style={{ width: `${flexColumnWidth}px` }}>
-        {flexColumnKeys.map(columnKey => this.renderHeaderCell(columnKey, columns[columnKey], true))}
+        {flexColumnKeys.map(columnKey => this.renderHeaderCell(columnKey, columns[columnKey], sortedColumns))}
         <div className={cx('buffer-cell')} />
       </div>
     );
@@ -253,6 +286,22 @@ class DataGrid extends React.Component {
         {fixedColumnKeys.map(columnKey => this.renderContentCell(columnKey, row.key, row.data[columnKey]))}
       </div>
     ));
+  }
+
+  handleHeaderClick(event) {
+    const { onHeaderClick, columns } = this.props;
+
+    const headerCellNode = event.currentTarget;
+
+    if (!headerCellNode.classList.contains(cx('header-cell'))) {
+      return;
+    }
+
+    if (headerCellNode.classList.contains(cx('selectable')) && onHeaderClick) {
+      const columnKey = headerCellNode.getAttribute('data-column-key');
+
+      onHeaderClick(headerCellNode.getAttribute('data-column-key'));
+    }
   }
 
   handleContentClick(event) {
