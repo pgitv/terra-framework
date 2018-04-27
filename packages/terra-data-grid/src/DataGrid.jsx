@@ -186,9 +186,7 @@ class DataGrid extends React.Component {
             node.style.transform = `translate3d(${this.scrollPosition}px, 0, 0)`;
           }}
         >
-          <div className={cx('drag-region')}>
-            <div className={cx('inner-drag')} />
-          </div>
+          <div className={cx('drag-region')} />
         </DraggableCore>
       );
     }
@@ -290,6 +288,14 @@ class DataGrid extends React.Component {
 
   handleHeaderClick(event) {
     const { onHeaderClick, columns } = this.props;
+
+    /**
+     * If the click event target is the resize handle, we do not want to
+     * recognize the click.
+     */
+    if (event.target.classList.contains(cx('drag-region'))) {
+      return;
+    }
 
     const headerCellNode = event.currentTarget;
 
