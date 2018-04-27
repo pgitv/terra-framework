@@ -57,16 +57,16 @@ class DataGridStandard extends React.Component {
 
     const columns = {
       column0: {
-        startWidth: 200,
+        startWidth: 300,
         minWidth: 100,
         sortable: true,               // Not implemented yet
         sortDirection: 'ascending',   // Not implemented yet
         sortWeight: 'primary',        // Not implemented yet
         resize: true,
-        component: <div>Custom Header Component</div>,
+        component: <div>Column 0 (Custom Header Component)</div>,
       },
       column1: {
-        startWidth: 100,
+        startWidth: 200,
         sortable: true,
         sortDirection: 'ascending',
         sortWeight: 'primary',
@@ -74,7 +74,7 @@ class DataGridStandard extends React.Component {
         text: 'Column 1',
       },
       column2: {
-        startWidth: 300,
+        startWidth: 200,
         sortable: true,
         sortDirection: 'ascending',
         sortWeight: 'primary',
@@ -82,10 +82,8 @@ class DataGridStandard extends React.Component {
         text: 'Column 2 (Not Selectable)',
       },
       column3: {
-        startWidth: 400,
-        sortable: true,
-        sortDirection: 'ascending',
-        sortWeight: 'primary',
+        startWidth: 200,
+        sortable: false,
         resize: true,
         text: 'Column 3 (No Data)',
       },
@@ -114,7 +112,7 @@ class DataGridStandard extends React.Component {
         text: 'Column 6',
       },
       column7: {
-        startWidth: 400,
+        startWidth: 200,
         sortable: true,
         sortDirection: 'ascending',
         sortWeight: 'primary',
@@ -126,8 +124,8 @@ class DataGridStandard extends React.Component {
     this.state = {
       columns,
       rows: generateRows(30),
-      fixedColumnKeys: ['column0', 'column1', 'column7'],
-      flexColumnKeys: ['column2', 'column3', 'column4', 'column5', 'column6'],
+      fixedColumnKeys: ['column1', 'column2', 'column7'],
+      flexColumnKeys: ['column4', 'column5', 'column6', 'column3', 'column0'],
     };
   }
 
@@ -171,7 +169,7 @@ class DataGridStandard extends React.Component {
           size: 'small',
           content: {
             key: 'worklist-disclose',
-            component: <DisclosureComponent name={`${rowKey} - ${columnKey}`} />,
+            component: <DisclosureComponent name={`${rowKey} - ${columnKey}`} disclosureType="panel" />,
           },
         });
       });

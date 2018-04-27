@@ -39,6 +39,10 @@
     box-shadow: inset 0 0 5px 0px #0092e0;
   }
 
+  .cell.selectable.selected:hover {
+    background-color: var(--terra-data-grid-cell-selected-background-color,#e2f2fc);
+  }
+
   .header-cell.selectable:hover {
     background-color: lightgrey;
   }
