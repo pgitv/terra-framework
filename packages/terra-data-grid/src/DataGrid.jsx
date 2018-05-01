@@ -48,6 +48,25 @@ const DefaultHeaderCell = ({ text, sortable, sortDirection }) => {
   );
 };
 
+let stickyIsSupported;
+if (!window.getComputedStyle) {
+  stickyIsSupported = false;
+} else {
+  const testNode = document.createElement('div');
+
+  stickyIsSupported = ['', '-webkit-', '-moz-', '-ms-'].some((prefix) => {
+    try {
+      testNode.style.position = `${prefix}sticky`;
+    } catch (e) {
+      // Exception can be thrown if position value is not supported.
+    }
+
+    return testNode.style.position !== '';
+  });
+}
+
+stickyIsSupported = false;
+
 class DataGrid extends React.Component {
   static generateWidthState(props) {
     const fixedColumnWidth = props.fixedColumnKeys.length ?
@@ -127,6 +146,7 @@ class DataGrid extends React.Component {
     }
   }
 
+
   updateWidths(columnKey, widthDelta, minWidth) {
     const columnWidths = Object.assign({}, this.state.columnWidths);
     const minimumColumnWidth = minWidth || 50;
@@ -166,7 +186,7 @@ class DataGrid extends React.Component {
             const node = data.node;
 
             node.classList.add(cx('react-draggable-dragging'));
-            node.style.height = `${this.containerHeight}px`;
+            node.style.height = `${this.containerRef.clientHeight}px`;
 
             this.scrollPosition = 0;
           }}
@@ -329,19 +349,23 @@ class DataGrid extends React.Component {
 
     return (
       <div
-        className={cx('container')}
+        className={cx(['container', { 'legacy-sticky': !stickyIsSupported }])}
         ref={(ref) => {
-          if (ref) {
-            this.containerHeight = ref.clientHeight;
-          }
+          this.containerRef = ref;
         }}
       >
         {this.renderFixedHeaderRow()}
-        <div className={cx('overflow-container')}>
-          <div className={cx('scroll-header')} style={{ width: `${this.state.flexColumnWidth}px`, paddingLeft: `${this.state.fixedColumnWidth}px` }}>
+        <div className={cx(['overflow-container', { 'legacy-sticky': !stickyIsSupported }])}>
+          <div
+            className={cx('scroll-header')}
+            style={{ width: `${this.state.flexColumnWidth}px`, paddingLeft: `${this.state.fixedColumnWidth}px` }}
+          >
             {this.renderOverflowHeaderRow()}
           </div>
-          <div className={cx('fixed-content')} style={{ width: `${this.state.fixedColumnWidth}px` }}>
+          <div
+            className={cx(['fixed-content', { 'legacy-sticky': !stickyIsSupported }])}
+            style={{ width: `${this.state.fixedColumnWidth}px` }}
+          >
             {this.renderFixedContent()}
           </div>
           <div
