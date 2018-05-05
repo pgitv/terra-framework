@@ -65,7 +65,7 @@ if (!window.getComputedStyle) {
   });
 }
 
-stickyIsSupported = false;
+// stickyIsSupported = false;
 
 class DataGrid extends React.Component {
   static generateWidthState(props) {
