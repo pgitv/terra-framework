@@ -45,6 +45,10 @@ const propTypes = {
   /*
    * Toggle to show dialog modal or not.
    */
+  isFocused: PropTypes.bool,
+  /*
+   * Toggle to show dialog modal or not.
+   */
   isOpen: PropTypes.bool,
   /**
    * A callback function to let the containing component (e.g. modal) to regain focus.
@@ -63,6 +67,7 @@ const propTypes = {
 const defaultProps = {
   children: null,
   isOpen: false,
+  isFocused: false,
   releaseFocus: null,
   requestFocus: null,
   width: '480',
@@ -74,6 +79,7 @@ class DialogModal extends React.Component {
       footer,
       children,
       onRequestClose,
+      isFocused,
       isOpen,
       releaseFocus,
       requestFocus,
@@ -94,6 +100,7 @@ class DialogModal extends React.Component {
     return (
       <div {...customProps} className={DialogModalClassNames}>
         <AbstractModal
+          isFocused={isFocused}
           ariaLabel={this.props.ariaLabel}
           classNameModal={cx('dialog-modal', `width-${widthFromSize[width]}`)}
           isOpen={this.props.isOpen}

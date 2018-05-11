@@ -16,6 +16,7 @@ import DefaultDialogModal from './index-examples/DefaultDialogModal';
 import DefaultDialogModalSrc from '!raw-loader!./index-examples/DefaultDialogModal.jsx';
 import DialogModalWithLongText from './index-examples/DialogModalWithLongText';
 import DialogModalWithLongTextSrc from '!raw-loader!./index-examples/DialogModalWithLongText.jsx';
+import Frakenstien from './index-examples/Frankenstien';
 
 const DialogModalExamples = () => (
   <div>
@@ -33,6 +34,7 @@ const DialogModalExamples = () => (
       example={<DialogModalWithLongText />}
       exampleSrc={DialogModalWithLongTextSrc}
     />
+    <Frakenstien />
 
     <PropsTable id="props" src={DialogModalSrc} />
   </div>
