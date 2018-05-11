@@ -94,8 +94,6 @@ class DefaultDialogModal extends React.Component {
           onRequestClose={this.handleCloseModal}
           header={<ActionHeader title="Action Header used here" onClose={this.handleCloseModal} />}
           footer={<ActionFooter start="Footer Goes here" />}
-          releaseFocus={app.releaseFocus}
-          requestFocus={app.requestFocus}
         >
           <p>{paraOne}</p>
           <div>
