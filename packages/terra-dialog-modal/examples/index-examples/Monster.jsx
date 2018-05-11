@@ -89,7 +89,6 @@ class DefaultDialogModal extends React.Component {
     return (
       <div>
         <DialogModal
-          isFocused={this.state.isFocused}
           ariaLabel="Default Dialog Modal"
           isOpen={this.state.isOpen}
           onRequestClose={this.handleCloseModal}
