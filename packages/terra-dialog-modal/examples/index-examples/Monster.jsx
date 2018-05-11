@@ -26,6 +26,7 @@ class DefaultDialogModal extends React.Component {
       isPopupOpen: false,
     };
 
+    this.handleDismissModal = this.handleDismissModal.bind(this);
     this.handleOpenModal = this.handleOpenModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleOnRequestFocus = this.handleOnRequestFocus.bind(this);
@@ -35,9 +36,7 @@ class DefaultDialogModal extends React.Component {
   }
 
   componentDidMount() {
-    console.log('whomp');
     if (this.state.isFocused && this.state.isOpen && this.props.app.requestFocus) {
-      console.log('poo');
       this.props.app.requestFocus();
     }
   }
@@ -51,6 +50,12 @@ class DefaultDialogModal extends React.Component {
   componentWillUnmount() {
     if (this.props.app.releaseFocus) {
       this.props.app.releaseFocus();
+    }
+  }
+
+  handleDismissModal() {
+    if (this.props.app.dismiss) {
+      this.props.app.dismiss();
     }
   }
 
@@ -71,7 +76,6 @@ class DefaultDialogModal extends React.Component {
   }
 
   handleButtonClick() {
-    console.log('should open');
     this.setState({ isPopupOpen: true });
   }
 
@@ -90,6 +94,7 @@ class DefaultDialogModal extends React.Component {
       <div>
         <DialogModal
           ariaLabel="Default Dialog Modal"
+          isFocused={this.state.isFocused}
           isOpen={this.state.isOpen}
           onRequestClose={this.handleCloseModal}
           header={<ActionHeader title="Action Header used here" onClose={this.handleCloseModal} />}
@@ -99,17 +104,18 @@ class DefaultDialogModal extends React.Component {
           <div>
             <Popup
               isOpen={this.state.isPopupOpen}
-              targetRef={() => document.getElementById('poo')}
+              targetRef={() => document.getElementById('pop')}
               onRequestClose={this.handleRequestClose}
               releaseFocus={this.handleOnReleaseFocus}
               requestFocus={this.handleOnRequestFocus}
             >
               <p>{paraOne}</p>
             </Popup>
-            <Button id="poo" text="Default Popup" onClick={this.handleButtonClick} />
+            <Button id="pop" text="Default Popup" onClick={this.handleButtonClick} />
           </div>
         </DialogModal>
         <Button text="Trigger Dialog Modal" onClick={this.handleOpenModal} />
+        <Button text="Dismiss Dialog Modal" onClick={this.handleDismissModal} />
       </div>
     );
   }

@@ -29,7 +29,7 @@ class DefaultDialogModal extends React.Component {
     /* eslint-enable no-unused-vars */
 
     return (
-      <Button text="Poo" onClick={this.disclose} />
+      <Button text="Disclose" onClick={this.disclose} />
     );
   }
 }
