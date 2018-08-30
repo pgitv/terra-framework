@@ -1,10 +1,10 @@
 /* global before, browser, Terra */
 const selector = '#root';
+const formFactor = browser.options.formFactor;
+const viewports = formFactor ? Terra.viewports(formFactor) : Terra.viewports('tiny', 'medium', 'large');
 
-Terra.viewports('tiny', 'medium', 'large').forEach((viewport) => {
-  before(() => {
-    browser.setViewportSize(viewport);
-  });
+viewports.forEach((viewport) => {
+  before(() => !formFactor ? browser.setViewportSize(viewport) : null);
 
   describe('Default Dialog Modal', () => {
     beforeEach(() => {

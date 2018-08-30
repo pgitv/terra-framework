@@ -1,15 +1,18 @@
-/* global browser, Terra, before */
+const formFactor = browser.options.formFactor;
+const viewports = formFactor ? Terra.viewports(formFactor) : Terra.viewports('tiny', 'medium');
 
-const viewports = Terra.viewports('tiny', 'medium');
+viewports.forEach((viewport) => {
+  describe('Application Menu', () => {
+    before(() => !formFactor ? browser.setViewportSize(viewport) : null);
 
-describe('Application Menu', () => {
-  describe('Displays a default application menu', () => {
-    before(() => {
-      browser.url('/#/raw/tests/terra-application-menu-layout/application-menu-layout/application-menu-default');
-      browser.waitForVisible('#test-menu');
+    describe('Displays a default application menu', () => {
+      before(() => {
+        browser.url('/#/raw/tests/terra-application-menu-layout/application-menu-layout/application-menu-default');
+        browser.waitForVisible('#test-menu');
+      });
+
+      Terra.should.matchScreenshot({ selector: '#test-menu' });
+      Terra.should.beAccessible({ context: '#test-menu' });
     });
-
-    Terra.should.matchScreenshot({ viewports, selector: '#test-menu' });
-    Terra.should.beAccessible({ viewports, context: '#test-menu' });
   });
 });
