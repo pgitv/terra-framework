@@ -44,6 +44,7 @@ viewports.forEach((viewport) => {
       Terra.should.beAccessible();
     });
 
+    if (viewport.name != 'tiny' || viewport.name != 'small')
     describe('With Disclosure - Close from explicit close', () => {
       beforeEach(() => {
         browser.url('/#/raw/tests/terra-aggregator/aggregator/aggregator-with-disclosure');

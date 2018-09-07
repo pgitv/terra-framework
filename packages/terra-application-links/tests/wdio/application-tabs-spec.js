@@ -115,7 +115,7 @@ viewports.forEach((viewport) => {
         browser.pause(100);
       });
 
-      Terra.should.beAccessible();
+      Terra.should.beAccessible({ context: selector });
       Terra.should.matchScreenshot('External tabs', { selector: 'body' });
     });
   });
