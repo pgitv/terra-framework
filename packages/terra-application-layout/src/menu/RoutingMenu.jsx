@@ -115,9 +115,9 @@ class RoutingMenu extends React.Component {
       routeFunc = () => window.open(data.metaData.externalLink.path, data.metaData.externalLink.target || '_blank');
     } else {
       routeFunc = () => {
-        // routingStackDelegate.show({ path: pathWithCurrentParameters });
-        // return Promise.resolve();
-        return this.props.managedRouting.push(pathWithCurrentParameters);
+        routingStackDelegate.show({ path: pathWithCurrentParameters });
+        return Promise.resolve();
+        // return this.props.managedRouting.push(pathWithCurrentParameters);
       };
     }
 
@@ -137,7 +137,9 @@ class RoutingMenu extends React.Component {
   }
 
   render() {
-    const { title, routingStackDelegate, menuItems, layoutConfig } = this.props;
+    const {
+      title, routingStackDelegate, menuItems, layoutConfig,
+    } = this.props;
     const { selectedChildKey } = this.state;
 
     /**
