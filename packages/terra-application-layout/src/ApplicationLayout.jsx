@@ -216,7 +216,7 @@ class ApplicationLayout extends React.Component {
             } : null}
             nameConfig={{
               accessory: nameConfig.accessory,
-              title: isCompactLayout && activeNavigationItem ? `${nameConfig.title} | ${activeNavigationItem.text}` : nameConfig.title,
+              title: nameConfig.title,
             }}
             utilityConfig={utilityConfig}
             extensions={extensions}

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {
   MemoryRouter, Link, withRouter,
 } from 'react-router-dom';
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl, intlShape } from 'terra-base';
 import Image from 'terra-image';
 import Avatar from 'terra-avatar';
 import ActionHeader from 'terra-action-header';
@@ -84,7 +84,7 @@ class ChiefComplaintComponent extends React.Component {
       >
         <div style={{ padding: '0.714rem' }}>Chief Complaint SVG goes here</div>
       </ContentContainer>
-    )
+    );
   }
 }
 
@@ -111,7 +111,7 @@ class OrderComponent extends React.Component {
       >
         <div style={{ padding: '0.714rem' }}>Order SVG goes here</div>
       </ContentContainer>
-    )
+    );
   }
 }
 
@@ -141,11 +141,11 @@ class ListDetailComponent extends React.Component {
             });
           }}
         >
-          {this.state.items.map((item) => (
+          {this.state.items.map(item => (
             <SelectableList.Item content={<p>{item.display}</p>} key={item.id} />
           ))}
         </SelectableList>
-      )
+      );
     } else if (this.state.mode === 'detail' && this.state.detailItem) {
       if (this.state.detailItem.id === '1') {
         content = <div>SVG here</div>;
@@ -155,8 +155,8 @@ class ListDetailComponent extends React.Component {
     }
 
     return (
-      <div style={{ height: '100%', padding: '0.714rem'}}>{content}</div>
-    )
+      <div style={{ height: '100%', padding: '0.714rem' }}>{content}</div>
+    );
   }
 
   render() {
@@ -172,7 +172,7 @@ class ListDetailComponent extends React.Component {
               preferredFirstName="John"
             />
             <ActionHeader
-              onBack={this.state.mode === 'detail' ? () => { this.setState({ mode: 'list', detailItem: undefined })} : this.props.layoutConfig.toggleMenu }
+              onBack={this.state.mode === 'detail' ? () => { this.setState({ mode: 'list', detailItem: undefined }); } : this.props.layoutConfig.toggleMenu}
               title={(this.state.detailItem && this.state.detailItem.display) || this.props.title}
             />
           </React.Fragment>
@@ -181,13 +181,13 @@ class ListDetailComponent extends React.Component {
       >
         {this.renderContent()}
       </ContentContainer>
-    )
+    );
   }
 }
 
 class DemographicsRoutingMenu extends React.Component {
   render() {
-    const isCompact = this.props.layoutConfig.size === 'tiny' || this.props.layoutConfig.size === 'small'
+    const isCompact = this.props.layoutConfig.size === 'tiny' || this.props.layoutConfig.size === 'small';
 
     return (
       <ContentContainer
@@ -212,7 +212,12 @@ const TestExtensions = () => (
   <Button text="Extensions" />
 );
 
-const blankPlaceholder = <div style={{ height: '100%', width: '100%', backgroundColor: 'grey', boxShadow: 'inset 0 0 5px black' }} />;
+const blankPlaceholder = (
+  <div style={{
+    height: '100%', width: '100%', backgroundColor: 'grey', boxShadow: 'inset 0 0 5px black',
+  }}
+  />
+);
 
 class InputHeaderBase extends React.Component {
   constructor(props) {
@@ -220,7 +225,7 @@ class InputHeaderBase extends React.Component {
 
     this.state = {
       path: props.location.pathname,
-    }
+    };
   }
 
   render() {
@@ -241,7 +246,7 @@ class InputHeaderBase extends React.Component {
           text="Go"
         />
       </React.Fragment>
-    )
+    );
   }
 }
 
@@ -704,7 +709,7 @@ class ApplicationLayoutTest extends React.Component {
           initialIndex={0}
           getUserConfirmation={(message, callback) => {
             presentNotificationDialog({
-              intl: intl,
+              intl,
               variant: 'warning',
               title: 'Unsaved changes',
               message,
