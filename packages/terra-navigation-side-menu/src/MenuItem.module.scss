@@ -1,0 +1,88 @@
+:local {
+  .list-item {
+    border-bottom: var(--terra-navigation-side-menu-list-item-border-bottom, none);
+    border-left: var(--terra-navigation-side-menu-list-item-border-left, none);
+    border-right: var(--terra-navigation-side-menu-list-item-border-right, none);
+    border-top: var(--terra-navigation-side-menu-list-item-border-top, none);
+  }
+
+  .menu-item {
+    align-items: stretch;
+    border-bottom: var(--terra-navigation-side-menu-item-border-bottom, none);
+    border-left: var(--terra-navigation-side-menu-item-border-left, none);
+    border-right: var(--terra-navigation-side-menu-item-border-right, none);
+    border-top: var(--terra-navigation-side-menu-item-border-top, none);
+    color: var(--terra-navigation-side-menu-item-color, #1c1f21);
+    cursor: pointer;
+    display: flex;
+    font-size: var(--terra-navigation-side-menu-item-size, 1.071rem);
+    line-height: var(--terra-navigation-side-menu-item-line-height, 1.42857);
+    outline: none;
+    padding-bottom: var(--terra-navigation-side-menu-item-padding-bottom, 0.8225rem);
+    padding-left: var(--terra-navigation-side-menu-item-padding-left, 1.2143rem);
+    padding-right: var(--terra-navigation-side-menu-item-padding-right, 0.7143rem);
+    padding-top: var(--terra-navigation-side-menu-item-padding-top, 0.8225rem);
+    position: relative;
+    text-decoration: none;
+    width: 100%;
+    z-index: 0;
+
+    &:hover,
+    &.is-hovered {
+      background-color: var(--terra-navigation-side-menu-item-hover-background-color, #f5fafe);
+      color: var(--terra-navigation-side-menu-item-hover-color);
+    }
+
+    &.is-selected {
+      background-color: var(--terra-navigation-side-menu-item-selected-background-color, #f4f4f4);
+      border-left: var(--terra-navigation-side-menu-item-selected-border-left, 0.5rem solid #007cc3);
+      color: var(--terra-navigation-side-menu-item-selected-color);
+      font-weight: var(--terra-navigation-side-menu-item-selected-font-weight, 600);
+      padding-left: var(--terra-navigation-side-menu-item-selected-padding-left, 0.7143rem);
+
+      &::before {
+        background-image: var(--terra-navigation-side-menu-item-selected-background-image);
+        content: '';
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: -1;
+      }
+
+      &:hover,
+      &.is-hovered {
+        color: var(--terra-navigation-side-menu-item-selected-hover-color);
+      }
+    }
+
+    &.is-focused,
+    &.is-active.is-focused,
+    &:active.is-focused {
+      box-shadow: var(--terra-navigation-side-menu-item-box-shadow, 0 0 1px 3px rgba(76, 178, 233, 0.5), 0 0 7px 4px rgba(76, 178, 233, 0.35));
+      z-index: 5;
+    }
+  }
+
+  .title,
+  .chevron {
+    align-items: center;
+    display: flex;
+    position: relative;
+  }
+
+  .title {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+
+  .chevron {
+    flex: 0 0 auto;
+    padding-left: 10px;
+
+    > svg {
+      color: var(--terra-navigation-side-menu-item-chevron-color, #787879);
+    }
+  }
+}
