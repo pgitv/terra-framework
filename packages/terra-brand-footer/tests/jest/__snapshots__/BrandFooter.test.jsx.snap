@@ -1,0 +1,1125 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BrandFooter should render a default component 1`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    />
+    <div
+      className="content-bottom"
+    />
+  </div>
+</footer>
+`;
+
+exports[`BrandFooter should render a section header 1`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <nav
+    className="nav nav-horizontal"
+  >
+    <section
+      className="navigation-section"
+      key="0"
+    >
+      <h3
+        className="list-header"
+        key="Cerner Links"
+      >
+        Cerner Links
+      </h3>
+      <ul
+        className="menu"
+      />
+    </section>
+  </nav>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    />
+    <div
+      className="content-bottom"
+    />
+  </div>
+</footer>
+`;
+
+exports[`BrandFooter should render the sections prop instead of links prop 1`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <nav
+    className="nav nav-horizontal"
+  >
+    <section
+      className="navigation-section"
+      key="0"
+    >
+      <ul
+        className="menu"
+      >
+        <li
+          className="list-item"
+          key="Sections Prop linkhttps://www.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://www.cerner.com/"
+          >
+            Sections Prop link
+          </a>
+        </li>
+      </ul>
+    </section>
+  </nav>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    />
+    <div
+      className="content-bottom"
+    />
+  </div>
+</footer>
+`;
+
+exports[`BrandFooter should render with a section header and provided links 1`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <nav
+    className="nav nav-horizontal"
+  >
+    <section
+      className="navigation-section"
+      key="0"
+    >
+      <h3
+        className="list-header"
+        key="Cerner Links"
+      >
+        Cerner Links
+      </h3>
+      <ul
+        className="menu"
+      >
+        <li
+          className="list-item"
+          key="Cerner Homehttps://www.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://www.cerner.com/"
+          >
+            Cerner Home
+          </a>
+        </li>
+        <li
+          className="list-item"
+          key="Cerner Codehttps://code.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://code.cerner.com/"
+            target="_blank"
+          >
+            Cerner Code
+          </a>
+        </li>
+      </ul>
+    </section>
+  </nav>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    />
+    <div
+      className="content-bottom"
+    />
+  </div>
+</footer>
+`;
+
+exports[`BrandFooter should render with content bottom and content left 1`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    >
+      <img
+        alt="terra-ui"
+        height="40px"
+        src="https://github.com/cerner/terra-core/raw/master/terra.png"
+        width="40px"
+      />
+    </div>
+    <div
+      className="content-bottom"
+    >
+      <p>
+        <small>
+          Copyright © 2018 Cerner Corporation.  All Rights Reserved.
+        </small>
+      </p>
+    </div>
+  </div>
+</footer>
+`;
+
+exports[`BrandFooter should render with content bottom and content right 1`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    >
+      <div>
+        <p>
+          <small>
+            Powered by
+          </small>
+        </p>
+        <p>
+          <b>
+            React.js
+          </b>
+        </p>
+      </div>
+    </div>
+    <div
+      className="content-bottom"
+    >
+      <p>
+        <small>
+          Copyright © 2018 Cerner Corporation.  All Rights Reserved.
+        </small>
+      </p>
+    </div>
+  </div>
+</footer>
+`;
+
+exports[`BrandFooter should render with content bottom, content right and content left 1`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    >
+      <img
+        alt="terra-ui"
+        height="40px"
+        src="https://github.com/cerner/terra-core/raw/master/terra.png"
+        width="40px"
+      />
+      <div>
+        <p>
+          <small>
+            Powered by
+          </small>
+        </p>
+        <p>
+          <b>
+            React.js
+          </b>
+        </p>
+      </div>
+    </div>
+    <div
+      className="content-bottom"
+    >
+      <p>
+        <small>
+          Copyright © 2018 Cerner Corporation.  All Rights Reserved.
+        </small>
+      </p>
+    </div>
+  </div>
+</footer>
+`;
+
+exports[`BrandFooter should render with content right and content left 1`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    >
+      <img
+        alt="terra-ui"
+        height="40px"
+        src="https://github.com/cerner/terra-core/raw/master/terra.png"
+        width="40px"
+      />
+      <div>
+        <p>
+          <small>
+            Powered by
+          </small>
+        </p>
+        <p>
+          <b>
+            React.js
+          </b>
+        </p>
+      </div>
+    </div>
+    <div
+      className="content-bottom"
+    />
+  </div>
+</footer>
+`;
+
+exports[`BrandFooter should render with multiple link groups 1`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <nav
+    className="nav nav-horizontal"
+  >
+    <section
+      className="navigation-section"
+      key="0"
+    >
+      <h3
+        className="list-header"
+        key="Cerner Links"
+      >
+        Cerner Links
+      </h3>
+      <ul
+        className="menu"
+      >
+        <li
+          className="list-item"
+          key="Cerner Homehttps://www.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://www.cerner.com/"
+          >
+            Cerner Home
+          </a>
+        </li>
+        <li
+          className="list-item"
+          key="Cerner Codehttps://code.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://code.cerner.com/"
+            target="_blank"
+          >
+            Cerner Code
+          </a>
+        </li>
+      </ul>
+    </section>
+    <section
+      className="navigation-section"
+      key="1"
+    >
+      <h3
+        className="list-header"
+        key="Cerner Links Again"
+      >
+        Cerner Links Again
+      </h3>
+      <ul
+        className="menu"
+      >
+        <li
+          className="list-item"
+          key="Cerner Home Alsohttps://www.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://www.cerner.com/"
+          >
+            Cerner Home Also
+          </a>
+        </li>
+        <li
+          className="list-item"
+          key="Cerner Code As Wellhttps://code.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://code.cerner.com/"
+            target="_blank"
+          >
+            Cerner Code As Well
+          </a>
+        </li>
+      </ul>
+    </section>
+  </nav>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    />
+    <div
+      className="content-bottom"
+    />
+  </div>
+</footer>
+`;
+
+exports[`BrandFooter should render with provided content bottom 1`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    />
+    <div
+      className="content-bottom"
+    >
+      <p>
+        <small>
+          Copyright © 2018 Cerner Corporation.  All Rights Reserved.
+        </small>
+      </p>
+    </div>
+  </div>
+</footer>
+`;
+
+exports[`BrandFooter should render with provided content left 1`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    >
+      <img
+        alt="terra-ui"
+        height="40px"
+        src="https://github.com/cerner/terra-core/raw/master/terra.png"
+        width="40px"
+      />
+    </div>
+    <div
+      className="content-bottom"
+    />
+  </div>
+</footer>
+`;
+
+exports[`BrandFooter should render with provided content right 1`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    >
+      <div>
+        <p>
+          <small>
+            Powered by
+          </small>
+        </p>
+        <p>
+          <b>
+            React.js
+          </b>
+        </p>
+      </div>
+    </div>
+    <div
+      className="content-bottom"
+    />
+  </div>
+</footer>
+`;
+
+exports[`BrandFooter should render with provided links 1`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <nav
+    className="nav nav-horizontal"
+  >
+    <section
+      className="navigation-section"
+      key="0"
+    >
+      <ul
+        className="menu"
+      >
+        <li
+          className="list-item"
+          key="Cerner Homehttps://www.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://www.cerner.com/"
+          >
+            Cerner Home
+          </a>
+        </li>
+        <li
+          className="list-item"
+          key="Cerner Codehttps://code.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://code.cerner.com/"
+            target="_blank"
+          >
+            Cerner Code
+          </a>
+        </li>
+      </ul>
+    </section>
+  </nav>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    />
+    <div
+      className="content-bottom"
+    />
+  </div>
+</footer>
+`;
+
+exports[`BrandFooter should render with provided links and content bottom 1`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <nav
+    className="nav nav-horizontal"
+  >
+    <section
+      className="navigation-section"
+      key="0"
+    >
+      <ul
+        className="menu"
+      >
+        <li
+          className="list-item"
+          key="Cerner Homehttps://www.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://www.cerner.com/"
+          >
+            Cerner Home
+          </a>
+        </li>
+        <li
+          className="list-item"
+          key="Cerner Codehttps://code.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://code.cerner.com/"
+            target="_blank"
+          >
+            Cerner Code
+          </a>
+        </li>
+      </ul>
+    </section>
+  </nav>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    />
+    <div
+      className="content-bottom"
+    >
+      <p>
+        <small>
+          Copyright © 2018 Cerner Corporation.  All Rights Reserved.
+        </small>
+      </p>
+    </div>
+  </div>
+</footer>
+`;
+
+exports[`BrandFooter should render with provided links and content bottom 2`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <nav
+    className="nav nav-horizontal"
+  >
+    <section
+      className="navigation-section"
+      key="0"
+    >
+      <ul
+        className="menu"
+      >
+        <li
+          className="list-item"
+          key="Cerner Homehttps://www.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://www.cerner.com/"
+          >
+            Cerner Home
+          </a>
+        </li>
+        <li
+          className="list-item"
+          key="Cerner Codehttps://code.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://code.cerner.com/"
+            target="_blank"
+          >
+            Cerner Code
+          </a>
+        </li>
+      </ul>
+    </section>
+  </nav>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    />
+    <div
+      className="content-bottom"
+    >
+      <p>
+        <small>
+          Copyright © 2018 Cerner Corporation.  All Rights Reserved.
+        </small>
+      </p>
+    </div>
+  </div>
+</footer>
+`;
+
+exports[`BrandFooter should render with provided links and content left 1`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <nav
+    className="nav nav-horizontal"
+  >
+    <section
+      className="navigation-section"
+      key="0"
+    >
+      <ul
+        className="menu"
+      >
+        <li
+          className="list-item"
+          key="Cerner Homehttps://www.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://www.cerner.com/"
+          >
+            Cerner Home
+          </a>
+        </li>
+        <li
+          className="list-item"
+          key="Cerner Codehttps://code.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://code.cerner.com/"
+            target="_blank"
+          >
+            Cerner Code
+          </a>
+        </li>
+      </ul>
+    </section>
+  </nav>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    >
+      <img
+        alt="terra-ui"
+        height="40px"
+        src="https://github.com/cerner/terra-core/raw/master/terra.png"
+        width="40px"
+      />
+    </div>
+    <div
+      className="content-bottom"
+    />
+  </div>
+</footer>
+`;
+
+exports[`BrandFooter should render with provided links and content left 2`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <nav
+    className="nav nav-horizontal"
+  >
+    <section
+      className="navigation-section"
+      key="0"
+    >
+      <ul
+        className="menu"
+      >
+        <li
+          className="list-item"
+          key="Cerner Homehttps://www.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://www.cerner.com/"
+          >
+            Cerner Home
+          </a>
+        </li>
+        <li
+          className="list-item"
+          key="Cerner Codehttps://code.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://code.cerner.com/"
+            target="_blank"
+          >
+            Cerner Code
+          </a>
+        </li>
+      </ul>
+    </section>
+  </nav>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    >
+      <img
+        alt="terra-ui"
+        height="40px"
+        src="https://github.com/cerner/terra-core/raw/master/terra.png"
+        width="40px"
+      />
+    </div>
+    <div
+      className="content-bottom"
+    />
+  </div>
+</footer>
+`;
+
+exports[`BrandFooter should render with provided links and content right 1`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <nav
+    className="nav nav-horizontal"
+  >
+    <section
+      className="navigation-section"
+      key="0"
+    >
+      <ul
+        className="menu"
+      >
+        <li
+          className="list-item"
+          key="Cerner Homehttps://www.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://www.cerner.com/"
+          >
+            Cerner Home
+          </a>
+        </li>
+        <li
+          className="list-item"
+          key="Cerner Codehttps://code.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://code.cerner.com/"
+            target="_blank"
+          >
+            Cerner Code
+          </a>
+        </li>
+      </ul>
+    </section>
+  </nav>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    >
+      <div>
+        <p>
+          <small>
+            Powered by
+          </small>
+        </p>
+        <p>
+          <b>
+            React.js
+          </b>
+        </p>
+      </div>
+    </div>
+    <div
+      className="content-bottom"
+    />
+  </div>
+</footer>
+`;
+
+exports[`BrandFooter should render with provided links and content right 2`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <nav
+    className="nav nav-horizontal"
+  >
+    <section
+      className="navigation-section"
+      key="0"
+    >
+      <ul
+        className="menu"
+      >
+        <li
+          className="list-item"
+          key="Cerner Homehttps://www.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://www.cerner.com/"
+          >
+            Cerner Home
+          </a>
+        </li>
+        <li
+          className="list-item"
+          key="Cerner Codehttps://code.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://code.cerner.com/"
+            target="_blank"
+          >
+            Cerner Code
+          </a>
+        </li>
+      </ul>
+    </section>
+  </nav>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    >
+      <div>
+        <p>
+          <small>
+            Powered by
+          </small>
+        </p>
+        <p>
+          <b>
+            React.js
+          </b>
+        </p>
+      </div>
+    </div>
+    <div
+      className="content-bottom"
+    />
+  </div>
+</footer>
+`;
+
+exports[`BrandFooter should render with provided links, content left, content bottom and content right 1`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <nav
+    className="nav nav-horizontal"
+  >
+    <section
+      className="navigation-section"
+      key="0"
+    >
+      <ul
+        className="menu"
+      >
+        <li
+          className="list-item"
+          key="Cerner Homehttps://www.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://www.cerner.com/"
+          >
+            Cerner Home
+          </a>
+        </li>
+        <li
+          className="list-item"
+          key="Cerner Codehttps://code.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://code.cerner.com/"
+            target="_blank"
+          >
+            Cerner Code
+          </a>
+        </li>
+      </ul>
+    </section>
+  </nav>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    >
+      <img
+        alt="terra-ui"
+        height="40px"
+        src="https://github.com/cerner/terra-core/raw/master/terra.png"
+        width="40px"
+      />
+      <div>
+        <p>
+          <small>
+            Powered by
+          </small>
+        </p>
+        <p>
+          <b>
+            React.js
+          </b>
+        </p>
+      </div>
+    </div>
+    <div
+      className="content-bottom"
+    >
+      <p>
+        <small>
+          Copyright © 2018 Cerner Corporation.  All Rights Reserved.
+        </small>
+      </p>
+    </div>
+  </div>
+</footer>
+`;
+
+exports[`BrandFooter should render with provided links, content left, content bottom and content right 2`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <nav
+    className="nav nav-horizontal"
+  >
+    <section
+      className="navigation-section"
+      key="0"
+    >
+      <ul
+        className="menu"
+      >
+        <li
+          className="list-item"
+          key="Cerner Homehttps://www.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://www.cerner.com/"
+          >
+            Cerner Home
+          </a>
+        </li>
+        <li
+          className="list-item"
+          key="Cerner Codehttps://code.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://code.cerner.com/"
+            target="_blank"
+          >
+            Cerner Code
+          </a>
+        </li>
+      </ul>
+    </section>
+  </nav>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    >
+      <img
+        alt="terra-ui"
+        height="40px"
+        src="https://github.com/cerner/terra-core/raw/master/terra.png"
+        width="40px"
+      />
+      <div>
+        <p>
+          <small>
+            Powered by
+          </small>
+        </p>
+        <p>
+          <b>
+            React.js
+          </b>
+        </p>
+      </div>
+    </div>
+    <div
+      className="content-bottom"
+    >
+      <p>
+        <small>
+          Copyright © 2018 Cerner Corporation.  All Rights Reserved.
+        </small>
+      </p>
+    </div>
+  </div>
+</footer>
+`;
+
+exports[`BrandFooter should render with the links prop 1`] = `
+<footer
+  className="brand-footer"
+  role="contentinfo"
+>
+  <nav
+    className="nav nav-horizontal"
+  >
+    <section
+      className="navigation-section"
+      key="0"
+    >
+      <ul
+        className="menu"
+      >
+        <li
+          className="list-item"
+          key="Cerner Homehttps://www.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://www.cerner.com/"
+          >
+            Cerner Home
+          </a>
+        </li>
+        <li
+          className="list-item"
+          key="Cerner Codehttps://code.cerner.com/"
+        >
+          <a
+            className="link"
+            href="https://code.cerner.com/"
+            target="_blank"
+          >
+            Cerner Code
+          </a>
+        </li>
+      </ul>
+    </section>
+  </nav>
+  <div
+    className="footer-content"
+  >
+    <div
+      className="content-top"
+    />
+    <div
+      className="content-bottom"
+    />
+  </div>
+</footer>
+`;

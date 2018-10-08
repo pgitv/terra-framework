@@ -1,0 +1,13 @@
+:local {
+  .menu-list {
+    background-color: var(--terra-navigation-side-menu-list-background-color, transparent);
+    padding-bottom: var(--terra-navigation-side-menu-list-padding-bottom, 0.125rem);
+    padding-top: var(--terra-navigation-side-menu-list-padding-top, 0.125rem);
+  }
+
+  .side-menu-action-header {
+    background-color: var(--terra-navigation-side-menu-action-header-background-color, #f4f4f4);
+    border-bottom-color: var(--terra-navigation-side-menu-action-header-border-bottom-color, #dedfe0);
+    color: var(--terra-navigation-side-menu-action-header-color);
+  }
+}
