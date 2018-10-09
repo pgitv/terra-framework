@@ -21,7 +21,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = function () {
   return _react2.default.createElement(
     'div',
-    { style: { width: '100%' } },
+    { style: { backgroundColor: 'green', width: '100%' } },
     _react2.default.createElement(_ApplicationMenuName2.default, {
       id: 'default',
       title: 'Title',

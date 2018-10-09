@@ -161,7 +161,7 @@ var MenuItem = function (_React$Component) {
           hasChevron && _react2.default.createElement(
             'span',
             { className: cx('chevron') },
-            _react2.default.createElement(_IconChevronRight2.default, null)
+            _react2.default.createElement(_IconChevronRight2.default, { height: '0.8em', width: '0.8em' })
           )
         )
         /* eslint-enable jsx-ally/no-static-element-interactions */

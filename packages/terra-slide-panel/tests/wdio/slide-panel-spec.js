@@ -125,7 +125,6 @@ describe('Slide panel', () => {
       '--terra-slide-panel-panel-width-large-scalar': '0.8',
       '--terra-slide-panel-shadow-color': 'orange',
       '--terra-slide-panel-panel-border-color': 'blue',
-      '--terra-slide-panel-panel-border-radius': '5px',
     });
   });
 });
