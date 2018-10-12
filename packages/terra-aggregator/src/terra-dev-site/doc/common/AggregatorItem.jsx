@@ -4,17 +4,17 @@ import Button from 'terra-button';
 import SelectableList from 'terra-list/lib/SelectableList';
 import ContentContainer from 'terra-content-container';
 import Arrange from 'terra-arrange';
-import AppDelegate from 'terra-app-delegate';
 import ActionHeader from 'terra-action-header';
 import DisclosureComponent from 'terra-disclosure-manager/lib/terra-dev-site/doc/example/DisclosureComponent';
+import { withDisclosureManager } from 'terra-disclosure-manager';
 
-const ReadonlyModal = ({ app }) => (
+const ReadonlyModal = withDisclosureManager(({ disclosureManager }) => (
   <ContentContainer
     header={(
       <ActionHeader
         title="Info Modal"
-        onClose={app.closeDisclosure}
-        onBack={app.goBack}
+        onClose={disclosureManager.closeDisclosure}
+        onBack={disclosureManager.goBack}
       />
     )}
   >
@@ -22,10 +22,10 @@ const ReadonlyModal = ({ app }) => (
       <p>This modal was not presented through the Aggregator. The Aggregator state was maintained.</p>
     </div>
   </ContentContainer>
-);
+));
 
 ReadonlyModal.propTypes = {
-  app: AppDelegate.propType,
+  disclosureManager: PropTypes.object,
 };
 
 const propTypes = {

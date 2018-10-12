@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AppDelegate from 'terra-app-delegate';
+import AppDelegate from './AppDelegate';
+import DisclosureManagerContext from './DisclosureManagerContext';
+import withDisclosureManager from './withDisclosureManager';
 
 const availableDisclosureSizes = {
   TINY: 'tiny',
@@ -47,11 +49,6 @@ export { availableDisclosureSizes, availableDisclosureHeights, availableDisclosu
 
 const propTypes = {
   /**
-   * An AppDelegate instance that will be integrated with the DisclosureManager instance. The DisclosureManager will defer to it if unsupported
-   * actions occur.
-   */
-  app: AppDelegate.propType,
-  /**
    * The child components that will be provided with an AppDelegate 'app' prop used to interact with the DisclosureManager instance.
    */
   children: PropTypes.node,
@@ -64,6 +61,8 @@ const propTypes = {
    * utilize its 'app' prop and forward the request instead of handling the request itself.
    */
   supportedDisclosureTypes: PropTypes.array,
+
+  disclosureManager: PropTypes.object,
 };
 
 const defaultProps = {
@@ -121,12 +120,12 @@ class DisclosureManager extends React.Component {
 
   /**
    * Determines if the provided disclosure type is supported by the DisclosureManager.
-   * @return `true` if the type is supported or if there is no fallback `app` present. `false` is returned otherwise.
+   * @return `true` if the type is supported or if there is no fallback `disclosureManager` present. `false` is returned otherwise.
    */
   disclosureTypeIsSupported(type) {
-    const { app, supportedDisclosureTypes } = this.props;
+    const { disclosureManager, supportedDisclosureTypes } = this.props;
 
-    return supportedDisclosureTypes.indexOf(type) >= 0 || !app;
+    return supportedDisclosureTypes.indexOf(type) >= 0 || !disclosureManager;
   }
 
   openDisclosure(data) {
@@ -300,7 +299,7 @@ class DisclosureManager extends React.Component {
   }
 
   renderContentComponents() {
-    const { children, app } = this.props;
+    const { children, disclosureManager } = this.props;
 
     const appDelegate = {};
 
@@ -331,16 +330,18 @@ class DisclosureManager extends React.Component {
             };
           });
       }
-      return app.disclose(data);
+      return disclosureManager.disclose(data);
     };
 
-    return React.Children.map(children, child => React.cloneElement(child, {
-      app: AppDelegate.clone(app, appDelegate),
-    }));
+    return (
+      <DisclosureManagerContext.Provider value={appDelegate}>
+        {children}
+      </DisclosureManagerContext.Provider>
+    );
   }
 
   renderDisclosureComponents() {
-    const { app } = this.props;
+    const { disclosureManager } = this.props;
     const {
       disclosureComponentKeys, disclosureComponentData, disclosureIsMaximized, disclosureIsFocused, disclosureSize,
     } = this.state;
@@ -369,7 +370,7 @@ class DisclosureManager extends React.Component {
               };
             });
         }
-        return app.disclose(data);
+        return disclosureManager.disclose(data);
       };
 
       /**
@@ -415,28 +416,24 @@ class DisclosureManager extends React.Component {
       disclosureApp.registerDismissCheck = (checkFunc) => {
         this.dismissChecks[componentData.key] = checkFunc;
 
-        if (app && app.registerDismissCheck) {
+        if (disclosureManager && disclosureManager.registerDismissCheck) {
           // The combination of all managed dismiss checks is registered to the parent app delegate to ensure
           // that all are accounted for by the parent.
-          return app.registerDismissCheck(() => Promise.all(Object.values(this.dismissChecks)));
+          return disclosureManager.registerDismissCheck(() => Promise.all(Object.values(this.dismissChecks)));
         }
 
         return Promise.resolve();
       };
 
-      if (componentData.component) {
-        return React.cloneElement(componentData.component, {
-          key: componentData.key,
-          app: AppDelegate.create(disclosureApp),
-        });
-      }
-
-      const ComponentClass = AppDelegate.getComponentForDisclosure(componentData.name);
-      if (!ComponentClass) {
-        return undefined;
-      }
-
-      return <ComponentClass key={componentData.key} {...componentData.props} app={AppDelegate.create(disclosureApp)} />;
+      return (
+        <React.Fragment key={componentData.key}>
+          <DisclosureManagerContext.Provider value={AppDelegate.create(disclosureApp)}>
+            {React.cloneElement(componentData.component, {
+              key: componentData.key,
+            })}
+          </DisclosureManagerContext.Provider>
+        </React.Fragment>
+      );
     });
   }
 
@@ -476,4 +473,5 @@ class DisclosureManager extends React.Component {
 DisclosureManager.propTypes = propTypes;
 DisclosureManager.defaultProps = defaultProps;
 
-export default DisclosureManager;
+export default withDisclosureManager(DisclosureManager);
+export { withDisclosureManager };
