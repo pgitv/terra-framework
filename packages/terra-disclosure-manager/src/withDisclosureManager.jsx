@@ -4,7 +4,7 @@ import DisclosureManagerContext from './DisclosureManagerContext';
 const withDisclosureManager = (Component) => {
   const WithDisclosureManagerComp = props => (
     <DisclosureManagerContext.Consumer>
-      {disclosureManager => <Component {...props} disclosureManager={disclosureManager} />}
+      {disclosureManager => <Component disclosureManager={disclosureManager} {...props} />}
     </DisclosureManagerContext.Consumer>
   );
 

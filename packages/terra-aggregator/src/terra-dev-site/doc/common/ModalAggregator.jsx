@@ -4,7 +4,7 @@ import ContentContainer from 'terra-content-container';
 import ActionHeader from 'terra-action-header';
 import { withDisclosureManager } from 'terra-disclosure-manager';
 
-import AggregatorContainer from './AggregatorContainer';
+import Aggregator from '../../../Aggregator';
 import AggregatorItem from './AggregatorItem';
 import SimpleAggregatorItem from './SimpleAggregatorItem';
 
@@ -24,7 +24,7 @@ const ModalAggregator = ({ disclosureManager }) => (
     fill
     header={<ActionHeader onClose={disclosureManager.closeDisclosure} onBack={disclosureManager.goBack} />}
   >
-    <AggregatorContainer
+    <Aggregator
       items={items}
     />
   </ContentContainer>
