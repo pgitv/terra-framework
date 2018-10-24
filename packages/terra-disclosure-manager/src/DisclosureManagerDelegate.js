@@ -12,7 +12,7 @@ const supportedAttributes = [
   'registerDismissCheck',
 ];
 
-class AppDelegateInstance {
+class DisclosureManagerDelegateInstance {
   constructor(data) {
     supportedAttributes.forEach((attribute) => {
       if (data[attribute]) {
@@ -23,7 +23,7 @@ class AppDelegateInstance {
 }
 
 const create = data => (
-  Object.freeze(new AppDelegateInstance(data))
+  Object.freeze(new DisclosureManagerDelegateInstance(data))
 );
 
 const clone = (delegate, data) => {
@@ -51,7 +51,7 @@ const isEqual = (delegateA, delegateB) => {
   ));
 };
 
-const AppDelegate = {
+const DisclosureManagerDelegate = {
   propType: PropTypes.objectOf((propValue, key, componentName, location, propFullName) => {
     if (supportedAttributes.indexOf(key) < 0) {
       return new Error(`Invalid key '${key}' supplied to ${componentName}'s '${propFullName}' prop. Validation failed.`);
@@ -64,4 +64,4 @@ const AppDelegate = {
   isEqual,
 };
 
-export default AppDelegate;
+export default DisclosureManagerDelegate;
