@@ -3,6 +3,11 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Removed instances of the NavigationLayout and related components injecting an `app` prop into child components.
+
+### Removed
+* Removed dependency on terra-app-delegate package.
 
 2.20.0 - (October 8, 2018)
 ------------------

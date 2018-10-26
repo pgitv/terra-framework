@@ -3,6 +3,11 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Updated Aggregator to interface directly with a parent DisclosureManager.
+
+### Removed
+* Removed `disclose` prop due to new direct DisclosureManager interfacing.
 
 3.14.0 - (October 8, 2018)
 ------------------
