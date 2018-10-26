@@ -5,9 +5,8 @@ import Button from 'terra-button';
 import ContentContainer from 'terra-content-container';
 import ActionHeader from 'terra-action-header';
 
-import withDisclosureManager from 'terra-disclosure-manager/lib/withDisclosureManager';
 import DisclosureComponent from './DisclosureComponent';
-import { availableDisclosureHeights, availableDisclosureWidths } from '../../../DisclosureManager';
+import { availableDisclosureHeights, availableDisclosureWidths, withDisclosureManager } from '../../../DisclosureManager';
 
 import styles from './example-styles.scss';
 

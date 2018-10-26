@@ -48,7 +48,7 @@ class ModalContent extends React.Component {
         <Button id="popup-in-modal" style={{ position: 'absolute', left: '125px' }} text="Popup In Modal" onClick={this.handlePopupButtonClick} />
         <br />
         <br />
-        <Button className="close-disclosure" text="Close Disclosure" onClick={app.closeDisclosure} />
+        <Button className="close-disclosure" text="Close Disclosure" onClick={disclosureManager.closeDisclosure} />
       </div>
     );
   }

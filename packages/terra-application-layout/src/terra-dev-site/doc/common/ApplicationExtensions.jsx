@@ -11,7 +11,7 @@ import { Utils } from '../../../ApplicationLayout';
 
 const propTypes = {
   disclosureManager: PropTypes.object,
-  layoutConfig: Utils.propTypes.layoutConfigPropType,
+  layoutConfig: Utils.propTypes.layoutConfigPropType, // eslint-disable-line react/forbid-foreign-prop-types
 };
 
 class ApplicationExtensions extends React.Component {

@@ -5,7 +5,7 @@ import Button from 'terra-button';
 import ContentContainer from 'terra-content-container';
 import TextField from 'terra-form/lib/TextField';
 import ActionHeader from 'terra-action-header';
-import withDisclosureManager from 'terra-disclosure-manager/lib/withDisclosureManager';
+import { withDisclosureManager } from '../../../DisclosureManager';
 
 import styles from './example-styles.scss';
 
