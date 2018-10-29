@@ -9,6 +9,7 @@ const withDisclosureManager = (Component) => {
   );
 
   WithDisclosureManagerComp.displayName = `withDisclosureManager(${Component.displayName})`;
+  WithDisclosureManagerComp.WrappedComponent = Component;
 
   return WithDisclosureManagerComp;
 };
