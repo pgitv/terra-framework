@@ -3,6 +3,16 @@ Changelog
 
 Unreleased
 ----------
+### Changed
+* Update mixin import to be more explicit
+
+### Fixed
+* Fixed icon display in notification dialog in IE
+
+1.11.0 - (October 16, 2018)
+------------------
+### Changed
+* Minor dependency update
 
 1.10.0 - (October 8, 2018)
 ------------------

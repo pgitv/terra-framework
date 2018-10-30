@@ -6,6 +6,16 @@ Unreleased
 ### Removed
 * Removed dependency on terra-app-delegate package.
 
+1.21.0 - (October 24, 2018)
+------------------
+### Changed
+* Minor dependency update
+
+1.20.0 - (October 16, 2018)
+------------------
+### Fixed
+* Focus on first menu item
+
 1.19.0 - (October 8, 2018)
 ------------------
 ### Changed

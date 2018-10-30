@@ -9,6 +9,17 @@ Unreleased
 ### Removed
 * Removed `disclose` prop due to new direct DisclosureManager interfacing.
 
+
+3.16.0 - (October 24, 2018)
+------------------
+### Changed
+* Minor dependency update
+
+3.15.0 - (October 16, 2018)
+------------------
+### Changed
+* Minor dependency updates
+
 3.14.0 - (October 8, 2018)
 ------------------
 ### Changed
