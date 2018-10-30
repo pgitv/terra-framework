@@ -62,9 +62,10 @@ const propTypes = {
    */
   supportedDisclosureTypes: PropTypes.array,
   /**
-   *
+   * A DisclosureManagerDelegate instance provided by a parent DisclosureManager. This prop is automatically provided by `withDisclosureManager` and should not
+   * be explicitly given to the component.
    */
-  disclosureManager: PropTypes.object,
+  disclosureManager: DisclosureManagerDelegate.propType,
 };
 
 const defaultProps = {
@@ -473,5 +474,7 @@ class DisclosureManager extends React.Component {
 DisclosureManager.propTypes = propTypes;
 DisclosureManager.defaultProps = defaultProps;
 
+const disclosureManagerShape = DisclosureManagerDelegate.propType;
+
 export default withDisclosureManager(DisclosureManager);
-export { withDisclosureManager };
+export { withDisclosureManager, disclosureManagerShape };

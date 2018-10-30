@@ -26,7 +26,7 @@ The DisclosureManager does not implement a traditional render function. A `rende
 
 |Key|Value|
 |---|---|
-|`components`|An Array of React components to render as content|
+|`components`|An Array of React components to render as content.|
 
 `disclosure` Object API:
 
