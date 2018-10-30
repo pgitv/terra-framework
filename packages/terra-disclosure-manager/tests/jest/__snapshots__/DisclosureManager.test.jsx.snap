@@ -8,7 +8,7 @@ exports[`DisclosureManager should render using the provided render function 1`] 
   <div
     id="wrapper"
   >
-    <withDisclosureManager(undefined)
+    <withDisclosureManager(Component)
       id="child1"
     >
       <Component
@@ -23,8 +23,8 @@ exports[`DisclosureManager should render using the provided render function 1`] 
           id="child1"
         />
       </Component>
-    </withDisclosureManager(undefined)>
-    <withDisclosureManager(undefined)
+    </withDisclosureManager(Component)>
+    <withDisclosureManager(Component)
       id="child2"
     >
       <Component
@@ -39,7 +39,7 @@ exports[`DisclosureManager should render using the provided render function 1`] 
           id="child2"
         />
       </Component>
-    </withDisclosureManager(undefined)>
+    </withDisclosureManager(Component)>
   </div>
 </DisclosureManager>
 `;

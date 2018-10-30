@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ContentContainer from 'terra-content-container';
-import { availableDisclosureHeights, availableDisclosureWidths, withDisclosureManager } from '../../../DisclosureManager';
+import { availableDisclosureHeights, availableDisclosureWidths, withDisclosureManager } from 'terra-disclosure-manager';
 
 const HEIGHT_KEYS = Object.keys(availableDisclosureHeights);
 const WIDTH_KEYS = Object.keys(availableDisclosureWidths);
 
-class TestExample extends React.Component {
+class DisclosureComponent extends React.Component {
   constructor(props) {
     super(props);
 
@@ -53,7 +53,7 @@ class TestExample extends React.Component {
         dimensions,
         content: {
           key: `DemoContainer-${newIndex}`,
-          component: <TestExample identifier={`DemoContainer-${newIndex}`} nestedIndex={newIndex} />,
+          component: <WrappedDisclosureComponent identifier={`DemoContainer-${newIndex}`} nestedIndex={newIndex} />,
         },
       });
     };
@@ -155,15 +155,17 @@ class TestExample extends React.Component {
   }
 }
 
-TestExample.propTypes = {
+DisclosureComponent.propTypes = {
   disclosureManager: PropTypes.object,
   identifier: PropTypes.string,
   disclosureType: PropTypes.string,
   nestedIndex: PropTypes.number,
 };
 
-TestExample.defaultProps = {
+DisclosureComponent.defaultProps = {
   nestedIndex: 0,
 };
 
-export default withDisclosureManager(TestExample);
+const WrappedDisclosureComponent = withDisclosureManager(DisclosureComponent);
+
+export default WrappedDisclosureComponent;

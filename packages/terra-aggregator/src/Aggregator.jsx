@@ -85,10 +85,10 @@ class Aggregator extends React.Component {
           const focusRequestPayload = {};
 
           /**
-           * If the Aggregator is provided with disclosure functionality, the focus request is resolved with a custom
+           * If the Aggregator is rendered within the context of a DisclosureManager, the focus request is resolved with a custom
            * disclose implementation.
            */
-          if (disclosureManager.disclose) {
+          if (disclosureManager) {
             focusRequestPayload.disclose = (data) => {
               /**
                * If the itemId no longer matches the focusedItemId, then the disclose is being called after
