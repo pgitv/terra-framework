@@ -408,11 +408,9 @@ class DisclosureManager extends React.Component {
       };
 
       return (
-        <React.Fragment key={componentData.key}>
-          <DisclosureManagerContext.Provider value={DisclosureManagerDelegate.create(delegate)}>
-            {componentData.component}
-          </DisclosureManagerContext.Provider>
-        </React.Fragment>
+        <DisclosureManagerContext.Provider value={DisclosureManagerDelegate.create(delegate)} key={componentData.key}>
+          {componentData.component}
+        </DisclosureManagerContext.Provider>
       );
     });
   }
