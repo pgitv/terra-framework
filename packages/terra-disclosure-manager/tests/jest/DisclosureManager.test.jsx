@@ -35,7 +35,7 @@ describe('DisclosureManager', () => {
 
   const validateInitialState = (wrapper) => {
     expect(wrapper.state().disclosureIsOpen).toBeFalsy();
-    expect(wrapper.state().disclosureIsFocused).toBeTruthy();
+    expect(wrapper.state().disclosureIsFocused).toBeFalsy();
     expect(wrapper.state().disclosureIsMaximized).toBeFalsy();
     expect(wrapper.state().disclosureSize).toBeUndefined();
     expect(wrapper.state().disclosureComponentKeys).toEqual([]);
@@ -514,7 +514,7 @@ describe('DisclosureManager', () => {
 
         expect(firstRenderPayload.disclosure).toBeDefined();
         expect(firstRenderPayload.disclosure.isOpen).toBeFalsy();
-        expect(firstRenderPayload.disclosure.isFocused).toBeTruthy();
+        expect(firstRenderPayload.disclosure.isFocused).toBeFalsy();
         expect(firstRenderPayload.disclosure.isMaximized).toBeFalsy();
         expect(firstRenderPayload.disclosure.size).toBeUndefined();
         expect(firstRenderPayload.disclosure.components.length).toEqual(0);

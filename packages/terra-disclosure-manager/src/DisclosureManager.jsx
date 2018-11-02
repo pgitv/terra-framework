@@ -91,8 +91,9 @@ class DisclosureManager extends React.Component {
     this.onDismissResolvers = {};
 
     this.state = {
+      childComponents: this.renderContentComponents(props.disclosureManager, props.children),
       disclosureIsOpen: false,
-      disclosureIsFocused: true,
+      disclosureIsFocused: false,
       disclosureIsMaximized: false,
       disclosureSize: undefined,
       disclosureDimensions: undefined,
@@ -100,6 +101,35 @@ class DisclosureManager extends React.Component {
       disclosureComponentData: {},
       disclosureComponents: [],
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    const { children, disclosureManager } = this.props;
+
+    if (children !== prevProps.children || disclosureManager !== prevProps.disclosureManager) {
+      /**
+       * With the future deprecation of componentWillReceiveProps, there is no existing lifecycle method
+       * that allows for old and new prop comparisons before rendering. componentDidUpdate can be
+       * used to ensure that the state is sycned with the props when necessary; however, if the state does
+       * need to be updated, a second render will need to occur. I do not anticipate this happening often
+       * given how the component is typically consumed.
+       *
+       * Usage of setState in componentDidUpdate is flagged by eslint due to the potential of infinite renders.
+       * However, this implementation of setState should be safe.
+       */
+      // eslint-disable-next-line react/no-did-update-set-state
+      this.setState({
+        childComponents: this.renderContentComponents(disclosureManager, children),
+        disclosureIsOpen: false,
+        disclosureIsFocused: false,
+        disclosureIsMaximized: false,
+        disclosureSize: undefined,
+        disclosureDimensions: undefined,
+        disclosureComponentKeys: [],
+        disclosureComponentData: {},
+        disclosureComponents: [],
+      });
+    }
   }
 
   /**
@@ -291,9 +321,14 @@ class DisclosureManager extends React.Component {
     };
   }
 
-  renderContentComponents() {
-    const { children, disclosureManager } = this.props;
-
+  /**
+   * Generates an Array of component instances based on the given children. These components can be stored in state to ensure subsequent
+   * renders are more efficient and do not unnecessarily generate new DisclosureManagerDelegate instances.
+   * @param {DisclosureManagerDelegate} disclosureManager A DisclosureManagerDelegate instance that will be used as a fallback in cases where unsupported
+   *                                                      disclosure types are requested.
+   * @param {Children} children The children prop value that will be wrapped in the generated provider.
+   */
+  renderContentComponents(disclosureManager, children) {
     const delegate = {};
 
     /**
@@ -333,6 +368,15 @@ class DisclosureManager extends React.Component {
     );
   }
 
+  /**
+   * Generates an Array of component instances based on the given disclosure state. These components can be stored in state to ensure subsequent
+   * renders are more efficient and do not unnecessarily generate new DisclosureManagerDelegate instances.
+   * @param {DisclosureManagerDelegate} disclosureManager A DisclosureManagerDelegate instance that will be used as a fallback in cases where unsupported
+   *                                                      disclosure types are requested.
+   * @param {Object} disclosureState An Object representing the state of the disclosure manager.
+   * @param {Array} componentKeysOverride An Array of component keys representing the components that are to be generated. If not provided, all component keys
+   *                                      found in the disclosureState will be used for generation.
+   */
   renderDisclosureComponents(disclosureManager, disclosureState, componentKeysOverride) {
     const {
       disclosureComponentKeys, disclosureComponentData, disclosureIsMaximized, disclosureIsFocused, disclosureSize,
@@ -429,6 +473,7 @@ class DisclosureManager extends React.Component {
   render() {
     const { render } = this.props;
     const {
+      childComponents,
       disclosureIsOpen,
       disclosureIsFocused,
       disclosureIsMaximized,
@@ -446,7 +491,7 @@ class DisclosureManager extends React.Component {
       dismissPresentedComponent: (disclosureComponentKeys.length > 1) ? this.generatePopFunction(disclosureComponentKeys[disclosureComponentKeys.length - 1]) : this.safelyCloseDisclosure,
       closeDisclosure: this.safelyCloseDisclosure,
       children: {
-        components: this.renderContentComponents(),
+        components: childComponents,
       },
       disclosure: {
         isOpen: disclosureIsOpen,
