@@ -22,7 +22,7 @@ const defaultSize = availableDisclosureSizes.SMALL;
 
 const isValidDimensions = dimensions => availableDisclosureHeights[dimensions.height] && availableDisclosureWidths[dimensions.width];
 
-const isValidSize = size => availableDisclosureSizes[size.toUpperCase()];
+const isValidSize = size => !!availableDisclosureSizes[size.toUpperCase()];
 
 export { availableDisclosureSizes, availableDisclosureHeights, availableDisclosureWidths };
 
@@ -59,6 +59,7 @@ class DisclosureManager extends React.Component {
     const newState = Object.assign({}, state);
     newState.disclosureComponentKeys = Object.assign([], newState.disclosureComponentKeys);
     newState.disclosureComponentData = Object.assign({}, newState.disclosureComponentData);
+    newState.disclosureComponents = Object.assign([], newState.disclosureComponents);
 
     return newState;
   }
@@ -97,6 +98,7 @@ class DisclosureManager extends React.Component {
       disclosureDimensions: undefined,
       disclosureComponentKeys: [],
       disclosureComponentData: {},
+      disclosureComponents: [],
     };
   }
 
@@ -129,7 +131,7 @@ class DisclosureManager extends React.Component {
       size = defaultSize;
     }
 
-    this.setState({
+    const newState = {
       disclosureIsOpen: true,
       disclosureIsFocused: true,
       disclosureSize: size,
@@ -143,7 +145,9 @@ class DisclosureManager extends React.Component {
           component: data.content.component,
         },
       },
-    });
+    };
+
+    this.setState(Object.assign(newState, { disclosureComponents: this.renderDisclosureComponents(this.props.disclosureManager, newState) }));
   }
 
   pushDisclosure(data) {
@@ -156,6 +160,7 @@ class DisclosureManager extends React.Component {
       props: data.content.props,
       component: data.content.component,
     };
+    newState.disclosureComponents = newState.disclosureComponents.concat(this.renderDisclosureComponents(this.props.disclosureManager, newState, [data.content.key]));
 
     this.setState(newState);
   }
@@ -164,6 +169,7 @@ class DisclosureManager extends React.Component {
     const newState = DisclosureManager.cloneDisclosureState(this.state);
 
     newState.disclosureComponentData[newState.disclosureComponentKeys.pop()] = undefined;
+    newState.disclosureComponents.pop();
 
     this.setState(newState);
   }
@@ -177,31 +183,36 @@ class DisclosureManager extends React.Component {
       disclosureDimensions: undefined,
       disclosureComponentKeys: [],
       disclosureComponentData: {},
+      disclosureComponents: [],
     });
   }
 
   requestDisclosureFocus() {
-    this.setState({
-      disclosureIsFocused: true,
-    });
+    const newState = DisclosureManager.cloneDisclosureState(this.state);
+    newState.disclosureIsFocused = true;
+
+    this.setState(Object.assign(newState, { disclosureComponents: this.renderDisclosureComponents(this.props.disclosureManager, newState) }));
   }
 
   releaseDisclosureFocus() {
-    this.setState({
-      disclosureIsFocused: false,
-    });
+    const newState = DisclosureManager.cloneDisclosureState(this.state);
+    newState.disclosureIsFocused = false;
+
+    this.setState(Object.assign(newState, { disclosureComponents: this.renderDisclosureComponents(this.props.disclosureManager, newState) }));
   }
 
   maximizeDisclosure() {
-    this.setState({
-      disclosureIsMaximized: true,
-    });
+    const newState = DisclosureManager.cloneDisclosureState(this.state);
+    newState.disclosureIsMaximized = true;
+
+    this.setState(Object.assign(newState, { disclosureComponents: this.renderDisclosureComponents(this.props.disclosureManager, newState) }));
   }
 
   minimizeDisclosure() {
-    this.setState({
-      disclosureIsMaximized: false,
-    });
+    const newState = DisclosureManager.cloneDisclosureState(this.state);
+    newState.disclosureIsMaximized = false;
+
+    this.setState(Object.assign(newState, { disclosureComponents: this.renderDisclosureComponents(this.props.disclosureManager, newState) }));
   }
 
   /**
@@ -322,16 +333,16 @@ class DisclosureManager extends React.Component {
     );
   }
 
-  renderDisclosureComponents() {
-    const { disclosureManager } = this.props;
+  renderDisclosureComponents(disclosureManager, disclosureState, componentKeysOverride) {
     const {
       disclosureComponentKeys, disclosureComponentData, disclosureIsMaximized, disclosureIsFocused, disclosureSize,
-    } = this.state;
+    } = disclosureState;
 
-    return disclosureComponentKeys.map((componentKey, index) => {
+    return (componentKeysOverride || disclosureComponentKeys).map((componentKey) => {
       const componentData = disclosureComponentData[componentKey];
       const isFullscreen = disclosureSize === availableDisclosureSizes.FULLSCREEN;
       const popContent = this.generatePopFunction(componentData.key);
+      const componentIndex = disclosureComponentKeys.indexOf(componentKey);
 
       const delegate = {};
 
@@ -359,7 +370,7 @@ class DisclosureManager extends React.Component {
        * Allows a component to remove itself from the disclosure stack. If the component is the only element in the disclosure stack,
        * the disclosure is closed.
        */
-      delegate.dismiss = index > 0 ? popContent : this.safelyCloseDisclosure;
+      delegate.dismiss = componentIndex > 0 ? popContent : this.safelyCloseDisclosure;
 
       /**
        * Allows a component to close the entire disclosure stack.
@@ -370,7 +381,7 @@ class DisclosureManager extends React.Component {
        * Allows a component to remove itself from the disclosure stack. Functionally similar to `dismiss`, however `onBack` is
        * only provided to components in the stack that have a previous sibling.
        */
-      delegate.goBack = index > 0 ? popContent : undefined;
+      delegate.goBack = componentIndex > 0 ? popContent : undefined;
 
       /**
        * Allows a component to request focus from the disclosure in the event that the disclosure mechanism in use utilizes a focus trap.
@@ -424,6 +435,7 @@ class DisclosureManager extends React.Component {
       disclosureSize,
       disclosureDimensions,
       disclosureComponentKeys,
+      disclosureComponents,
     } = this.state;
 
     if (!render) {
@@ -442,7 +454,7 @@ class DisclosureManager extends React.Component {
         isMaximized: disclosureIsMaximized,
         size: disclosureSize,
         dimensions: disclosureDimensions,
-        components: this.renderDisclosureComponents(),
+        components: disclosureComponents,
       },
     });
   }
