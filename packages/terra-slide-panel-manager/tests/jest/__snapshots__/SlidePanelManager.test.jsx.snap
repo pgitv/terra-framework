@@ -42,22 +42,20 @@ exports[`SlidePanelManager should disclose content in SlidePanel 1`] = `
             isAnimated={true}
             items={
               Array [
-                <React.Fragment>
-                  <Context.Provider
-                    value={
-                      DisclosureManagerDelegateInstance {
-                        "closeDisclosure": [Function],
-                        "disclose": [Function],
-                        "dismiss": [Function],
-                        "maximize": [Function],
-                        "registerDismissCheck": [Function],
-                        "requestFocus": [Function],
-                      }
+                <Context.Provider
+                  value={
+                    DisclosureManagerDelegateInstance {
+                      "closeDisclosure": [Function],
+                      "disclose": [Function],
+                      "dismiss": [Function],
+                      "maximize": [Function],
+                      "registerDismissCheck": [Function],
+                      "requestFocus": [Function],
                     }
-                  >
-                    <withDisclosureManager(Component) />
-                  </Context.Provider>
-                </React.Fragment>,
+                  }
+                >
+                  <withDisclosureManager(Component) />
+                </Context.Provider>,
               ]
             }
           />
@@ -72,6 +70,28 @@ exports[`SlidePanelManager should disclose content in SlidePanel 1`] = `
           data-slide-panel-panel-size="large"
         >
           <div
+            className="main"
+          >
+            <withDisclosureManager(Component)
+              id="test"
+            >
+              <Component
+                disclosureManager={
+                  DisclosureManagerDelegateInstance {
+                    "disclose": [Function],
+                  }
+                }
+                id="test"
+              >
+                <div
+                  id="test"
+                >
+                  Hello World
+                </div>
+              </Component>
+            </withDisclosureManager(Component)>
+          </div>
+          <div
             aria-hidden="false"
             className="panel"
           >
@@ -79,22 +99,20 @@ exports[`SlidePanelManager should disclose content in SlidePanel 1`] = `
               isAnimated={true}
               items={
                 Array [
-                  <React.Fragment>
-                    <Context.Provider
-                      value={
-                        DisclosureManagerDelegateInstance {
-                          "closeDisclosure": [Function],
-                          "disclose": [Function],
-                          "dismiss": [Function],
-                          "maximize": [Function],
-                          "registerDismissCheck": [Function],
-                          "requestFocus": [Function],
-                        }
+                  <Context.Provider
+                    value={
+                      DisclosureManagerDelegateInstance {
+                        "closeDisclosure": [Function],
+                        "disclose": [Function],
+                        "dismiss": [Function],
+                        "maximize": [Function],
+                        "registerDismissCheck": [Function],
+                        "requestFocus": [Function],
                       }
-                    >
-                      <withDisclosureManager(Component) />
-                    </Context.Provider>
-                  </React.Fragment>,
+                    }
+                  >
+                    <withDisclosureManager(Component) />
+                  </Context.Provider>,
                 ]
               }
             >
@@ -179,28 +197,6 @@ exports[`SlidePanelManager should disclose content in SlidePanel 1`] = `
               </TransitionGroup>
             </SlideGroup>
           </div>
-          <div
-            className="main"
-          >
-            <withDisclosureManager(Component)
-              id="test"
-            >
-              <Component
-                disclosureManager={
-                  DisclosureManagerDelegateInstance {
-                    "disclose": [Function],
-                  }
-                }
-                id="test"
-              >
-                <div
-                  id="test"
-                >
-                  Hello World
-                </div>
-              </Component>
-            </withDisclosureManager(Component)>
-          </div>
         </div>
       </SlidePanel>
     </DisclosureManager>
@@ -264,15 +260,6 @@ exports[`SlidePanelManager should render the SlidePanelManager with custom props
           id="my-slide-panel-manager"
         >
           <div
-            aria-hidden="true"
-            className="panel"
-          >
-            <SlideGroup
-              isAnimated={true}
-              items={Array []}
-            />
-          </div>
-          <div
             className="main"
           >
             <withDisclosureManager(Component)>
@@ -288,6 +275,15 @@ exports[`SlidePanelManager should render the SlidePanelManager with custom props
                 </div>
               </Component>
             </withDisclosureManager(Component)>
+          </div>
+          <div
+            aria-hidden="true"
+            className="panel"
+          >
+            <SlideGroup
+              isAnimated={true}
+              items={Array []}
+            />
           </div>
         </div>
       </SlidePanel>
@@ -347,15 +343,6 @@ exports[`SlidePanelManager should render the SlidePanelManager with defaults 1`]
           data-slide-panel-panel-size="small"
         >
           <div
-            aria-hidden="true"
-            className="panel"
-          >
-            <SlideGroup
-              isAnimated={true}
-              items={Array []}
-            />
-          </div>
-          <div
             className="main"
           >
             <withDisclosureManager(Component)>
@@ -371,6 +358,15 @@ exports[`SlidePanelManager should render the SlidePanelManager with defaults 1`]
                 </div>
               </Component>
             </withDisclosureManager(Component)>
+          </div>
+          <div
+            aria-hidden="true"
+            className="panel"
+          >
+            <SlideGroup
+              isAnimated={true}
+              items={Array []}
+            />
           </div>
         </div>
       </SlidePanel>
@@ -430,15 +426,6 @@ exports[`SlidePanelManager should render the SlidePanelManager with squish overr
           data-slide-panel-panel-size="small"
         >
           <div
-            aria-hidden="true"
-            className="panel"
-          >
-            <SlideGroup
-              isAnimated={true}
-              items={Array []}
-            />
-          </div>
-          <div
             className="main"
           >
             <withDisclosureManager(Component)>
@@ -454,6 +441,15 @@ exports[`SlidePanelManager should render the SlidePanelManager with squish overr
                 </div>
               </Component>
             </withDisclosureManager(Component)>
+          </div>
+          <div
+            aria-hidden="true"
+            className="panel"
+          >
+            <SlideGroup
+              isAnimated={true}
+              items={Array []}
+            />
           </div>
         </div>
       </SlidePanel>

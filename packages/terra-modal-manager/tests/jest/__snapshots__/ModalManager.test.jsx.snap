@@ -130,22 +130,20 @@ exports[`ModalManager should disclose content in Modal 1`] = `
                         isAnimated={true}
                         items={
                           Array [
-                            <React.Fragment>
-                              <Context.Provider
-                                value={
-                                  DisclosureManagerDelegateInstance {
-                                    "closeDisclosure": [Function],
-                                    "disclose": [Function],
-                                    "dismiss": [Function],
-                                    "maximize": [Function],
-                                    "registerDismissCheck": [Function],
-                                    "requestFocus": [Function],
-                                  }
+                            <Context.Provider
+                              value={
+                                DisclosureManagerDelegateInstance {
+                                  "closeDisclosure": [Function],
+                                  "disclose": [Function],
+                                  "dismiss": [Function],
+                                  "maximize": [Function],
+                                  "registerDismissCheck": [Function],
+                                  "requestFocus": [Function],
                                 }
-                              >
-                                <withDisclosureManager(Component) />
-                              </Context.Provider>
-                            </React.Fragment>,
+                              }
+                            >
+                              <withDisclosureManager(Component) />
+                            </Context.Provider>,
                           ]
                         }
                       >
@@ -290,7 +288,7 @@ exports[`ModalManager should render the ModalManager with custom props 1`] = `
           classNameOverlay={null}
           closeOnEsc={true}
           closeOnOutsideClick={false}
-          isFocused={true}
+          isFocused={false}
           isFullscreen={false}
           isOpen={false}
           onRequestClose={[Function]}
@@ -345,7 +343,7 @@ exports[`ModalManager should render the ModalManager with defaults 1`] = `
           classNameOverlay={null}
           closeOnEsc={true}
           closeOnOutsideClick={false}
-          isFocused={true}
+          isFocused={false}
           isFullscreen={false}
           isOpen={false}
           onRequestClose={[Function]}

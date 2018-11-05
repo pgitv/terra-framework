@@ -3,8 +3,8 @@ Changelog
 
 Unreleased
 ----------
-### Changed
-* Updated examples to consume terra-disclosure-manager v3.x
+### Breaking Change
+* Consumed DisclosureManager v3.0 - Updated to Context-provided consumer API vs. prop injection
 
 ### Removed
 * Removed dependency on terra-app-delegate package.
