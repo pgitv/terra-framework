@@ -3,6 +3,7 @@
 exports[`ModalManager should disclose content in Modal 1`] = `
 <ModalManager>
   <withDisclosureManager(DisclosureManager)
+    hasStrictDisclosures={true}
     render={[Function]}
     supportedDisclosureTypes={
       Array [
@@ -11,6 +12,7 @@ exports[`ModalManager should disclose content in Modal 1`] = `
     }
   >
     <DisclosureManager
+      hasStrictDisclosures={true}
       render={[Function]}
       supportedDisclosureTypes={
         Array [
@@ -248,6 +250,7 @@ exports[`ModalManager should render the ModalManager with custom props 1`] = `
   id="my-modal-manager"
 >
   <withDisclosureManager(DisclosureManager)
+    hasStrictDisclosures={true}
     render={[Function]}
     supportedDisclosureTypes={
       Array [
@@ -256,6 +259,7 @@ exports[`ModalManager should render the ModalManager with custom props 1`] = `
     }
   >
     <DisclosureManager
+      hasStrictDisclosures={true}
       render={[Function]}
       supportedDisclosureTypes={
         Array [
@@ -304,6 +308,7 @@ exports[`ModalManager should render the ModalManager with custom props 1`] = `
 exports[`ModalManager should render the ModalManager with defaults 1`] = `
 <ModalManager>
   <withDisclosureManager(DisclosureManager)
+    hasStrictDisclosures={true}
     render={[Function]}
     supportedDisclosureTypes={
       Array [
@@ -312,6 +317,7 @@ exports[`ModalManager should render the ModalManager with defaults 1`] = `
     }
   >
     <DisclosureManager
+      hasStrictDisclosures={true}
       render={[Function]}
       supportedDisclosureTypes={
         Array [
