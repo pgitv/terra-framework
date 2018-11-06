@@ -44,11 +44,11 @@ exports[`DisclosureManager should render using the provided render function 1`] 
 </DisclosureManager>
 `;
 
-exports[`DisclosureManager should render when hasStrictDisclosures is provided 1`] = `
+exports[`DisclosureManager should render when trapNestedDisclosureRequests is provided 1`] = `
 <DisclosureManager
-  hasStrictDisclosures={true}
   render={[Function]}
   supportedDisclosureTypes={Array []}
+  trapNestedDisclosureRequests={true}
 >
   <div
     id="wrapper"

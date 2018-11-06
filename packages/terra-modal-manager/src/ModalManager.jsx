@@ -87,7 +87,7 @@ class ModalManager extends React.Component {
       <DisclosureManager
         supportedDisclosureTypes={[disclosureType]}
         render={this.renderModal}
-        hasStrictDisclosures
+        trapNestedDisclosureRequests
       >
         {children}
       </DisclosureManager>

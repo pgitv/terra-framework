@@ -23,7 +23,7 @@ describe('DisclosureManager', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should render when hasStrictDisclosures is provided', () => {
+  it('should render when trapNestedDisclosureRequests is provided', () => {
     const disclosureManager = (
       <DisclosureManager.WrappedComponent
         render={manager => (
@@ -31,7 +31,7 @@ describe('DisclosureManager', () => {
             {manager.children.components}
           </div>
         )}
-        hasStrictDisclosures
+        trapNestedDisclosureRequests
       >
         <TestChild id="child1" />
         <TestChild id="child2" />
@@ -498,7 +498,7 @@ describe('DisclosureManager', () => {
       });
   });
 
-  it('should provide the disclosure content with restricted nested disclose functionality if hasStrictDisclosures is enabled', () => {
+  it('should provide the disclosure content with restricted nested disclose functionality if trapNestedDisclosureRequests is enabled', () => {
     const wrapper = mount((
       <DisclosureManager.WrappedComponent
         render={manager => (
@@ -508,7 +508,7 @@ describe('DisclosureManager', () => {
           </div>
         )}
         supportedDisclosureTypes={['test']}
-        hasStrictDisclosures
+        trapNestedDisclosureRequests
       >
         <TestChild id="child1" />
         <TestChild id="child2" />
