@@ -4,11 +4,10 @@ Changelog
 Unreleased
 ----------
 ### Changed
-* Updated Aggregator to interface directly with a parent DisclosureManager.
+* Updated examples to consume terra-disclosure-manager v3.x
 
 ### Removed
-* Removed `disclose` prop due to new direct DisclosureManager interfacing.
-
+* Removed terra-app-delegate dependency
 
 3.16.0 - (October 24, 2018)
 ------------------
