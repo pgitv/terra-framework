@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames/bind';
 import NavigationLayout from 'terra-navigation-layout';
 import ContentContainer from 'terra-content-container';
 import { routeConfigPropType } from 'terra-navigation-layout/lib/configurationPropTypes';
@@ -7,6 +8,8 @@ import { routeConfigPropType } from 'terra-navigation-layout/lib/configurationPr
 import ModalManager from 'terra-modal-manager';
 import { ActiveBreakpointProvider, withActiveBreakpoint } from 'terra-breakpoints';
 import NavigationSideMenu from 'terra-navigation-side-menu';
+import Overlay from 'terra-overlay';
+import OverlayContainer from 'terra-overlay/lib/OverlayContainer';
 
 import RoutingMenu from './menu/RoutingMenu';
 import ApplicationMenu from './menu/_ApplicationMenu';
@@ -15,7 +18,11 @@ import ApplicationLayoutPropTypes from './utils/propTypes';
 import Helpers from './utils/helpers';
 import UtilityHelpers from './utils/utilityHelpers';
 
-import LayoutSlidePanel from './_LayoutSlidePanel';
+import 'terra-base/lib/baseStyles';
+
+import styles from './ApplicationLayout.module.scss';
+
+const cx = classNames.bind(styles);
 
 const propTypes = {
   /**
@@ -163,9 +170,6 @@ class ApplicationLayout extends React.Component {
 
     const isCompact = activeBreakpoint === 'tiny' || activeBreakpoint === 'small';
 
-    console.log(`isCompact: ${isCompact}`);
-    console.log(`activeBreakpoint: ${activeBreakpoint}`);
-
     let content = children;
     if (routingConfig) {
       content = (
@@ -176,41 +180,49 @@ class ApplicationLayout extends React.Component {
       );
     }
 
+    const containerClassNames = cx([
+      'application-layout',
+      { 'menu-is-open': menuIsOpen },
+    ]);
+  
     return (
-      <LayoutSlidePanel
-        panelContent={isCompact ? this.renderApplicationLayoutMenu() : undefined}
-        panelIsFullscreen={isCompact}
-        onToggle={isCompact ? this.toggleMenuPanelState : undefined}
-        isOpen={isCompact && menuIsOpen}
+      <div
+        className={containerClassNames}
       >
-        <ContentContainer
-          header={(
-            <ApplicationHeader
-              size={activeBreakpoint}
-              nameConfig={nameConfig}
-              utilityConfig={utilityConfig}
-              extensions={extensions}
-              applicationLinks={{
-                alignment: navigationAlignment,
-                links: navigationItems ? navigationItems.map((route, index) => ({
-                  id: `application-layout-tab-${index}`,
-                  path: route.path,
-                  text: route.text,
-                  externalLink: route.externalLink,
-                })) : undefined,
-              }}
-              onToggle={isCompact ? this.toggleMenuPanelState : undefined}
-              layoutConfig={{
-                toggleMenu: isCompact ? this.toggleMenuPanelState : undefined,
-                size: activeBreakpoint,
-              }}
-            />
-          )}
-          fill
-        >
-          {content}
-        </ContentContainer>
-      </LayoutSlidePanel>
+        <div className={cx('menu-panel')} aria-hidden={!menuIsOpen}>
+          {isCompact ? this.renderApplicationLayoutMenu() : undefined}
+        </div>
+        <OverlayContainer className={cx('content')}>
+          <Overlay isRelativeToContainer onRequestClose={this.toggleMenuPanelState} isOpen={menuIsOpen} backgroundStyle="dark" style={{ zIndex: '1500' }} />
+            <ContentContainer
+            header={(
+              <ApplicationHeader
+                activeBreakpoint={activeBreakpoint}
+                nameConfig={nameConfig}
+                utilityConfig={utilityConfig}
+                extensions={extensions}
+                applicationLinks={{
+                  alignment: navigationAlignment,
+                  links: navigationItems ? navigationItems.map((route, index) => ({
+                    id: `application-layout-tab-${index}`,
+                    path: route.path,
+                    text: route.text,
+                    externalLink: route.externalLink,
+                  })) : undefined,
+                }}
+                onToggle={isCompact ? this.toggleMenuPanelState : undefined}
+                layoutConfig={{
+                  toggleMenu: isCompact ? this.toggleMenuPanelState : undefined,
+                  size: activeBreakpoint,
+                }}
+              />
+            )}
+            fill
+          >
+            {content}
+          </ContentContainer>
+        </OverlayContainer>
+      </div>
     );
   }
 }

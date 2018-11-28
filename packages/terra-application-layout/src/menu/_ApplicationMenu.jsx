@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import ApplicationMenuLayout from 'terra-application-menu-layout';
 import { ApplicationMenuName } from 'terra-application-name';
-import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
 import { ApplicationMenuUtility } from 'terra-application-utility';
 import { disclosureType as modalDisclosureType } from 'terra-modal-manager';
 import { withDisclosureManager, disclosureManagerShape } from 'terra-disclosure-manager';
@@ -32,10 +31,6 @@ const propTypes = {
    * Configuration values for the ApplicationName component.
    */
   nameConfig: ApplicationLayoutPropTypes.nameConfigPropType,
-  /**
-   * Delegate prop that is provided by the NavigationLayout.
-   */
-  routingStackDelegate: RoutingStackDelegate.propType.isRequired,
   /**
    * Configuration to be provided to the ApplicationUtility component.
    */
@@ -142,7 +137,6 @@ class ApplicationMenu extends React.Component {
       extensions,
       layoutConfig,
       nameConfig,
-      routingStackDelegate,
       utilityConfig,
       ...customProps
     } = this.props;

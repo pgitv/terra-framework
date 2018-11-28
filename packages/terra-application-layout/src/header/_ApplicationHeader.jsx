@@ -59,7 +59,7 @@ const propTypes = {
    */
   disclosureManager: disclosureManagerShape,
   onToggle: PropTypes.func,
-  size: PropTypes.string,
+  activeBreakpoint: PropTypes.string,
 };
 
 const defaultProps = {
@@ -234,7 +234,7 @@ class ApplicationHeader extends React.Component {
       navigationLayoutRoutes,
       navigationLayoutSize,
       intl,
-      size,
+      activeBreakpoint,
       ...customProps
     } = this.props;
 
@@ -243,7 +243,7 @@ class ApplicationHeader extends React.Component {
       customProps.className,
     ]);
 
-    const isCompact = Helpers.isSizeCompact(size);
+    const isCompact = Helpers.isSizeCompact(activeBreakpoint);
 
     return (
       <div {...customProps} className={headerClassNames} ref={this.setContentNode}>
