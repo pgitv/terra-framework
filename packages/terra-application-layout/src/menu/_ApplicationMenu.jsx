@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import AppDelegate from 'terra-app-delegate';
 import ApplicationMenuLayout from 'terra-application-menu-layout';
 import { ApplicationMenuName } from 'terra-application-name';
 import RoutingStackDelegate from 'terra-navigation-layout/lib/RoutingStackDelegate';
 import { ApplicationMenuUtility } from 'terra-application-utility';
 import { disclosureType as modalDisclosureType } from 'terra-modal-manager';
+import { withDisclosureManager, disclosureManagerShape } from 'terra-disclosure-manager';
 
 import 'terra-base/lib/baseStyles';
 import ApplicationLayoutPropTypes from '../utils/propTypes';
@@ -19,10 +19,6 @@ import styles from './ApplicationMenu.module.scss';
 const cx = classNames.bind(styles);
 
 const propTypes = {
-  /**
-   * The AppDelegate instance that will be propagated to the components presented within the NavigationLayout.
-   */
-  app: AppDelegate.propType,
   /**
    * The element to be placed within the fill flex styled content area.
    * This content is intended to be the user configured content for the menu.
@@ -44,6 +40,10 @@ const propTypes = {
    * Configuration to be provided to the ApplicationUtility component.
    */
   utilityConfig: ApplicationLayoutPropTypes.utilityConfigPropType,
+  /**
+   * DisclosureManagerDelegate instance automatically provided by a DisclosureManagerProvider.
+   */
+  disclosureManager: disclosureManagerShape,
   toggleMenu: PropTypes.func,
   activeBreakpoint: PropTypes.string,
 };
@@ -60,14 +60,14 @@ class ApplicationMenu extends React.Component {
   }
 
   handleUtilityDiscloseRequest(utilityMenu) {
-    const { app, toggleMenu } = this.props;
+    const { disclosureManager, toggleMenu } = this.props;
 
     if (toggleMenu) {
       toggleMenu();
     }
 
-    if (app && utilityMenu) {
-      app.disclose({
+    if (disclosureManager && utilityMenu) {
+      disclosureManager.disclose({
         preferredType: modalDisclosureType,
         dimensions: { height: '420', width: '320' },
         content: {
@@ -79,9 +79,9 @@ class ApplicationMenu extends React.Component {
   }
 
   handleUtilityOnChange(event, itemData) {
-    const { utilityConfig, app } = this.props;
+    const { utilityConfig, disclosureManager } = this.props;
 
-    utilityConfig.onChange(event, itemData, app && app.disclose);
+    utilityConfig.onChange(event, itemData, disclosureManager && disclosureManager.disclose);
   }
 
   renderHeader(isCompact) {
@@ -135,8 +135,9 @@ class ApplicationMenu extends React.Component {
 
   render() {
     const {
-      app,
+      disclosureManager,
       activeBreakpoint,
+      toggleMenu,
       content,
       extensions,
       layoutConfig,
@@ -168,4 +169,4 @@ class ApplicationMenu extends React.Component {
 
 ApplicationMenu.propTypes = propTypes;
 
-export default ApplicationMenu;
+export default withDisclosureManager(ApplicationMenu);
