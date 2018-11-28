@@ -58,6 +58,8 @@ const propTypes = {
    * Internationalization object with translation APIs. Provided by `injectIntl`.
    */
   intl: intlShape,
+  onToggle: PropTypes.func,
+  size: PropTypes.string,
 };
 
 const defaultProps = {
@@ -113,16 +115,16 @@ class ApplicationHeader extends React.Component {
   }
 
   renderToggle() {
-    const { layoutConfig, intl } = this.props;
+    const { onToggle, intl } = this.props;
 
-    if (layoutConfig.toggleMenu) {
+    if (onToggle) {
       return (
         <div className={cx('toolbar-toggle')}>
           <button
             type="button"
             className={cx('toggle-button')}
             aria-label={intl.formatMessage({ id: 'Terra.applicationLayout.applicationHeader.menuToggleLabel' })}
-            onClick={layoutConfig.toggleMenu}
+            onClick={onToggle}
             data-application-header-toggle
           >
             <IconMenu />
@@ -232,6 +234,7 @@ class ApplicationHeader extends React.Component {
       navigationLayoutRoutes,
       navigationLayoutSize,
       intl,
+      size,
       ...customProps
     } = this.props;
 
@@ -240,7 +243,7 @@ class ApplicationHeader extends React.Component {
       customProps.className,
     ]);
 
-    const isCompact = Helpers.isSizeCompact(layoutConfig.size);
+    const isCompact = Helpers.isSizeCompact(size);
 
     return (
       <div {...customProps} className={headerClassNames} ref={this.setContentNode}>

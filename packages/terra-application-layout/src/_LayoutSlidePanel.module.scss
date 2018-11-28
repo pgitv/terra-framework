@@ -1,0 +1,46 @@
+:local {
+  .layout-slide-panel {
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+
+  .content,
+  .panel {
+    box-sizing: border-box;
+    height: 100%;
+    overflow: hidden;
+    transition: none;
+  }
+
+  .content {
+    float: right;
+    position: relative;
+    width: 100%;
+    z-index: 0;
+  }
+
+  .panel {
+    background-color: var(--layout-slide-panel-background-color, #fff);
+    position: absolute;
+    transform: translate3d(-100%, 0, 0);
+    width: var(--layout-slide-panel-tablet-panel-width, 22.857rem);
+    z-index: 5000;
+  }
+
+  .is-open > .panel {
+    box-shadow: 0.07143rem 0 0.3571rem var(--layout-slide-panel-panel-shadow-color, #1c1f21);
+
+    // Move the slider back to its origin when its on-screen.
+    transform: translate3d(0, 0, 0);
+  }
+
+  .panel.is-fullscreen {
+    width: var(--layout-slide-panel-phone-panel-width, calc(100% - 3.571rem));
+  }
+
+  .panel[aria-hidden='true'] {
+    visibility: hidden;
+  }
+}

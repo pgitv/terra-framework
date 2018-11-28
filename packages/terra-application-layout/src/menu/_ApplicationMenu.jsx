@@ -33,10 +33,6 @@ const propTypes = {
    */
   extensions: PropTypes.element,
   /**
-   * The Object of layout-related APIs provided to the components of the Layout.
-   */
-  layoutConfig: ApplicationLayoutPropTypes.layoutConfigPropType.isRequired,
-  /**
    * Configuration values for the ApplicationName component.
    */
   nameConfig: ApplicationLayoutPropTypes.nameConfigPropType,
@@ -48,6 +44,8 @@ const propTypes = {
    * Configuration to be provided to the ApplicationUtility component.
    */
   utilityConfig: ApplicationLayoutPropTypes.utilityConfigPropType,
+  toggleMenu: PropTypes.func,
+  activeBreakpoint: PropTypes.string,
 };
 
 class ApplicationMenu extends React.Component {
@@ -62,10 +60,10 @@ class ApplicationMenu extends React.Component {
   }
 
   handleUtilityDiscloseRequest(utilityMenu) {
-    const { app, layoutConfig } = this.props;
+    const { app, toggleMenu } = this.props;
 
-    if (layoutConfig && layoutConfig.toggleMenu) {
-      layoutConfig.toggleMenu();
+    if (toggleMenu) {
+      toggleMenu();
     }
 
     if (app && utilityMenu) {
@@ -101,10 +99,15 @@ class ApplicationMenu extends React.Component {
   }
 
   renderExtensions(isCompact) {
-    const { app, layoutConfig, extensions } = this.props;
+    const { activeBreakpoint, toggleMenu, extensions } = this.props;
+
+    const layoutConfig = {
+      size: activeBreakpoint,
+      toggleMenu,
+    };
 
     if (isCompact && extensions) {
-      return React.cloneElement(extensions, { app, layoutConfig });
+      return React.cloneElement(extensions, { layoutConfig });
     }
 
     return null;
@@ -133,6 +136,7 @@ class ApplicationMenu extends React.Component {
   render() {
     const {
       app,
+      activeBreakpoint,
       content,
       extensions,
       layoutConfig,
@@ -147,19 +151,14 @@ class ApplicationMenu extends React.Component {
       customProps.className,
     ]);
 
-    const isCompact = Helpers.isSizeCompact(layoutConfig.size);
-
-    let clonedContent;
-    if (content) {
-      clonedContent = React.cloneElement(content, { app, layoutConfig, routingStackDelegate });
-    }
+    const isCompact = Helpers.isSizeCompact(activeBreakpoint);
 
     return (
       <div {...customProps} className={menuClassNames}>
         <ApplicationMenuLayout
           header={this.renderHeader(isCompact)}
           extensions={this.renderExtensions(isCompact)}
-          content={clonedContent}
+          content={content}
           footer={this.renderFooter(isCompact)}
         />
       </div>

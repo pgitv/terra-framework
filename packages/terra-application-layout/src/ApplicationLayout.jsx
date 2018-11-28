@@ -1,30 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import AppDelegate from 'terra-app-delegate';
 import NavigationLayout from 'terra-navigation-layout';
+import ContentContainer from 'terra-content-container';
 import { routeConfigPropType } from 'terra-navigation-layout/lib/configurationPropTypes';
-import { matchPath } from 'react-router-dom';
-import { withModalManager } from 'terra-modal-manager';
+// import { matchPath } from 'react-router-dom';
+import ModalManager from 'terra-modal-manager';
+import { ActiveBreakpointProvider, withActiveBreakpoint } from 'terra-breakpoints';
+import NavigationSideMenu from 'terra-navigation-side-menu';
 
 import RoutingMenu from './menu/RoutingMenu';
-import ApplicationMenuWrapper from './menu/_ApplicationMenuWrapper';
+import ApplicationMenu from './menu/_ApplicationMenu';
 import ApplicationHeader from './header/_ApplicationHeader';
 import ApplicationLayoutPropTypes from './utils/propTypes';
 import Helpers from './utils/helpers';
 import UtilityHelpers from './utils/utilityHelpers';
 
-const navigationLayoutSizes = ['default', 'tiny', 'small', 'medium', 'large', 'huge'];
+import LayoutSlidePanel from './_LayoutSlidePanel';
 
 const propTypes = {
   /**
-   * The AppDelegate instance provided by `withModalManager`. If an AppDelegate instance is
-   * explicitly provided to the ApplicationLayout, the ModalManager will wrap it and
-   * fall back to its defined APIs as needed.
-   */
-  app: AppDelegate.propType,
-  /**
-   * The content to be rendered in the ApplicationLayout's extensions region. This component will be provided an AppDelegate (as `app`) and
-   * a `layoutConfig` as props to facilitate communication with the ApplicationLayout.
+   * The content to be rendered in the ApplicationLayout's extensions region. This component will be provided
+   * a `layoutConfig` prop to facilitate communication with the ApplicationLayout.
    */
   extensions: PropTypes.element,
   /**
@@ -45,6 +41,10 @@ const propTypes = {
    */
   navigationItems: ApplicationLayoutPropTypes.navigationItemsPropType,
   /**
+   * The configuration values for the ApplicationUtility component.
+   */
+  utilityConfig: ApplicationLayoutPropTypes.utilityConfigPropType,
+  /**
    * The routing configuration Object. This is very similar to the routingConfig supported by the NavigationLayout; however,
    * the ApplicationLayout only supports configuration for the `menu` and `content` regions of the layout. The '/' path is also blacklisted
    * within this configuration object, as the ApplicationLayout uses it for navigation purposes. Any configuration provided for the '/' path
@@ -55,9 +55,13 @@ const propTypes = {
     content: routeConfigPropType,
   }).isRequired,
   /**
-   * The configuration values for the ApplicationUtility component.
+   * Content to render within the body of the ApplicationLayout. If a routingConfig is provided, the `children` prop will be ignored.
    */
-  utilityConfig: ApplicationLayoutPropTypes.utilityConfigPropType,
+  children: PropTypes.node,
+  /**
+   * The active breakpoint for the current window size. Provided automatically by withActiveBreakpoint().
+   */
+  activeBreakpoint: PropTypes.string,
 };
 
 const defaultProps = {
@@ -69,165 +73,144 @@ class ApplicationLayout extends React.Component {
    * Builds and returns the menu items for the PrimaryNavigationSideMenu from the navigationItems.
    */
   static buildMenuNavigationItems(props) {
-    const { navigationItems, routingConfig } = props;
+    const { navigationItems } = props;
 
-    if (!routingConfig.menu) {
-      return navigationItems;
-    }
-
-    const menuPaths = Object.keys(routingConfig.menu).map(key => (routingConfig.menu[key].path));
     return navigationItems.map(navigationItem => ({
-      externalLink: navigationItem.externalLink,
-      path: navigationItem.path,
+      key: navigationItem.path,
       text: navigationItem.text,
-      hasSubMenu: menuPaths.filter(menuPath => matchPath(navigationItem.path, { path: menuPath })).length > 0,
+      metaData: {
+        path: navigationItem.path,
+        externalLink: navigationItem.externalLink,
+        navigationItem,
+      },
     }));
-  }
-
-  /**
-   * Builds and returns the routing configuration object for the RoutingMenu that renders the top navigation items at
-   * compact breakpoints.
-   */
-  static buildNavigationMenuConfig(props) {
-    const menuNavigationItems = ApplicationLayout.buildMenuNavigationItems(props);
-
-    const componentConfig = {
-      componentClass: RoutingMenu,
-      props: {
-        menuItems: menuNavigationItems,
-      },
-      refuseRoutingStackNavigation: menuNavigationItems.length === 0,
-    };
-
-    /**
-     * The configuration for the primary navigation menu is specified for the
-     * tiny and small breakpoints only. The menu will only be visible when the ApplicationLayout
-     * is compact.
-     */
-    return {
-      '/': {
-        path: '/',
-        component: {
-          tiny: componentConfig,
-          small: componentConfig,
-        },
-      },
-    };
-  }
-
-  /**
-   * Builds and returns the routing configuration object for all menus with ApplicationMenuWrappers
-   * wrapped around each component entry.
-   */
-  static buildApplicationMenus(props, originalMenuConfig) {
-    const { nameConfig, utilityConfig, extensions } = props;
-
-    if (!originalMenuConfig) {
-      return undefined;
-    }
-
-    const config = {};
-    Object.keys(originalMenuConfig).forEach((menuKey) => {
-      const menuConfig = Object.assign({}, originalMenuConfig[menuKey]);
-
-      const menuComponentConfig = Object.assign({}, menuConfig.component);
-
-      /**
-       * Every supplied menu component is wrapped with an ApplicationMenuWrapper.
-       */
-      navigationLayoutSizes.forEach((size) => {
-        if (!menuComponentConfig[size]) {
-          return;
-        }
-
-        const componentConfig = Object.assign({}, menuComponentConfig[size]);
-        const componentProps = Object.assign({}, componentConfig.props);
-
-        /**
-         * ApplicationMenuWrapper-specific props are injected into the props object with a prop
-         * called `applicationMenuWrapperProps`.
-         */
-        componentProps.applicationMenuWrapperProps = {
-          contentComponentClass: componentConfig.componentClass,
-          nameConfig,
-          utilityConfig,
-          extensions,
-        };
-        componentConfig.props = componentProps;
-        componentConfig.componentClass = ApplicationMenuWrapper;
-
-        menuComponentConfig[size] = componentConfig;
-      });
-
-      menuConfig.component = menuComponentConfig;
-      config[menuKey] = menuConfig;
-    });
-
-    return config;
-  }
-
-  /**
-   * Builds and returns the routing configuration object for the ApplicationLayout by injecting the RoutingMenu for top navigation
-   * and ApplicationMenuWrapper's as necessary.
-   */
-  static buildRoutingConfig(props) {
-    const { routingConfig } = props;
-
-    const updatedConfig = Object.assign({}, routingConfig, {
-      menu: ApplicationLayout.buildApplicationMenus(props, Object.assign({}, routingConfig.menu, ApplicationLayout.buildNavigationMenuConfig(props))),
-    });
-
-    return updatedConfig;
   }
 
   constructor(props) {
     super(props);
 
+    this.renderApplicationLayoutMenu = this.renderApplicationLayoutMenu.bind(this);
+    this.toggleMenuPanelState = this.toggleMenuPanelState.bind(this);
+
     this.state = {
-      applicationLayoutRoutingConfig: ApplicationLayout.buildRoutingConfig(this.props),
+      menuIsOpen: false,
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.nameConfig !== nextProps.nameConfig
-        || this.props.utilityConfig !== nextProps.utilityConfig
-        || this.props.routingConfig !== nextProps.routingConfig
-        || this.props.navigationItems !== nextProps.navigationItems
-        || this.props.indexPath !== nextProps.indexPath) {
-      this.setState({
-        applicationLayoutRoutingConfig: ApplicationLayout.buildRoutingConfig(nextProps),
-      });
-    }
+  toggleMenuPanelState() {
+    this.setState(state => (
+      {
+        menuIsOpen: !state.menuIsOpen,
+      }
+    ));
+  }
+
+  renderApplicationLayoutMenu() {
+    const {
+      nameConfig, utilityConfig, extensions, activeBreakpoint,
+    } = this.props;
+    const { activeNavigationItem } = this.state;
+
+    const menuNavigationItems = ApplicationLayout.buildMenuNavigationItems(this.props);
+
+    return (
+      <ApplicationMenu
+        extensions={extensions}
+        nameConfig={nameConfig}
+        utilityConfig={utilityConfig}
+        activeBreakpoint={activeBreakpoint}
+        layoutConfig={{
+          size: activeBreakpoint,
+        }}
+        toggleMenu={this.toggleMenuPanelState}
+        content={(
+          <NavigationSideMenu
+            menuItems={[{
+              childKeys: menuNavigationItems.map(item => item.key),
+              key: 'root',
+              text: 'Root Menu',
+              isRootMenu: true,
+            }].concat(menuNavigationItems)}
+            selectedMenuKey="root"
+            selectedChildKey={activeNavigationItem && activeNavigationItem.path}
+            onChange={(event, data) => {
+              if (data.metaData.externalLink) {
+                window.open(data.metaData.externalLink.path, data.metaData.externalLink.target || '_blank');
+              } else if (activeNavigationItem === data.metaData.navigationItem) {
+                this.setState({
+                  menuIsOpen: false,
+                });
+              } else {
+                this.setState({
+                  activeNavigationItem: data.metaData.navigationItem,
+                  menuIsOpen: false,
+                }, () => {
+                  // history.push(data.metaData.path);
+                });
+              }
+            }}
+          />
+      )}
+      />
+    );
   }
 
   render() {
     const {
-      app, nameConfig, utilityConfig, navigationAlignment, navigationItems, indexPath, extensions,
+      nameConfig, utilityConfig, navigationAlignment, navigationItems, indexPath, extensions, routingConfig, activeBreakpoint, children,
     } = this.props;
-    const { applicationLayoutRoutingConfig } = this.state;
+    const { menuIsOpen } = this.state;
+
+    const isCompact = activeBreakpoint === 'tiny' || activeBreakpoint === 'small';
+
+    console.log(`isCompact: ${isCompact}`);
+    console.log(`activeBreakpoint: ${activeBreakpoint}`);
+
+    let content = children;
+    if (routingConfig) {
+      content = (
+        <NavigationLayout
+          config={routingConfig}
+          indexPath={indexPath}
+        />
+      );
+    }
 
     return (
-      <NavigationLayout
-        app={app}
-        config={applicationLayoutRoutingConfig}
-        header={(
-          <ApplicationHeader
-            nameConfig={nameConfig}
-            utilityConfig={utilityConfig}
-            extensions={extensions}
-            applicationLinks={{
-              alignment: navigationAlignment,
-              links: navigationItems ? navigationItems.map((route, index) => ({
-                id: `application-layout-tab-${index}`,
-                path: route.path,
-                text: route.text,
-                externalLink: route.externalLink,
-              })) : undefined,
-            }}
-          />
-        )}
-        indexPath={indexPath}
-      />
+      <LayoutSlidePanel
+        panelContent={isCompact ? this.renderApplicationLayoutMenu() : undefined}
+        panelIsFullscreen={isCompact}
+        onToggle={isCompact ? this.toggleMenuPanelState : undefined}
+        isOpen={isCompact && menuIsOpen}
+      >
+        <ContentContainer
+          header={(
+            <ApplicationHeader
+              size={activeBreakpoint}
+              nameConfig={nameConfig}
+              utilityConfig={utilityConfig}
+              extensions={extensions}
+              applicationLinks={{
+                alignment: navigationAlignment,
+                links: navigationItems ? navigationItems.map((route, index) => ({
+                  id: `application-layout-tab-${index}`,
+                  path: route.path,
+                  text: route.text,
+                  externalLink: route.externalLink,
+                })) : undefined,
+              }}
+              onToggle={isCompact ? this.toggleMenuPanelState : undefined}
+              layoutConfig={{
+                toggleMenu: isCompact ? this.toggleMenuPanelState : undefined,
+                size: activeBreakpoint,
+              }}
+            />
+          )}
+          fill
+        >
+          {content}
+        </ContentContainer>
+      </LayoutSlidePanel>
     );
   }
 }
@@ -235,11 +218,17 @@ class ApplicationLayout extends React.Component {
 ApplicationLayout.propTypes = propTypes;
 ApplicationLayout.defaultProps = defaultProps;
 
-/**
- * The ApplicationLayout is wrapped with a ModalManager on export to provide modal functionality
- * for utility presentation and content convenience.
- */
-export default withModalManager(ApplicationLayout);
+const WrappedApplicationLayout = withActiveBreakpoint(ApplicationLayout);
+
+const ApplicationLayoutHarness = props => (
+  <ActiveBreakpointProvider>
+    <ModalManager>
+      <WrappedApplicationLayout {...props} />
+    </ModalManager>
+  </ActiveBreakpointProvider>
+);
+
+export default ApplicationLayoutHarness;
 
 const Utils = {
   helpers: Helpers,
