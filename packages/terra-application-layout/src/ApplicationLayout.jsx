@@ -69,6 +69,10 @@ const propTypes = {
    * The active breakpoint for the current window size. Provided automatically by withActiveBreakpoint().
    */
   activeBreakpoint: PropTypes.string,
+  menuIsOpen: PropTypes.bool,
+  onMenuToggle: PropTypes.func,
+  activeNavigationItemKey: PropTypes.string,
+  onSelectNavigationItem: PropTypes.func,
 };
 
 const defaultProps = {
@@ -81,6 +85,10 @@ class ApplicationLayout extends React.Component {
    */
   static buildMenuNavigationItems(props) {
     const { navigationItems } = props;
+
+    if (!navigationItems) {
+      return [];
+    }
 
     return navigationItems.map(navigationItem => ({
       key: navigationItem.path,
@@ -97,28 +105,34 @@ class ApplicationLayout extends React.Component {
     super(props);
 
     this.renderApplicationLayoutMenu = this.renderApplicationLayoutMenu.bind(this);
-    this.toggleMenuPanelState = this.toggleMenuPanelState.bind(this);
-
-    this.state = {
-      menuIsOpen: false,
-    };
-  }
-
-  toggleMenuPanelState() {
-    this.setState(state => (
-      {
-        menuIsOpen: !state.menuIsOpen,
-      }
-    ));
   }
 
   renderApplicationLayoutMenu() {
     const {
-      nameConfig, utilityConfig, extensions, activeBreakpoint,
+      nameConfig, utilityConfig, extensions, activeBreakpoint, onMenuToggle, activeNavigationItemKey, onSelectNavigationItem
     } = this.props;
-    const { activeNavigationItem } = this.state;
 
     const menuNavigationItems = ApplicationLayout.buildMenuNavigationItems(this.props);
+
+    let navigationSideMenu;
+    if (menuNavigationItems.length) {
+      navigationSideMenu = (
+        <NavigationSideMenu
+          menuItems={[{
+            childKeys: menuNavigationItems.map(item => item.key),
+            key: 'application_layout_menu',
+            isRootMenu: true,
+          }].concat(menuNavigationItems)}
+          selectedMenuKey="application_layout_menu"
+          selectedChildKey={activeNavigationItemKey}
+          onChange={(event, data) => {
+            if (onSelectNavigationItem) {
+              onSelectNavigationItem(data.metaData.navigationItem.path);
+            }
+          }}
+        />
+      )
+    }
 
     return (
       <ApplicationMenu
@@ -129,44 +143,16 @@ class ApplicationLayout extends React.Component {
         layoutConfig={{
           size: activeBreakpoint,
         }}
-        toggleMenu={this.toggleMenuPanelState}
-        content={(
-          <NavigationSideMenu
-            menuItems={[{
-              childKeys: menuNavigationItems.map(item => item.key),
-              key: 'root',
-              text: 'Root Menu',
-              isRootMenu: true,
-            }].concat(menuNavigationItems)}
-            selectedMenuKey="root"
-            selectedChildKey={activeNavigationItem && activeNavigationItem.path}
-            onChange={(event, data) => {
-              if (data.metaData.externalLink) {
-                window.open(data.metaData.externalLink.path, data.metaData.externalLink.target || '_blank');
-              } else if (activeNavigationItem === data.metaData.navigationItem) {
-                this.setState({
-                  menuIsOpen: false,
-                });
-              } else {
-                this.setState({
-                  activeNavigationItem: data.metaData.navigationItem,
-                  menuIsOpen: false,
-                }, () => {
-                  // history.push(data.metaData.path);
-                });
-              }
-            }}
-          />
-      )}
+        toggleMenu={onMenuToggle}
+        content={navigationSideMenu}
       />
     );
   }
 
   render() {
     const {
-      nameConfig, utilityConfig, navigationAlignment, navigationItems, indexPath, extensions, routingConfig, activeBreakpoint, children,
+      nameConfig, utilityConfig, navigationAlignment, navigationItems, indexPath, extensions, routingConfig, activeBreakpoint, children, menuIsOpen, onMenuToggle, activeNavigationItemKey, onSelectNavigationItem
     } = this.props;
-    const { menuIsOpen } = this.state;
 
     const isCompact = activeBreakpoint === 'tiny' || activeBreakpoint === 'small';
 
@@ -193,32 +179,27 @@ class ApplicationLayout extends React.Component {
           {isCompact ? this.renderApplicationLayoutMenu() : undefined}
         </div>
         <OverlayContainer className={cx('content')}>
-          <Overlay isRelativeToContainer onRequestClose={this.toggleMenuPanelState} isOpen={menuIsOpen} backgroundStyle="dark" style={{ zIndex: '1500' }} />
+          <Overlay isRelativeToContainer onRequestClose={onMenuToggle} isOpen={menuIsOpen} backgroundStyle="dark" style={{ zIndex: '1500' }} />
             <ContentContainer
-            header={(
-              <ApplicationHeader
-                activeBreakpoint={activeBreakpoint}
-                nameConfig={nameConfig}
-                utilityConfig={utilityConfig}
-                extensions={extensions}
-                applicationLinks={{
-                  alignment: navigationAlignment,
-                  links: navigationItems ? navigationItems.map((route, index) => ({
-                    id: `application-layout-tab-${index}`,
-                    path: route.path,
-                    text: route.text,
-                    externalLink: route.externalLink,
-                  })) : undefined,
-                }}
-                onToggle={isCompact ? this.toggleMenuPanelState : undefined}
-                layoutConfig={{
-                  toggleMenu: isCompact ? this.toggleMenuPanelState : undefined,
-                  size: activeBreakpoint,
-                }}
-              />
-            )}
+              header={(
+                <ApplicationHeader
+                  activeBreakpoint={activeBreakpoint}
+                  nameConfig={nameConfig}
+                  utilityConfig={utilityConfig}
+                  extensions={extensions}
+                  navigationItems={navigationItems}
+                  navigationItemAlignment={navigationAlignment}
+                  activeNavigationItemKey={activeNavigationItemKey}
+                  onSelectNavigationItem={onSelectNavigationItem}
+                  onToggle={isCompact ? onMenuToggle : undefined}
+                  layoutConfig={{
+                    toggleMenu: isCompact ? onMenuToggle : undefined,
+                    size: activeBreakpoint,
+                  }}
+                />
+              )}
             fill
-          >
+          > 
             {content}
           </ContentContainer>
         </OverlayContainer>

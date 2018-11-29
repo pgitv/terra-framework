@@ -216,12 +216,14 @@ class ApplicationLayoutTest extends React.Component {
 
     this.state = {
       checkboxItemEnabled: false,
+      menuIsOpen: false,
+      activeNavigationItem: '/page_1',
     };
   }
 
   render() {
     const { intl } = this.props;
-    const { checkboxItemEnabled } = this.state;
+    const { checkboxItemEnabled, menuIsOpen, activeNavigationItem } = this.state;
 
     const customUtilityItems = [{
       key: 'additional-1',
@@ -280,6 +282,18 @@ class ApplicationLayoutTest extends React.Component {
           navigationItems={navigationItems}
           extensions={<TestExtensions />}
           indexPath={indexPath}
+          menuIsOpen={menuIsOpen}
+          onMenuToggle={() => {
+            this.setState(state => ({
+              menuIsOpen: !state.menuIsOpen,
+            }));
+          }}
+          activeNavigationItemKey={activeNavigationItem}
+          onSelectNavigationItem={(navigationItemKey) => {
+            this.setState({
+              activeNavigationItem: navigationItemKey,
+            });
+          }}
         />
       </ContentContainer>
     );

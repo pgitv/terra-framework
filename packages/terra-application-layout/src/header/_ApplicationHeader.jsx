@@ -6,13 +6,13 @@ import { withDisclosureManager, disclosureManagerShape } from 'terra-disclosure-
 import ApplicationHeaderLayout from 'terra-application-header-layout';
 import { ApplicationHeaderUtility } from 'terra-application-utility';
 import { ApplicationHeaderName } from 'terra-application-name';
-import { ApplicationTabs, ApplicationLinksPropType } from 'terra-application-links';
 import IconMenu from 'terra-icon/lib/icon/IconMenu';
 import Popup from 'terra-popup';
 import { processedRoutesPropType } from 'terra-navigation-layout/lib/configurationPropTypes';
 
 import 'terra-base/lib/baseStyles';
 
+import ApplicationTabs from './tabs/ApplicationTabs';
 import ApplicationLayoutPropTypes from '../utils/propTypes';
 import Helpers from '../utils/helpers';
 
@@ -21,11 +21,6 @@ import styles from './ApplicationHeader.module.scss';
 const cx = classNames.bind(styles);
 
 const propTypes = {
-  /**
-   * Navigation tab alignment. Navigational links that will generate list items that will update the path.
-   * These paths are matched with react-router for selection.
-   */
-  applicationLinks: ApplicationLinksPropType,
   /**
    * The element to be placed within the fit start area for extensions within the layout.
    */
@@ -60,10 +55,15 @@ const propTypes = {
   disclosureManager: disclosureManagerShape,
   onToggle: PropTypes.func,
   activeBreakpoint: PropTypes.string,
+  navigationItems: PropTypes.array,
+  navigationItemAlignment: PropTypes.string,
+  activeNavigationItemKey: PropTypes.string,
+  onSelectNavigationItem: PropTypes.func,
 };
 
 const defaultProps = {
-  applicationLinks: {},
+  navigationItems: [],
+  navigationItemAlignment: 'center',
 };
 
 class ApplicationHeader extends React.Component {
@@ -149,16 +149,19 @@ class ApplicationHeader extends React.Component {
   }
 
   renderNavigation(isCompact) {
-    const { applicationLinks } = this.props;
+    const {
+      navigationItems, navigationItemAlignment, activeNavigationItemKey, onSelectNavigationItem,
+    } = this.props;
 
-    if (!isCompact) {
-      if (applicationLinks.links && applicationLinks.links.length) {
-        return (
-          <ApplicationTabs {...applicationLinks} />
-        );
-      }
-
-      return null;
+    if (!isCompact && navigationItems.length) {
+      return (
+        <ApplicationTabs
+          alignment={navigationItemAlignment}
+          tabs={navigationItems}
+          activeTabKey={activeNavigationItemKey}
+          onTabSelect={onSelectNavigationItem}
+        />
+      );
     }
 
     /**
@@ -225,28 +228,25 @@ class ApplicationHeader extends React.Component {
 
   render() {
     const {
-      disclosureManager,
-      applicationLinks,
-      extensions,
-      layoutConfig,
-      nameConfig,
-      utilityConfig,
-      navigationLayoutRoutes,
-      navigationLayoutSize,
-      intl,
+      // disclosureManager,
+      // extensions,
+      // layoutConfig,
+      // nameConfig,
+      // utilityConfig,
+      // navigationLayoutRoutes,
+      // navigationLayoutSize,
+      // intl,
       activeBreakpoint,
-      ...customProps
     } = this.props;
 
     const headerClassNames = cx([
       'application-header',
-      customProps.className,
     ]);
 
     const isCompact = Helpers.isSizeCompact(activeBreakpoint);
 
     return (
-      <div {...customProps} className={headerClassNames} ref={this.setContentNode}>
+      <div className={headerClassNames} ref={this.setContentNode}>
         <ApplicationHeaderLayout
           toggle={this.renderToggle()}
           logo={!isCompact ? this.renderAppName() : null}
