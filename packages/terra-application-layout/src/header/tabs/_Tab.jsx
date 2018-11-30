@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 
 import 'terra-base/lib/baseStyles';
-import TabUtils from './_TabUtils';
-import styles from './ApplicationTabs.module.scss';
+import { KEYCODES } from '../../utils/helpers';
+import styles from './_ApplicationTabs.module.scss';
 
 const cx = classNames.bind(styles);
 
@@ -14,9 +14,9 @@ const propTypes = {
    */
   isCollapsed: PropTypes.bool,
   /**
-   * The path to push to the route.
+   * The identifier for the tab.
    */
-  path: PropTypes.string.isRequired,
+  tabKey: PropTypes.string.isRequired,
   /**
    * The display text for the tab.
    */
@@ -44,12 +44,12 @@ class ApplicationTab extends React.Component {
 
   handleKeyDown(event) {
     // Add active state to FF browsers
-    if (event.nativeEvent.keyCode === TabUtils.KEYCODES.SPACE) {
+    if (event.nativeEvent.keyCode === KEYCODES.SPACE) {
       this.setState({ active: true });
     }
 
     // Add focus styles for keyboard navigation
-    if (event.nativeEvent.keyCode === TabUtils.KEYCODES.SPACE || event.nativeEvent.keyCode === TabUtils.KEYCODES.ENTER) {
+    if (event.nativeEvent.keyCode === KEYCODES.SPACE || event.nativeEvent.keyCode === KEYCODES.ENTER) {
       this.setState({ focused: true });
 
       event.preventDefault();
@@ -59,12 +59,12 @@ class ApplicationTab extends React.Component {
 
   handleKeyUp(event) {
     // Remove active state from FF broswers
-    if (event.nativeEvent.keyCode === TabUtils.KEYCODES.SPACE) {
+    if (event.nativeEvent.keyCode === KEYCODES.SPACE) {
       this.setState({ active: false });
     }
 
     // Apply focus styles for keyboard navigation
-    if (event.nativeEvent.keyCode === TabUtils.KEYCODES.TAB) {
+    if (event.nativeEvent.keyCode === KEYCODES.TAB) {
       event.preventDefault();
       event.stopPropagation();
       this.setState({ focused: true });
@@ -73,7 +73,7 @@ class ApplicationTab extends React.Component {
 
   handleOnClick() {
     if (this.props.onTabClick) {
-      this.props.onTabClick(this.props.path);
+      this.props.onTabClick(this.props.tabKey);
     }
   }
 
@@ -84,7 +84,6 @@ class ApplicationTab extends React.Component {
       isSelected,
     } = this.props;
 
-    // const isCurrent = this.isCurrentPath();
     const tabClassNames = cx([
       { tab: !isCollapsed },
       { 'collapsed-tab': isCollapsed },

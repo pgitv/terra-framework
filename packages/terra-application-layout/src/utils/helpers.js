@@ -5,6 +5,13 @@
  */
 const isSizeCompact = size => size === 'tiny' || size === 'small';
 
+const KEYCODES = {
+  ENTER: 13,
+  SPACE: 32,
+  TAB: 9,
+};
+
 export default {
   isSizeCompact,
+  KEYCODES,
 };

@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import NavigationLayout from 'terra-navigation-layout';
 import ContentContainer from 'terra-content-container';
-import { routeConfigPropType } from 'terra-navigation-layout/lib/configurationPropTypes';
-// import { matchPath } from 'react-router-dom';
 import ModalManager from 'terra-modal-manager';
 import { ActiveBreakpointProvider, withActiveBreakpoint } from 'terra-breakpoints';
 import NavigationSideMenu from 'terra-navigation-side-menu';
@@ -31,11 +28,6 @@ const propTypes = {
    */
   extensions: PropTypes.element,
   /**
-   * The index, or default, path of the routing configuration. The ApplicationLayout will redirect to this path
-   * when the router reaches an unknown location.
-   */
-  indexPath: PropTypes.string.isRequired,
-  /**
    * The configuration values for the ApplicationName component.
    */
   nameConfig: ApplicationLayoutPropTypes.nameConfigPropType,
@@ -52,17 +44,7 @@ const propTypes = {
    */
   utilityConfig: ApplicationLayoutPropTypes.utilityConfigPropType,
   /**
-   * The routing configuration Object. This is very similar to the routingConfig supported by the NavigationLayout; however,
-   * the ApplicationLayout only supports configuration for the `menu` and `content` regions of the layout. The '/' path is also blacklisted
-   * within this configuration object, as the ApplicationLayout uses it for navigation purposes. Any configuration provided for the '/' path
-   * will be disregarded.
-   */
-  routingConfig: PropTypes.shape({
-    menu: routeConfigPropType,
-    content: routeConfigPropType,
-  }).isRequired,
-  /**
-   * Content to render within the body of the ApplicationLayout. If a routingConfig is provided, the `children` prop will be ignored.
+   * Content to render within the body of the ApplicationLayout.
    */
   children: PropTypes.node,
   /**
@@ -80,58 +62,47 @@ const defaultProps = {
 };
 
 class ApplicationLayout extends React.Component {
-  /**
-   * Builds and returns the menu items for the PrimaryNavigationSideMenu from the navigationItems.
-   */
-  static buildMenuNavigationItems(props) {
-    const { navigationItems } = props;
-
-    if (!navigationItems) {
-      return [];
-    }
-
-    return navigationItems.map(navigationItem => ({
-      key: navigationItem.path,
-      text: navigationItem.text,
-      metaData: {
-        path: navigationItem.path,
-        externalLink: navigationItem.externalLink,
-        navigationItem,
-      },
-    }));
-  }
-
   constructor(props) {
     super(props);
 
     this.renderApplicationLayoutMenu = this.renderApplicationLayoutMenu.bind(this);
   }
 
+  componentDidUpdate() {
+    const { activeBreakpoint, menuIsOpen, onMenuToggle } = this.props;
+
+    /**
+     * The menu is toggled if it determined to be open at medium through enormous breakpoints.
+     */
+    if (activeBreakpoint !== 'tiny' && activeBreakpoint !== 'small' && menuIsOpen) {
+      onMenuToggle();
+    }
+  }
+
   renderApplicationLayoutMenu() {
     const {
-      nameConfig, utilityConfig, extensions, activeBreakpoint, onMenuToggle, activeNavigationItemKey, onSelectNavigationItem
+      nameConfig, utilityConfig, extensions, activeBreakpoint, onMenuToggle, navigationItems, activeNavigationItemKey, onSelectNavigationItem,
     } = this.props;
 
-    const menuNavigationItems = ApplicationLayout.buildMenuNavigationItems(this.props);
-
     let navigationSideMenu;
-    if (menuNavigationItems.length) {
+    if (navigationItems.length) {
       navigationSideMenu = (
         <NavigationSideMenu
           menuItems={[{
-            childKeys: menuNavigationItems.map(item => item.key),
+            childKeys: navigationItems.map(item => item.key),
             key: 'application_layout_menu',
+            text: 'Application Layout Menu',
             isRootMenu: true,
-          }].concat(menuNavigationItems)}
+          }].concat(navigationItems)}
           selectedMenuKey="application_layout_menu"
           selectedChildKey={activeNavigationItemKey}
           onChange={(event, data) => {
             if (onSelectNavigationItem) {
-              onSelectNavigationItem(data.metaData.navigationItem.path);
+              onSelectNavigationItem(data.metaData.navigationItem.key);
             }
           }}
         />
-      )
+      );
     }
 
     return (
@@ -140,9 +111,6 @@ class ApplicationLayout extends React.Component {
         nameConfig={nameConfig}
         utilityConfig={utilityConfig}
         activeBreakpoint={activeBreakpoint}
-        layoutConfig={{
-          size: activeBreakpoint,
-        }}
         toggleMenu={onMenuToggle}
         content={navigationSideMenu}
       />
@@ -151,26 +119,16 @@ class ApplicationLayout extends React.Component {
 
   render() {
     const {
-      nameConfig, utilityConfig, navigationAlignment, navigationItems, indexPath, extensions, routingConfig, activeBreakpoint, children, menuIsOpen, onMenuToggle, activeNavigationItemKey, onSelectNavigationItem
+      nameConfig, utilityConfig, navigationAlignment, navigationItems, extensions, activeBreakpoint, children, menuIsOpen, onMenuToggle, activeNavigationItemKey, onSelectNavigationItem,
     } = this.props;
 
     const isCompact = activeBreakpoint === 'tiny' || activeBreakpoint === 'small';
-
-    let content = children;
-    if (routingConfig) {
-      content = (
-        <NavigationLayout
-          config={routingConfig}
-          indexPath={indexPath}
-        />
-      );
-    }
 
     const containerClassNames = cx([
       'application-layout',
       { 'menu-is-open': menuIsOpen },
     ]);
-  
+
     return (
       <div
         className={containerClassNames}
@@ -180,27 +138,27 @@ class ApplicationLayout extends React.Component {
         </div>
         <OverlayContainer className={cx('content')}>
           <Overlay isRelativeToContainer onRequestClose={onMenuToggle} isOpen={menuIsOpen} backgroundStyle="dark" style={{ zIndex: '1500' }} />
-            <ContentContainer
-              header={(
-                <ApplicationHeader
-                  activeBreakpoint={activeBreakpoint}
-                  nameConfig={nameConfig}
-                  utilityConfig={utilityConfig}
-                  extensions={extensions}
-                  navigationItems={navigationItems}
-                  navigationItemAlignment={navigationAlignment}
-                  activeNavigationItemKey={activeNavigationItemKey}
-                  onSelectNavigationItem={onSelectNavigationItem}
-                  onToggle={isCompact ? onMenuToggle : undefined}
-                  layoutConfig={{
-                    toggleMenu: isCompact ? onMenuToggle : undefined,
-                    size: activeBreakpoint,
-                  }}
-                />
+          <ContentContainer
+            header={(
+              <ApplicationHeader
+                activeBreakpoint={activeBreakpoint}
+                nameConfig={nameConfig}
+                utilityConfig={utilityConfig}
+                extensions={extensions}
+                navigationItems={navigationItems}
+                navigationItemAlignment={navigationAlignment}
+                activeNavigationItemKey={activeNavigationItemKey}
+                onSelectNavigationItem={onSelectNavigationItem}
+                onToggle={isCompact ? onMenuToggle : undefined}
+                layoutConfig={{
+                  toggleMenu: isCompact ? onMenuToggle : undefined,
+                  size: activeBreakpoint,
+                }}
+              />
               )}
             fill
-          > 
-            {content}
+          >
+            {children}
           </ContentContainer>
         </OverlayContainer>
       </div>

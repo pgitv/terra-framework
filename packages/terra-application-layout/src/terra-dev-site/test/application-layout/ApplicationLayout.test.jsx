@@ -7,6 +7,7 @@ import Image from 'terra-image';
 import Avatar from 'terra-avatar';
 import ContentContainer from 'terra-content-container';
 import Button from 'terra-button';
+import NavigationLayout from 'terra-navigation-layout';
 
 import ApplicationLayout, { RoutingMenu, Utils } from '../../../ApplicationLayout';
 
@@ -158,25 +159,25 @@ const routingConfig = {
  * With compact rendering, the items will be presented within the layout's menu region within a ApplicationLayout-managed menu.
  */
 const navigationItems = [{
-  path: '/page_1',
+  key: '/page_1',
   text: 'Page 1',
 }, {
-  path: '/page_2',
+  key: '/page_2',
   text: 'Page 2',
 }, {
-  path: '/page_3',
+  key: '/page_3',
   text: 'Page 3',
 }, {
-  path: '/page_4',
+  key: '/page_4',
   text: 'Page 4',
 }, {
-  path: '/page_5',
+  key: '/page_5',
   text: 'Page 5',
 }, {
-  path: '/page_6',
+  key: '/page_6',
   text: 'Page 6',
 }, {
-  path: '/page_7',
+  key: '/page_7',
   text: 'Page 7',
 }];
 
@@ -278,23 +279,31 @@ class ApplicationLayoutTest extends React.Component {
         <ApplicationLayout
           nameConfig={nameConfig}
           utilityConfig={utilityConfig}
-          routingConfig={routingConfig}
-          navigationItems={navigationItems}
           extensions={<TestExtensions />}
-          indexPath={indexPath}
           menuIsOpen={menuIsOpen}
           onMenuToggle={() => {
             this.setState(state => ({
               menuIsOpen: !state.menuIsOpen,
             }));
           }}
+          navigationItems={navigationItems}
           activeNavigationItemKey={activeNavigationItem}
           onSelectNavigationItem={(navigationItemKey) => {
-            this.setState({
-              activeNavigationItem: navigationItemKey,
-            });
+            if (this.state.activeNavigationItem !== navigationItemKey) {
+              this.setState({
+                activeNavigationItem: navigationItemKey,
+                menuIsOpen: false,
+              }, () => {
+                this.props.history.push(navigationItemKey);
+              });
+            }
           }}
-        />
+        >
+          <NavigationLayout
+            config={routingConfig}
+            indexPath={indexPath}
+          />
+        </ApplicationLayout>
       </ContentContainer>
     );
   }

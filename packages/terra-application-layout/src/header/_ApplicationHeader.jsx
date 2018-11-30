@@ -12,7 +12,7 @@ import { processedRoutesPropType } from 'terra-navigation-layout/lib/configurati
 
 import 'terra-base/lib/baseStyles';
 
-import ApplicationTabs from './tabs/ApplicationTabs';
+import ApplicationTabs from './tabs/_ApplicationTabs';
 import ApplicationLayoutPropTypes from '../utils/propTypes';
 import Helpers from '../utils/helpers';
 
@@ -25,18 +25,10 @@ const propTypes = {
    * The element to be placed within the fit start area for extensions within the layout.
    */
   extensions: PropTypes.element,
-  /**
-   * The Object of layout-related APIs provided to the components of the Layout.
-   */
-  layoutConfig: ApplicationLayoutPropTypes.layoutConfigPropType,
-  /**
-   * The set of routes currently identified by the NavigationLayout. This prop is provided by the NavigationLayout.
-   */
-  navigationLayoutRoutes: PropTypes.arrayOf(processedRoutesPropType),
-  /**
-   * The window size currently identified by the NavigationLayout. This prop is provided by the NavigationLayout.
-   */
-  navigationLayoutSize: PropTypes.string,
+  // /**
+  //  * The Object of layout-related APIs provided to the components of the Layout.
+  //  */
+  // layoutConfig: ApplicationLayoutPropTypes.layoutConfigPropType,
   /**
    * Configuration values for the ApplicationName component.
    */
@@ -77,7 +69,6 @@ class ApplicationHeader extends React.Component {
     this.setContentNode = this.setContentNode.bind(this);
     this.renderToggle = this.renderToggle.bind(this);
     this.renderAppName = this.renderAppName.bind(this);
-    this.renderExtensions = this.renderExtensions.bind(this);
     this.renderNavigation = this.renderNavigation.bind(this);
     this.renderUtilities = this.renderUtilities.bind(this);
     this.renderUtilitiesPopup = this.renderUtilitiesPopup.bind(this);
@@ -172,16 +163,6 @@ class ApplicationHeader extends React.Component {
     return this.renderAppName();
   }
 
-  renderExtensions(isCompact) {
-    const { layoutConfig, extensions } = this.props;
-
-    if (!isCompact && extensions) {
-      return React.cloneElement(extensions, { layoutConfig });
-    }
-
-    return null;
-  }
-
   renderUtilities(isCompact) {
     const { utilityConfig } = this.props;
 
@@ -228,30 +209,19 @@ class ApplicationHeader extends React.Component {
 
   render() {
     const {
-      // disclosureManager,
-      // extensions,
-      // layoutConfig,
-      // nameConfig,
-      // utilityConfig,
-      // navigationLayoutRoutes,
-      // navigationLayoutSize,
-      // intl,
       activeBreakpoint,
+      extensions,
     } = this.props;
-
-    const headerClassNames = cx([
-      'application-header',
-    ]);
 
     const isCompact = Helpers.isSizeCompact(activeBreakpoint);
 
     return (
-      <div className={headerClassNames} ref={this.setContentNode}>
+      <div className={cx('application-header')} ref={this.setContentNode}>
         <ApplicationHeaderLayout
           toggle={this.renderToggle()}
           logo={!isCompact ? this.renderAppName() : null}
           navigation={this.renderNavigation(isCompact)}
-          extensions={this.renderExtensions(isCompact)}
+          extensions={isCompact ? extensions : null}
           utilities={this.renderUtilities(isCompact)}
         />
         {this.renderUtilitiesPopup()}

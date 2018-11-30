@@ -4,7 +4,7 @@ import Popup from 'terra-popup';
 
 import TabMenuList from './_TabMenuList';
 import TabMenuDisplay from './_TabMenuDisplay';
-import TabUtils from './_TabUtils';
+import { KEYCODES } from '../../utils/helpers';
 
 const propTypes = {
   /**
@@ -76,7 +76,7 @@ class TabMenu extends React.Component {
   }
 
   handleOnKeyDown(event) {
-    if ((event.nativeEvent.keyCode === TabUtils.KEYCODES.ENTER || event.nativeEvent.keyCode === TabUtils.KEYCODES.SPACE) && !this.state.isOpen) {
+    if ((event.nativeEvent.keyCode === KEYCODES.ENTER || event.nativeEvent.keyCode === KEYCODES.SPACE) && !this.state.isOpen) {
       this.setState({ isOpen: true });
     }
   }
@@ -107,7 +107,7 @@ class TabMenu extends React.Component {
     const count = childArray.length;
     for (let i = 0; i < count; i += 1) {
       const child = childArray[i];
-      if (activeTabKey === child.props.path) {
+      if (activeTabKey === child.props.tabKey) {
         // eslint-disable-next-line prefer-destructuring
         text = child.props.text;
         isSelected = true;

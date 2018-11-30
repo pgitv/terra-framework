@@ -7,8 +7,7 @@ import 'terra-base/lib/baseStyles';
 
 import Tab from './_Tab';
 import TabMenu from './_TabMenu';
-import TabUtils from './_TabUtils';
-import styles from './ApplicationTabs.module.scss';
+import styles from './_ApplicationTabs.module.scss';
 
 const cx = classNames.bind(styles);
 
@@ -18,19 +17,15 @@ const propTypes = {
    */
   alignment: PropTypes.oneOf(['start', 'center', 'end']),
   /**
-   * 
+   *
    */
   tabs: PropTypes.arrayOf(PropTypes.shape({
     /**
-     * The id to append to the link.
+     * The identifier for the tab.
      */
-    id: PropTypes.string,
+    key: PropTypes.string.isRequired,
     /**
-     * The path to push to the route.
-     */
-    path: PropTypes.string.isRequired,
-    /**
-     * The display text for the link.
+     * The display text for the tab.
      */
     text: PropTypes.string.isRequired,
   })),
@@ -135,15 +130,15 @@ class ApplicationTabs extends React.Component {
 
     tabs.forEach((tab, index) => {
       const tabProps = {
-        path: tab.path,
         text: tab.text,
-        key: tab.path,
+        key: tab.key,
+        tabKey: tab.key,
         onTabClick: () => {
           if (onTabSelect) {
-            onTabSelect(tab.path);
+            onTabSelect(tab.key);
           }
         },
-        isSelected: tab.path === activeTabKey,
+        isSelected: tab.key === activeTabKey,
       };
 
       if (this.hiddenStartIndex < 0) {
@@ -175,6 +170,5 @@ class ApplicationTabs extends React.Component {
 
 ApplicationTabs.propTypes = propTypes;
 ApplicationTabs.defaultProps = defaultProps;
-ApplicationTabs.Utils = TabUtils;
 
 export default ApplicationTabs;

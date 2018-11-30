@@ -29,7 +29,7 @@ const navigationAlignmentPropType = PropTypes.oneOf(['start', 'center', 'end']);
  * Shape for ApplicationLayout's `navigationItems` prop.
  */
 const navigationItemsPropType = PropTypes.arrayOf(PropTypes.shape({
-  path: PropTypes.string.isRequired,
+  key: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   hasSubMenu: PropTypes.bool,
 }));
