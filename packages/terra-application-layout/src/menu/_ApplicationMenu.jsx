@@ -9,7 +9,6 @@ import { withDisclosureManager, disclosureManagerShape } from 'terra-disclosure-
 
 import 'terra-base/lib/baseStyles';
 import ApplicationLayoutPropTypes from '../utils/propTypes';
-import Helpers from '../utils/helpers';
 
 import UtilityMenuWrapper from './_UtilityMenuWrapper';
 
@@ -39,8 +38,6 @@ const propTypes = {
    * DisclosureManagerDelegate instance automatically provided by a DisclosureManagerProvider.
    */
   disclosureManager: disclosureManagerShape,
-  toggleMenu: PropTypes.func,
-  activeBreakpoint: PropTypes.string,
 };
 
 class ApplicationMenu extends React.Component {
@@ -48,18 +45,13 @@ class ApplicationMenu extends React.Component {
     super(props);
 
     this.renderHeader = this.renderHeader.bind(this);
-    this.renderExtensions = this.renderExtensions.bind(this);
     this.renderFooter = this.renderFooter.bind(this);
     this.handleUtilityDiscloseRequest = this.handleUtilityDiscloseRequest.bind(this);
     this.handleUtilityOnChange = this.handleUtilityOnChange.bind(this);
   }
 
   handleUtilityDiscloseRequest(utilityMenu) {
-    const { disclosureManager, toggleMenu } = this.props;
-
-    if (toggleMenu) {
-      toggleMenu();
-    }
+    const { disclosureManager } = this.props;
 
     if (disclosureManager && utilityMenu) {
       disclosureManager.disclose({
@@ -79,10 +71,10 @@ class ApplicationMenu extends React.Component {
     utilityConfig.onChange(event, itemData, disclosureManager && disclosureManager.disclose);
   }
 
-  renderHeader(isCompact) {
+  renderHeader() {
     const { nameConfig } = this.props;
 
-    if (isCompact && nameConfig && (nameConfig.accessory || nameConfig.title)) {
+    if (nameConfig && (nameConfig.accessory || nameConfig.title)) {
       return (
         <div className={cx(['menu-header'])}>
           <ApplicationMenuName accessory={nameConfig.accessory} title={nameConfig.title} />
@@ -93,25 +85,10 @@ class ApplicationMenu extends React.Component {
     return null;
   }
 
-  renderExtensions(isCompact) {
-    const { activeBreakpoint, toggleMenu, extensions } = this.props;
-
-    const layoutConfig = {
-      size: activeBreakpoint,
-      toggleMenu,
-    };
-
-    if (isCompact && extensions) {
-      return React.cloneElement(extensions, { layoutConfig });
-    }
-
-    return null;
-  }
-
-  renderFooter(isCompact) {
+  renderFooter() {
     const { utilityConfig } = this.props;
 
-    if (isCompact && utilityConfig) {
+    if (utilityConfig) {
       return (
         <ApplicationMenuUtility
           onChange={this.handleUtilityOnChange}
@@ -130,31 +107,18 @@ class ApplicationMenu extends React.Component {
 
   render() {
     const {
-      disclosureManager,
-      activeBreakpoint,
-      toggleMenu,
       content,
       extensions,
-      layoutConfig,
-      nameConfig,
-      utilityConfig,
-      ...customProps
     } = this.props;
 
-    const menuClassNames = cx([
-      'application-menu',
-      customProps.className,
-    ]);
-
-    const isCompact = Helpers.isSizeCompact(activeBreakpoint);
 
     return (
-      <div {...customProps} className={menuClassNames}>
+      <div className={cx('application-menu')}>
         <ApplicationMenuLayout
-          header={this.renderHeader(isCompact)}
-          extensions={this.renderExtensions(isCompact)}
+          header={this.renderHeader()}
+          extensions={extensions}
           content={content}
-          footer={this.renderFooter(isCompact)}
+          footer={this.renderFooter()}
         />
       </div>
     );

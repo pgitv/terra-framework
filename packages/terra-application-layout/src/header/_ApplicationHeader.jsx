@@ -45,7 +45,7 @@ const propTypes = {
    * DisclosureManagerDelegate instance automatically provided by a DisclosureManagerProvider.
    */
   disclosureManager: disclosureManagerShape,
-  onToggle: PropTypes.func,
+  onMenuToggle: PropTypes.func,
   activeBreakpoint: PropTypes.string,
   navigationItems: PropTypes.array,
   navigationItemAlignment: PropTypes.string,
@@ -106,16 +106,16 @@ class ApplicationHeader extends React.Component {
   }
 
   renderToggle() {
-    const { onToggle, intl } = this.props;
+    const { onMenuToggle, intl } = this.props;
 
-    if (onToggle) {
+    if (onMenuToggle) {
       return (
         <div className={cx('toolbar-toggle')}>
           <button
             type="button"
             className={cx('toggle-button')}
             aria-label={intl.formatMessage({ id: 'Terra.applicationLayout.applicationHeader.menuToggleLabel' })}
-            onClick={onToggle}
+            onClick={onMenuToggle}
             data-application-header-toggle
           >
             <IconMenu />
@@ -221,7 +221,7 @@ class ApplicationHeader extends React.Component {
           toggle={this.renderToggle()}
           logo={!isCompact ? this.renderAppName() : null}
           navigation={this.renderNavigation(isCompact)}
-          extensions={isCompact ? extensions : null}
+          extensions={!isCompact ? extensions : null}
           utilities={this.renderUtilities(isCompact)}
         />
         {this.renderUtilitiesPopup()}

@@ -8,11 +8,29 @@ import Avatar from 'terra-avatar';
 import ContentContainer from 'terra-content-container';
 import Button from 'terra-button';
 import NavigationLayout from 'terra-navigation-layout';
+import ActionHeader from 'terra-action-header';
+import { withDisclosureManager } from 'terra-disclosure-manager';
+import ModalManager from 'terra-modal-manager';
+import { ActiveBreakpointProvider } from 'terra-breakpoints';
 
 import ApplicationLayout, { RoutingMenu, Utils } from '../../../ApplicationLayout';
 
+const DisclosureComponent = withDisclosureManager(({ disclosureManager, text }) => (
+  <ContentContainer
+    header={(
+      <ActionHeader title="Disclosure Component" onBack={disclosureManager.goBack} onClose={disclosureManager.closeDisclosure} />
+    )}
+    fill
+  >
+    <div style={{ padding: '5px' }}>
+      {text}
+    </div>
+  </ContentContainer>
+
+));
+
 const PageContent = ({ contentName }) => (
-  <div>
+  <div style={{ padding: '5px' }}>
     Page Content:
     {' '}
     {contentName}
@@ -21,10 +39,6 @@ const PageContent = ({ contentName }) => (
 PageContent.propTypes = {
   contentName: PropTypes.string,
 };
-
-const TestExtensions = () => (
-  <Button text="Extensions" />
-);
 
 /**
  * The routingConfig API matches that of the NavigationLayout. Routing specifications for the
@@ -223,7 +237,7 @@ class ApplicationLayoutTest extends React.Component {
   }
 
   render() {
-    const { intl } = this.props;
+    const { intl, history, disclosureManager } = this.props;
     const { checkboxItemEnabled, menuIsOpen, activeNavigationItem } = this.state;
 
     const customUtilityItems = [{
@@ -268,7 +282,18 @@ class ApplicationLayoutTest extends React.Component {
       accessory: userAvatar,
       menuItems: Utils.utilityHelpers.getDefaultUtilityItems(intl, userData, customUtilityItems),
       initialSelectedKey: Utils.utilityHelpers.defaultKeys.MENU,
-      onChange: () => {},
+      onChange: (event, itemData) => {
+        this.setState({
+          menuIsOpen: false,
+        }, () => {
+          disclosureManager.disclose({
+            preferredType: 'modal',
+            content: {
+              component: <DisclosureComponent text={itemData.key} />,
+            },
+          });
+        });
+      },
     });
 
     return (
@@ -279,7 +304,23 @@ class ApplicationLayoutTest extends React.Component {
         <ApplicationLayout
           nameConfig={nameConfig}
           utilityConfig={utilityConfig}
-          extensions={<TestExtensions />}
+          extensions={(
+            <Button
+              text="Extensions"
+              onClick={() => {
+                this.setState({
+                  menuIsOpen: false,
+                }, () => {
+                  disclosureManager.disclose({
+                    preferredType: 'modal',
+                    content: {
+                      component: <DisclosureComponent text="Extensions Go Here" />,
+                    },
+                  });
+                });
+              }}
+            />
+          )}
           menuIsOpen={menuIsOpen}
           onMenuToggle={() => {
             this.setState(state => ({
@@ -294,7 +335,7 @@ class ApplicationLayoutTest extends React.Component {
                 activeNavigationItem: navigationItemKey,
                 menuIsOpen: false,
               }, () => {
-                this.props.history.push(navigationItemKey);
+                history.push(navigationItemKey);
               });
             }
           }}
@@ -313,12 +354,16 @@ ApplicationLayoutTest.propTypes = {
   intl: intlShape,
 };
 
-const WrappedApplication = withRouter(injectIntl((ApplicationLayoutTest)));
+const WrappedApplication = withDisclosureManager(withRouter(injectIntl((ApplicationLayoutTest))));
 
 const AppRouter = () => (
   <div style={{ height: '100%' }}>
     <MemoryRouter>
-      <WrappedApplication />
+      <ActiveBreakpointProvider>
+        <ModalManager>
+          <WrappedApplication />
+        </ModalManager>
+      </ActiveBreakpointProvider>
     </MemoryRouter>
   </div>
 );

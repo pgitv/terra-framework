@@ -23,8 +23,7 @@ const cx = classNames.bind(styles);
 
 const propTypes = {
   /**
-   * The content to be rendered in the ApplicationLayout's extensions region. This component will be provided
-   * a `layoutConfig` prop to facilitate communication with the ApplicationLayout.
+   * The content to be rendered in the ApplicationLayout's extensions region.
    */
   extensions: PropTypes.element,
   /**
@@ -98,7 +97,7 @@ class ApplicationLayout extends React.Component {
           selectedChildKey={activeNavigationItemKey}
           onChange={(event, data) => {
             if (onSelectNavigationItem) {
-              onSelectNavigationItem(data.metaData.navigationItem.key);
+              onSelectNavigationItem(data.selectedChildKey);
             }
           }}
         />
@@ -149,11 +148,7 @@ class ApplicationLayout extends React.Component {
                 navigationItemAlignment={navigationAlignment}
                 activeNavigationItemKey={activeNavigationItemKey}
                 onSelectNavigationItem={onSelectNavigationItem}
-                onToggle={isCompact ? onMenuToggle : undefined}
-                layoutConfig={{
-                  toggleMenu: isCompact ? onMenuToggle : undefined,
-                  size: activeBreakpoint,
-                }}
+                onMenuToggle={isCompact ? onMenuToggle : undefined}
               />
               )}
             fill
@@ -172,11 +167,11 @@ ApplicationLayout.defaultProps = defaultProps;
 const WrappedApplicationLayout = withActiveBreakpoint(ApplicationLayout);
 
 const ApplicationLayoutHarness = props => (
-  <ActiveBreakpointProvider>
-    <ModalManager>
-      <WrappedApplicationLayout {...props} />
-    </ModalManager>
-  </ActiveBreakpointProvider>
+  // <ActiveBreakpointProvider>
+  //   <ModalManager>
+  <WrappedApplicationLayout {...props} />
+  //   </ModalManager>
+  // </ActiveBreakpointProvider>
 );
 
 export default ApplicationLayoutHarness;
