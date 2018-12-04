@@ -166,15 +166,7 @@ ApplicationLayout.defaultProps = defaultProps;
 
 const WrappedApplicationLayout = withActiveBreakpoint(ApplicationLayout);
 
-const ApplicationLayoutHarness = props => (
-  // <ActiveBreakpointProvider>
-  //   <ModalManager>
-  <WrappedApplicationLayout {...props} />
-  //   </ModalManager>
-  // </ActiveBreakpointProvider>
-);
-
-export default ApplicationLayoutHarness;
+export default WrappedApplicationLayout;
 
 const Utils = {
   helpers: Helpers,
