@@ -8,7 +8,6 @@ import { ApplicationHeaderUtility } from 'terra-application-utility';
 import { ApplicationHeaderName } from 'terra-application-name';
 import IconMenu from 'terra-icon/lib/icon/IconMenu';
 import Popup from 'terra-popup';
-import { processedRoutesPropType } from 'terra-navigation-layout/lib/configurationPropTypes';
 
 import 'terra-base/lib/baseStyles';
 
@@ -21,18 +20,19 @@ import styles from './ApplicationHeader.module.scss';
 const cx = classNames.bind(styles);
 
 const propTypes = {
-  /**
-   * The element to be placed within the fit start area for extensions within the layout.
-   */
-  extensions: PropTypes.element,
-  // /**
-  //  * The Object of layout-related APIs provided to the components of the Layout.
-  //  */
-  // layoutConfig: ApplicationLayoutPropTypes.layoutConfigPropType,
+  onMenuToggle: PropTypes.func,
   /**
    * Configuration values for the ApplicationName component.
    */
   nameConfig: ApplicationLayoutPropTypes.nameConfigPropType,
+  navigationItems: PropTypes.array,
+  navigationItemAlignment: PropTypes.string,
+  activeNavigationItemKey: PropTypes.string,
+  onSelectNavigationItem: PropTypes.func,
+  /**
+   * The element to be placed within the fit start area for extensions within the layout.
+   */
+  extensions: PropTypes.element,
   /**
    * Configuration to be provided to the ApplicationUtility component.
    */
@@ -45,12 +45,7 @@ const propTypes = {
    * DisclosureManagerDelegate instance automatically provided by a DisclosureManagerProvider.
    */
   disclosureManager: disclosureManagerShape,
-  onMenuToggle: PropTypes.func,
   activeBreakpoint: PropTypes.string,
-  navigationItems: PropTypes.array,
-  navigationItemAlignment: PropTypes.string,
-  activeNavigationItemKey: PropTypes.string,
-  onSelectNavigationItem: PropTypes.func,
 };
 
 const defaultProps = {
@@ -69,7 +64,7 @@ class ApplicationHeader extends React.Component {
     this.setContentNode = this.setContentNode.bind(this);
     this.renderToggle = this.renderToggle.bind(this);
     this.renderAppName = this.renderAppName.bind(this);
-    this.renderNavigation = this.renderNavigation.bind(this);
+    this.renderNavigationTabs = this.renderNavigationTabs.bind(this);
     this.renderUtilities = this.renderUtilities.bind(this);
     this.renderUtilitiesPopup = this.renderUtilitiesPopup.bind(this);
 
@@ -139,12 +134,12 @@ class ApplicationHeader extends React.Component {
     return null;
   }
 
-  renderNavigation(isCompact) {
+  renderNavigationTabs() {
     const {
       navigationItems, navigationItemAlignment, activeNavigationItemKey, onSelectNavigationItem,
     } = this.props;
 
-    if (!isCompact && navigationItems.length) {
+    if (navigationItems.length) {
       return (
         <ApplicationTabs
           alignment={navigationItemAlignment}
@@ -155,18 +150,13 @@ class ApplicationHeader extends React.Component {
       );
     }
 
-    /**
-     * When compact, the navigation region of the header renders the application name component instead. At compact
-     * sizes, the logo region within the ApplicationHeaderLayout is too small to use, so we instead render within
-     * the navigation region which renders with a larger width.
-     */
-    return this.renderAppName();
+    return null;
   }
 
-  renderUtilities(isCompact) {
+  renderUtilities() {
     const { utilityConfig } = this.props;
 
-    if (!isCompact && utilityConfig) {
+    if (utilityConfig) {
       return (
         <ApplicationHeaderUtility
           onChange={this.handleUtilityOnChange}
@@ -215,15 +205,33 @@ class ApplicationHeader extends React.Component {
 
     const isCompact = Helpers.isSizeCompact(activeBreakpoint);
 
-    return (
-      <div className={cx('application-header')} ref={this.setContentNode}>
+    let headerLayout;
+    if (isCompact) {
+      /**
+       * When compact, the navigation region of the header renders the application name component instead. At compact
+       * sizes, the logo region within the ApplicationHeaderLayout is too small to use, so we instead render within
+       * the navigation region which renders with a larger width.
+       */
+      headerLayout = (
         <ApplicationHeaderLayout
           toggle={this.renderToggle()}
-          logo={!isCompact ? this.renderAppName() : null}
-          navigation={this.renderNavigation(isCompact)}
-          extensions={!isCompact ? extensions : null}
-          utilities={this.renderUtilities(isCompact)}
+          navigation={this.renderAppName()}
         />
+      );
+    } else {
+      headerLayout = (
+        <ApplicationHeaderLayout
+          logo={this.renderAppName()}
+          navigation={this.renderNavigationTabs()}
+          extensions={!isCompact ? extensions : null}
+          utilities={!isCompact ? this.renderUtilities() : null}
+        />
+      );
+    }
+
+    return (
+      <div className={cx('application-header')} ref={this.setContentNode}>
+        {headerLayout}
         {this.renderUtilitiesPopup()}
       </div>
     );

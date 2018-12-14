@@ -5,6 +5,7 @@ import ApplicationMenuLayout from 'terra-application-menu-layout';
 import { ApplicationMenuName } from 'terra-application-name';
 import { ApplicationMenuUtility } from 'terra-application-utility';
 import { disclosureType as modalDisclosureType } from 'terra-modal-manager';
+import NavigationSideMenu from 'terra-navigation-side-menu';
 import { withDisclosureManager, disclosureManagerShape } from 'terra-disclosure-manager';
 
 import 'terra-base/lib/baseStyles';
@@ -17,11 +18,14 @@ import styles from './ApplicationMenu.module.scss';
 const cx = classNames.bind(styles);
 
 const propTypes = {
-  /**
-   * The element to be placed within the fill flex styled content area.
-   * This content is intended to be the user configured content for the menu.
-   */
-  content: PropTypes.element,
+  navigationItems: PropTypes.array,
+  activeNavigationItemKey: PropTypes.string,
+  onSelectNavigationItem: PropTypes.func,
+  // /**
+  //  * The element to be placed within the fill flex styled content area.
+  //  * This content is intended to be the user configured content for the menu.
+  //  */
+  // content: PropTypes.element,
   /**
    * The element to be placed within the fit top area for extensions within the layout.
    */
@@ -45,6 +49,7 @@ class ApplicationMenu extends React.Component {
     super(props);
 
     this.renderHeader = this.renderHeader.bind(this);
+    this.renderNavigationList = this.renderNavigationList.bind(this);
     this.renderFooter = this.renderFooter.bind(this);
     this.handleUtilityDiscloseRequest = this.handleUtilityDiscloseRequest.bind(this);
     this.handleUtilityOnChange = this.handleUtilityOnChange.bind(this);
@@ -85,6 +90,24 @@ class ApplicationMenu extends React.Component {
     return null;
   }
 
+  renderNavigationList() {
+    const { navigationItems, activeNavigationItemKey, onSelectNavigationItem } = this.props;
+
+    return (
+      <NavigationSideMenu
+        menuItems={[{
+          childKeys: navigationItems.map(item => item.key),
+          key: 'application_layout_menu',
+          text: 'Application Layout Menu', // Text is a required value here, but it's never actually rendered
+          isRootMenu: true,
+        }].concat(navigationItems)}
+        selectedMenuKey="application_layout_menu"
+        selectedChildKey={activeNavigationItemKey}
+        onChange={onSelectNavigationItem}
+      />
+    );
+  }
+
   renderFooter() {
     const { utilityConfig } = this.props;
 
@@ -107,17 +130,15 @@ class ApplicationMenu extends React.Component {
 
   render() {
     const {
-      content,
       extensions,
     } = this.props;
-
 
     return (
       <div className={cx('application-menu')}>
         <ApplicationMenuLayout
           header={this.renderHeader()}
           extensions={extensions}
-          content={content}
+          content={this.renderNavigationList()}
           footer={this.renderFooter()}
         />
       </div>
