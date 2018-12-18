@@ -4,7 +4,7 @@ import classNames from 'classnames/bind';
 import IconCaretDown from 'terra-icon/lib/icon/IconCaretDown';
 
 import { KEYCODES } from '../../utils/helpers';
-import styles from './_ApplicationTabs.module.scss';
+import styles from './ApplicationTabs.module.scss';
 
 const cx = classNames.bind(styles);
 

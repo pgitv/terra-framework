@@ -20,7 +20,13 @@ import styles from './ApplicationLayout.module.scss';
 const cx = classNames.bind(styles);
 
 const propTypes = {
+  /**
+   * Boolean indicating whether or not the ApplicationLayout's menu (containing extensions, primary navigation, and utilities) should be displayed.
+   */
   menuIsOpen: PropTypes.bool,
+  /**
+   * Function executed by the ApplicationLayout when it wants to toggle the menu's visibility.
+   */
   onMenuToggle: PropTypes.func,
   /**
    * The configuration values for the ApplicationName component.
@@ -38,7 +44,13 @@ const propTypes = {
    * An array of Objects describing the ApplicationLayout's primary navigation items.
    */
   navigationItems: ApplicationLayoutPropTypes.navigationItemsPropType,
+  /**
+   * The string key pertaining to the navigation item determined to be active.
+   */
   activeNavigationItemKey: PropTypes.string,
+  /**
+   * Function executed by the ApplicationLayout upon selection of a navigation item.
+   */
   onSelectNavigationItem: PropTypes.func,
   /**
    * The configuration values for the ApplicationUtility component.
@@ -138,7 +150,7 @@ class ApplicationLayout extends React.Component {
                 onSelectNavigationItem={onSelectNavigationItem}
                 onMenuToggle={onMenuToggle}
               />
-              )}
+            )}
             fill
           >
             {children}

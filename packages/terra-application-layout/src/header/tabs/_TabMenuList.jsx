@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import List from 'terra-list';
-import styles from './_ApplicationTabs.module.scss';
+
+import styles from './ApplicationTabs.module.scss';
 
 const cx = classNames.bind(styles);
 

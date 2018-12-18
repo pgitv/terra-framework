@@ -21,11 +21,6 @@ const propTypes = {
   navigationItems: PropTypes.array,
   activeNavigationItemKey: PropTypes.string,
   onSelectNavigationItem: PropTypes.func,
-  // /**
-  //  * The element to be placed within the fill flex styled content area.
-  //  * This content is intended to be the user configured content for the menu.
-  //  */
-  // content: PropTypes.element,
   /**
    * The element to be placed within the fit top area for extensions within the layout.
    */

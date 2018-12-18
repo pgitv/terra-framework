@@ -1,19 +1,22 @@
 /* eslint-disable import/no-extraneous-dependencies, import/no-webpack-loader-syntax, import/first, import/no-unresolved, import/extensions  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MemoryRouter, withRouter } from 'react-router-dom';
+import {
+  MemoryRouter, withRouter, Redirect, matchPath,
+} from 'react-router-dom';
 import { injectIntl, intlShape } from 'react-intl';
 import Image from 'terra-image';
 import Avatar from 'terra-avatar';
 import ContentContainer from 'terra-content-container';
 import Button from 'terra-button';
-import NavigationLayout from 'terra-navigation-layout';
+// import NavigationLayout from 'terra-navigation-layout';
 import ActionHeader from 'terra-action-header';
 import { withDisclosureManager } from 'terra-disclosure-manager';
 import ModalManager from 'terra-modal-manager';
 import { ActiveBreakpointProvider } from 'terra-breakpoints';
 
-import ApplicationLayout, { RoutingMenu, Utils } from '../../../ApplicationLayout';
+import ApplicationLayout, { Utils } from '../../../ApplicationLayout';
+import AppContent from './AppContent';
 
 const DisclosureComponent = withDisclosureManager(({ disclosureManager, text }) => (
   <ContentContainer
@@ -28,142 +31,6 @@ const DisclosureComponent = withDisclosureManager(({ disclosureManager, text }) 
   </ContentContainer>
 
 ));
-
-const PageContent = ({ contentName }) => (
-  <div style={{ padding: '5px' }}>
-    Page Content:
-    {' '}
-    {contentName}
-  </div>
-);
-PageContent.propTypes = {
-  contentName: PropTypes.string,
-};
-
-/**
- * The routingConfig API matches that of the NavigationLayout. Routing specifications for the
- * menu and content regions are supported; the header region is not configurable.
- */
-const routingConfig = {
-  menu: {
-    '/page_1': {
-      path: '/page_1',
-      component: {
-        default: {
-          componentClass: RoutingMenu,
-          props: {
-            title: 'Page 1 Menu',
-            menuItems: [{
-              text: 'Item 1',
-              path: '/page_1/item_1',
-              hasSubMenu: true,
-            }, {
-              text: 'Item 2',
-              path: '/page_1/item_2',
-            }],
-          },
-        },
-      },
-    },
-    '/page_1/item_1': {
-      path: '/page_1/item_1',
-      component: {
-        default: {
-          componentClass: RoutingMenu,
-          props: {
-            title: 'Page 1 Item 1 Menu',
-            menuItems: [{
-              text: 'Thing 1',
-              path: '/page_1/item_1/thing_1',
-            }, {
-              text: 'Thing 2',
-              path: '/page_1/item_1/thing_2',
-            }],
-          },
-        },
-      },
-    },
-  },
-  content: {
-    '/page_1': {
-      path: '/page_1',
-      component: {
-        default: {
-          componentClass: PageContent,
-          props: {
-            contentName: 'Page 1',
-          },
-        },
-      },
-    },
-    '/page_2': {
-      path: '/page_2',
-      component: {
-        default: {
-          componentClass: PageContent,
-          props: {
-            contentName: 'Page 2',
-          },
-        },
-      },
-    },
-    '/page_3': {
-      path: '/page_3',
-      component: {
-        default: {
-          componentClass: PageContent,
-          props: {
-            contentName: 'Page 3',
-          },
-        },
-      },
-    },
-    '/page_4': {
-      path: '/page_4',
-      component: {
-        default: {
-          componentClass: PageContent,
-          props: {
-            contentName: 'Page 4',
-          },
-        },
-      },
-    },
-    '/page_5': {
-      path: '/page_5',
-      component: {
-        default: {
-          componentClass: PageContent,
-          props: {
-            contentName: 'Page 5',
-          },
-        },
-      },
-    },
-    '/page_6': {
-      path: '/page_6',
-      component: {
-        default: {
-          componentClass: PageContent,
-          props: {
-            contentName: 'Page 6',
-          },
-        },
-      },
-    },
-    '/page_7': {
-      path: '/page_7',
-      component: {
-        default: {
-          componentClass: PageContent,
-          props: {
-            contentName: 'Page 7',
-          },
-        },
-      },
-    },
-  },
-};
 
 /**
  * The navigationItems will be used to present the ApplicationLayout's navigation controls. The paths provided here must be present in
@@ -195,12 +62,6 @@ const navigationItems = [{
   text: 'Page 7',
 }];
 
-/**
- * The indexPath will be given to the NavigationLayout to set up the appropriate redirects. If users attempt to navigate to a path unsupported
- * by the routingConfig, they will be redirected to this route. This path should therefore be present in the routingConfig.
- */
-const indexPath = '/page_1';
-
 const userAvatar = (
   <Avatar
     variant="user"
@@ -226,18 +87,36 @@ const nameConfig = Object.freeze({
 });
 
 class ApplicationLayoutTest extends React.Component {
+  static getActiveNavigationItem(location) {
+    for (let i = 0, numberOfNavigationItems = navigationItems.length; i < numberOfNavigationItems; i += 1) {
+      if (matchPath(location.pathname, navigationItems[i].key)) {
+        return navigationItems[i];
+      }
+    }
+
+    return undefined;
+  }
+
+  static getDerivedStateFromProps(newProps) {
+    return {
+      activeNavigationItem: ApplicationLayoutTest.getActiveNavigationItem(newProps.location, newProps.navigationItems),
+    };
+  }
+
   constructor(props) {
     super(props);
 
     this.state = {
       checkboxItemEnabled: false,
       menuIsOpen: false,
-      activeNavigationItem: '/page_1',
+      activeNavigationItem: navigationItems[0],
     };
   }
 
   render() {
-    const { intl, history, disclosureManager } = this.props;
+    const {
+      intl, history, location, disclosureManager,
+    } = this.props;
     const { checkboxItemEnabled, menuIsOpen, activeNavigationItem } = this.state;
 
     const customUtilityItems = [{
@@ -296,9 +175,14 @@ class ApplicationLayoutTest extends React.Component {
       },
     });
 
+    if (!activeNavigationItem) {
+      return <Redirect to="/page_1" />;
+    }
+
     return (
       <ContentContainer
         fill
+        header={<p>{location.pathname}</p>}
         id="application-layout-test"
       >
         <ApplicationLayout
@@ -328,22 +212,18 @@ class ApplicationLayoutTest extends React.Component {
             }));
           }}
           navigationItems={navigationItems}
-          activeNavigationItemKey={activeNavigationItem}
+          activeNavigationItemKey={activeNavigationItem.key}
           onSelectNavigationItem={(navigationItemKey) => {
-            if (this.state.activeNavigationItem !== navigationItemKey) {
-              this.setState({
-                activeNavigationItem: navigationItemKey,
-                menuIsOpen: false,
-              }, () => {
+            this.setState({
+              menuIsOpen: false,
+            }, () => {
+              if (this.state.activeNavigationItem !== navigationItemKey) {
                 history.push(navigationItemKey);
-              });
-            }
+              }
+            });
           }}
         >
-          <NavigationLayout
-            config={routingConfig}
-            indexPath={indexPath}
-          />
+          <AppContent />
         </ApplicationLayout>
       </ContentContainer>
     );

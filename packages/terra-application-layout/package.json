@@ -50,7 +50,8 @@
     "terra-navigation-layout": "^2.22.0",
     "terra-navigation-side-menu": "^1.16.0",
     "terra-overlay": "^2.36.1",
-    "terra-popup": "^4.18.1"
+    "terra-popup": "^4.18.1",
+    "terra-slide-panel": "^2.23.0"
   },
   "scripts": {
     "compile": "npm run compile:clean && npm run compile:build",
