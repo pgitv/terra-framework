@@ -86,7 +86,7 @@ describe('Slide panel', () => {
   describe('Toggle the slide panel and hidden styles', () => {
     beforeEach(() => {
       browser.url('/#/raw/tests/terra-slide-panel/slide-panel/slide-panel-toggle');
-      browser.waitForExist('#test-slide [aria-hidden="true"]');
+      browser.waitForExist('[id=test-slide] [aria-hidden="true"]');
     });
 
     Terra.should.matchScreenshot({ selector: '#root' });
@@ -96,7 +96,7 @@ describe('Slide panel', () => {
     beforeEach(() => {
       browser.url('/#/raw/tests/terra-slide-panel/slide-panel/slide-panel-toggle');
       browser.click('#test-toggle');
-      browser.waitForExist('#test-slide [aria-hidden="false"]');
+      browser.waitForExist('[id=test-slide] [aria-hidden="false"]');
       browser.pause(150);
     });
 

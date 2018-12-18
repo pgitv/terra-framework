@@ -4,11 +4,11 @@ describe('ApplicationHeader', () => {
   describe('Displays a default application header', () => {
     beforeEach(() => {
       browser.url('/#/raw/tests/terra-application-layout/application-layout/application-layout-header');
-      browser.waitForVisible('#test-header');
+      browser.waitForVisible('[id=test-header]');
     });
 
-    Terra.should.matchScreenshot('#test-header', { selector: '#test-header', viewports });
-    Terra.should.beAccessible({ viewports, context: '#test-header' });
+    Terra.should.matchScreenshot('#test-header', { selector: '[id=test-header]', viewports });
+    Terra.should.beAccessible({ viewports, context: '[id=test-header]' });
     Terra.should.themeCombinationOfCustomProperties({
       testName: 'themed',
       properties: {
@@ -22,10 +22,10 @@ describe('ApplicationHeader', () => {
   describe('Displays an application header toggle standard', () => {
     beforeEach(() => {
       browser.url('/#/raw/tests/terra-application-layout/application-layout/application-layout-header-small');
-      browser.waitForVisible('#test-header');
+      browser.waitForVisible('[id=test-header]');
     });
 
-    Terra.should.matchScreenshot('#test-header', { selector: '#test-header', viewports });
+    Terra.should.matchScreenshot('#test-header', { selector: '[id=test-header]', viewports });
     Terra.should.themeCombinationOfCustomProperties({
       testName: 'themed',
       properties: {
@@ -44,7 +44,7 @@ describe('ApplicationHeader', () => {
     beforeEach(() => {
       browser.setViewportSize(Terra.viewports('huge')[0]);
       browser.url('/#/raw/tests/terra-application-layout/application-layout/application-layout-header-small');
-      browser.waitForVisible('#test-header');
+      browser.waitForVisible('[id=test-header]');
       browser.moveToObject('[data-application-header-toggle]');
     });
 
@@ -57,11 +57,11 @@ describe('ApplicationHeader', () => {
     before(() => browser.setViewportSize(Terra.viewports('small')[0]));
     beforeEach(() => {
       browser.url('/#/raw/tests/terra-application-layout/application-layout/application-layout-header');
-      browser.waitForVisible('#test-header');
+      browser.waitForVisible('[id=test-header]');
       browser.click('[data-application-header-utility]');
     });
 
-    Terra.should.matchScreenshot('#test-header', { selector: '#test-header', viewports });
+    Terra.should.matchScreenshot('#test-header', { selector: '[id=test-header]', viewports });
     Terra.should.matchScreenshot({ selector: '#site' });
   });
 });

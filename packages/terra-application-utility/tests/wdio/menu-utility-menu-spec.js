@@ -1,12 +1,12 @@
 describe('MenuUtilityMenu', () => {
   beforeEach(() => {
     browser.url('/#/raw/tests/terra-application-utility/application-utility/default-menu-utility-menu');
-    browser.waitForVisible('#default');
+    browser.waitForVisible('[id=default]');
   });
 
   describe('Displays a default menu utility menu', () => {
-    Terra.should.matchScreenshot({ selector: '#default' });
-    Terra.should.beAccessible({ context: '#default' });
+    Terra.should.matchScreenshot({ selector: '[id=default]' });
+    Terra.should.beAccessible({ context: '[id=default]' });
     Terra.should.themeCombinationOfCustomProperties({
       testName: 'themed',
       properties: {
@@ -64,13 +64,13 @@ describe('MenuUtilityMenu', () => {
 
   describe('Hover-menu utility menu', () => {
     beforeEach(() => {
-      browser.waitForVisible('#test-item-2');
-      browser.moveToObject('#test-item-2');
+      browser.waitForVisible('[id=test-item-2]');
+      browser.moveToObject('[id=test-item-2]');
     });
 
-    Terra.should.matchScreenshot({ selector: '#default' });
-    Terra.should.beAccessible({ context: '#default' });
-    Terra.should.themeEachCustomProperty('#default', {
+    Terra.should.matchScreenshot({ selector: '[id=default]' });
+    Terra.should.beAccessible({ context: '[id=default]' });
+    Terra.should.themeEachCustomProperty('[id=default]', {
       '--terra-application-menu-utility-menu-body-item-hover-background-color': 'blue',
     });
   });
@@ -80,9 +80,9 @@ describe('MenuUtilityMenu', () => {
       browser.keys(['Tab', 'Tab', 'Tab']);
     });
 
-    Terra.should.matchScreenshot({ selector: '#default' });
-    Terra.should.beAccessible({ context: '#default' });
-    Terra.should.themeEachCustomProperty('#default', {
+    Terra.should.matchScreenshot({ selector: '[id=default]' });
+    Terra.should.beAccessible({ context: '[id=default]' });
+    Terra.should.themeEachCustomProperty('[id=default]', {
       '--terra-application-menu-utility-menu-body-item-focus-box-shadow': '0 0 3px 3px rgba(50, 50, 233, 0.5), 0 0 4px 4px rgba(50, 50, 233, 0.35)',
     });
   });

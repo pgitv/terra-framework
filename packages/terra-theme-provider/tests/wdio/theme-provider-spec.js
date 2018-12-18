@@ -1,5 +1,5 @@
 const viewports = Terra.viewports('tiny', 'medium');
-const selector = '#root';
+const selector = '[id=root]';
 
 describe('Theme Provider', () => {
   describe('Displays a default theme-provider', () => {
@@ -29,7 +29,7 @@ describe('Theme Provider', () => {
   describe('Displays an updated themed component - After Click', () => {
     before(() => {
       browser.url('/#/raw/tests/terra-theme-provider/theme-provider/switch-themes');
-      browser.selectByAttribute('#theme', 'value', 'cerner-mock-theme');
+      browser.selectByAttribute('[id=theme]', 'value', 'cerner-mock-theme');
     });
 
     Terra.should.matchScreenshot({ viewports, selector });
@@ -46,7 +46,7 @@ describe('Theme Provider', () => {
   describe('Displays an updated globally themed component -  After Click', () => {
     before(() => {
       browser.url('/#/raw/tests/terra-theme-provider/theme-provider/global-switch-themes');
-      browser.selectByAttribute('#theme', 'value', 'cerner-mock-theme');
+      browser.selectByAttribute('[id=theme]', 'value', 'cerner-mock-theme');
     });
 
     Terra.should.matchScreenshot({ viewports, selector });

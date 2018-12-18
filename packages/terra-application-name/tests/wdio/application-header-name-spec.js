@@ -4,8 +4,8 @@ describe('ApplicationHeaderName', () => {
   describe('Displays a default application header name', () => {
     beforeEach(() => browser.url('/#/raw/tests/terra-application-name/application-name/application-header-name-default'));
 
-    Terra.should.matchScreenshot({ viewports, selector: '#default' });
-    Terra.should.beAccessible({ viewports, context: '#default' });
+    Terra.should.matchScreenshot({ viewports, selector: '[id=default]' });
+    Terra.should.beAccessible({ viewports, context: '[id=default]' });
     Terra.should.themeCombinationOfCustomProperties({
       testName: 'themed',
       properties: {
@@ -23,6 +23,6 @@ describe('ApplicationHeaderName', () => {
   describe('Displays a truncated application header name', () => {
     beforeEach(() => browser.url('/#/raw/tests/terra-application-name/application-name/application-header-name-truncated'));
 
-    Terra.should.matchScreenshot({ viewports, selector: '#truncated' });
+    Terra.should.matchScreenshot({ viewports, selector: '[id=truncated]' });
   });
 });

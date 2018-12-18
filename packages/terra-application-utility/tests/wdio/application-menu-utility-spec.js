@@ -3,12 +3,12 @@ const viewports = Terra.viewports('tiny', 'medium');
 describe('ApplicationMenuUtility', () => {
   beforeEach(() => {
     browser.url('/#/raw/tests/terra-application-utility/application-utility/default-application-menu-utility');
-    browser.waitForVisible('#default');
+    browser.waitForVisible('[id=default]');
   });
 
   describe('Displays a default application menu utility', () => {
-    Terra.should.matchScreenshot({ viewports, selector: '#default' });
-    Terra.should.beAccessible({ viewports, context: '#default' });
+    Terra.should.matchScreenshot({ viewports, selector: '[id=default]' });
+    Terra.should.beAccessible({ viewports, context: '[id=default]' });
     Terra.should.themeCombinationOfCustomProperties({
       testName: 'themed',
       properties: {
@@ -33,19 +33,19 @@ describe('ApplicationMenuUtility', () => {
   });
 
   describe('Hover-application menu utility', () => {
-    beforeEach(() => { browser.moveToObject('#default'); });
-    Terra.should.matchScreenshot({ viewports, selector: '#default' });
-    Terra.should.beAccessible({ viewports, context: '#default' });
-    Terra.should.themeEachCustomProperty('#default', {
+    beforeEach(() => { browser.moveToObject('[id=default]'); });
+    Terra.should.matchScreenshot({ viewports, selector: '[id=default]' });
+    Terra.should.beAccessible({ viewports, context: '[id=default]' });
+    Terra.should.themeEachCustomProperty('[id=default]', {
       '--terra-application-menu-utility-hover-background-color': 'blue',
     });
   });
 
   describe('Focus-application menu utility', () => {
     beforeEach(() => { browser.keys('Tab'); });
-    Terra.should.matchScreenshot({ viewports, selector: '#default' });
-    Terra.should.beAccessible({ viewports, context: '#default' });
-    Terra.should.themeEachCustomProperty('#default', {
+    Terra.should.matchScreenshot({ viewports, selector: '[id=default]' });
+    Terra.should.beAccessible({ viewports, context: '[id=default]' });
+    Terra.should.themeEachCustomProperty('[id=default]', {
       '--terra-application-menu-utility-focus-box-shadow': '0 0 4px 4px rgba(80, 80, 233, 0.5), 0 0 6px 7px rgba(80, 80, 233, 0.35)',
     });
   });

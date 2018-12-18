@@ -29,7 +29,7 @@ describe('Embedded Content Consumer', () => {
   describe('custom-event', () => {
     before(() => {
       browser.url('#/raw/tests/terra-embedded-content-consumer/embedded-content-consumer/consumers/custom-event-consumer');
-      browser.waitForExist('#CustomEvent');
+      browser.waitForExist('[id=CustomEvent]');
     });
 
     Terra.should.matchScreenshot({ viewports });
@@ -38,7 +38,7 @@ describe('Embedded Content Consumer', () => {
   describe('custom-events', () => {
     before(() => {
       browser.url('#/raw/tests/terra-embedded-content-consumer/embedded-content-consumer/consumers/custom-events-consumer');
-      browser.waitForExist('#CustomEvents');
+      browser.waitForExist('[id=CustomEvents]');
 
       // Waiting for events to execute.
       browser.pause(5000);
@@ -59,9 +59,9 @@ describe('Embedded Content Consumer', () => {
       const myFrame = $('iframe[src="#/raw/tests/terra-embedded-content-consumer/embedded-content-consumer/providers/data-status-provider"]').value;
       browser.frame(myFrame);
 
-      expect(browser.isExisting('#Mounted'));
-      expect(browser.isExisting('#Launched'));
-      expect(browser.isExisting('#Authorized'));
+      expect(browser.isExisting('[id=Mounted]'));
+      expect(browser.isExisting('[id=Launched]'));
+      expect(browser.isExisting('[id=Authorized]'));
     });
   });
 });

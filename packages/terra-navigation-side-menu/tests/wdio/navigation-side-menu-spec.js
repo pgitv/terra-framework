@@ -2,11 +2,11 @@ describe('Default navigation side menu display', () => {
   before(() => browser.setViewportSize(Terra.viewports('medium')[0]));
   beforeEach(() => {
     browser.url('/#/raw/tests/terra-navigation-side-menu/navigation-side-menu/navigation-side-menu-default');
-    browser.waitForVisible('#test-menu');
+    browser.waitForVisible('[id=test-menu]');
   });
 
-  Terra.should.matchScreenshot('#test-menu', { selector: '#test-menu' });
-  Terra.should.beAccessible({ context: '#test-menu' });
+  Terra.should.matchScreenshot('#test-menu', { selector: '[id=test-menu]' });
+  Terra.should.beAccessible({ context: '[id=test-menu]' });
   Terra.should.themeCombinationOfCustomProperties({
     testName: 'themed',
     properties: {
@@ -28,22 +28,22 @@ describe('Default navigation side menu display with toolbar', () => {
   before(() => browser.setViewportSize(Terra.viewports('medium')[0]));
   beforeEach(() => {
     browser.url('/#/raw/tests/terra-navigation-side-menu/navigation-side-menu/navigation-side-menu-default-with-toolbar');
-    browser.waitForVisible('#test-menu');
+    browser.waitForVisible('[id=test-menu]');
   });
 
-  Terra.should.matchScreenshot('#test-menu', { selector: '#test-menu' });
-  Terra.should.beAccessible({ context: '#test-menu' });
+  Terra.should.matchScreenshot('#test-menu', { selector: '[id=test-menu]' });
+  Terra.should.beAccessible({ context: '[id=test-menu]' });
 });
 
 describe('Hover navigation side menu display', () => {
   before(() => browser.setViewportSize(Terra.viewports('medium')[0]));
   beforeEach(() => {
     browser.url('/#/raw/tests/terra-navigation-side-menu/navigation-side-menu/navigation-side-menu-default');
-    browser.waitForVisible('#test-menu');
-    browser.moveToObject('#test-menu #test-item-1');
+    browser.waitForVisible('[id=test-menu]');
+    browser.moveToObject('[id=test-menu] #test-item-1');
   });
 
-  Terra.should.matchScreenshot('#test-menu', { selector: '#test-menu' });
+  Terra.should.matchScreenshot('#test-menu', { selector: '[id=test-menu]' });
   Terra.should.themeCombinationOfCustomProperties({
     testName: 'themed',
     properties: {
@@ -57,14 +57,14 @@ describe('Selected navigation side menu display', () => {
   before(() => browser.setViewportSize(Terra.viewports('medium')[0]));
   beforeEach(() => {
     browser.url('/#/raw/tests/terra-navigation-side-menu/navigation-side-menu/navigation-side-menu-default');
-    browser.waitForVisible('#test-menu');
-    browser.moveToObject('#test-menu #test-item-1');
-    browser.click('#test-menu #test-item-1');
-    browser.click('#test-menu #test-item-2');
+    browser.waitForVisible('[id=test-menu]');
+    browser.moveToObject('[id=test-menu] #test-item-1');
+    browser.click('[id=test-menu] #test-item-1');
+    browser.click('[id=test-menu] #test-item-2');
   });
 
-  Terra.should.matchScreenshot('#test-menu', { selector: '#test-menu' });
-  Terra.should.beAccessible({ context: '#test-menu' });
+  Terra.should.matchScreenshot('#test-menu', { selector: '[id=test-menu]' });
+  Terra.should.beAccessible({ context: '[id=test-menu]' });
   Terra.should.themeCombinationOfCustomProperties({
     testName: 'themed',
     properties: {
@@ -80,8 +80,8 @@ describe('isRootMenu navigation side menu display', () => {
   before(() => browser.setViewportSize(Terra.viewports('medium')[0]));
   beforeEach(() => {
     browser.url('/#/raw/tests/terra-navigation-side-menu/navigation-side-menu/navigation-side-menu-root');
-    browser.waitForVisible('#test-menu');
+    browser.waitForVisible('[id=test-menu]');
   });
 
-  Terra.should.matchScreenshot('#test-menu', { selector: '#test-menu' });
+  Terra.should.matchScreenshot('#test-menu', { selector: '[id=test-menu]' });
 });

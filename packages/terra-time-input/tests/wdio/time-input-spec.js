@@ -58,7 +58,7 @@ describe('Time Input', () => {
   describe('Focus Hour Styles', () => {
     before(() => {
       browser.url('/#/raw/tests/terra-time-input/time-input/time-input/default-time');
-      browser.click('#timeInput input[name="terra-time-hour-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-hour-time-input"]');
     });
 
     Terra.should.beAccessible({ viewports });
@@ -84,7 +84,7 @@ describe('Time Input', () => {
   describe('Focus Minute Styles', () => {
     before(() => {
       browser.url('/#/raw/tests/terra-time-input/time-input/time-input/default-time');
-      browser.click('#timeInput input[name="terra-time-minute-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-minute-time-input"]');
     });
 
     Terra.should.beAccessible({ viewports });
@@ -112,7 +112,7 @@ describe('Time Input onChange operations', () => {
   describe('Time Input OnChange', () => {
     before(() => {
       browser.url('/#/raw/tests/terra-time-input/time-input/time-input/on-change');
-      browser.click('#timeInput input[name="terra-time-hour-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-hour-time-input"]');
       browser.keys('1234');
     });
 
@@ -123,9 +123,9 @@ describe('Time Input onChange operations', () => {
     before(() => {
       browser.url('/#/raw/tests/terra-time-input/time-input/time-input/on-change');
 
-      browser.click('#timeInput input[name="terra-time-hour-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-hour-time-input"]');
       browser.keys('2');
-      browser.click('#timeInput input[name="terra-time-minute-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-minute-time-input"]');
     });
 
     Terra.should.matchScreenshot({ viewports });
@@ -135,7 +135,7 @@ describe('Time Input onChange operations', () => {
     before(() => {
       browser.url('/#/raw/tests/terra-time-input/time-input/time-input/on-change');
 
-      browser.click('#timeInput input[name="terra-time-hour-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-hour-time-input"]');
       browser.keys('3');
     });
 
@@ -146,7 +146,7 @@ describe('Time Input onChange operations', () => {
     before(() => {
       browser.url('/#/raw/tests/terra-time-input/time-input/time-input/on-change');
 
-      browser.click('#timeInput input[name="terra-time-hour-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-hour-time-input"]');
       browser.keys('2');
     });
 
@@ -157,7 +157,7 @@ describe('Time Input onChange operations', () => {
     before(() => {
       browser.url('/#/raw/tests/terra-time-input/time-input/time-input/on-change');
 
-      browser.click('#timeInput input[name="terra-time-hour-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-hour-time-input"]');
       browser.keys('24');
     });
 
@@ -168,9 +168,9 @@ describe('Time Input onChange operations', () => {
     before(() => {
       browser.url('/#/raw/tests/terra-time-input/time-input/time-input/on-change');
 
-      browser.click('#timeInput input[name="terra-time-minute-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-minute-time-input"]');
       browser.keys('2');
-      browser.click('#timeInput input[name="terra-time-hour-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-hour-time-input"]');
     });
 
     Terra.should.matchScreenshot({ viewports });
@@ -180,7 +180,7 @@ describe('Time Input onChange operations', () => {
     before(() => {
       browser.url('/#/raw/tests/terra-time-input/time-input/time-input/on-change');
 
-      browser.click('#timeInput input[name="terra-time-minute-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-minute-time-input"]');
       browser.keys('6');
     });
 
@@ -191,7 +191,7 @@ describe('Time Input onChange operations', () => {
     before(() => {
       browser.url('/#/raw/tests/terra-time-input/time-input/time-input/on-change');
 
-      browser.click('#timeInput input[name="terra-time-minute-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-minute-time-input"]');
       browser.keys('5');
     });
 
@@ -202,7 +202,7 @@ describe('Time Input onChange operations', () => {
     before(() => {
       browser.url('/#/raw/tests/terra-time-input/time-input/time-input/on-change');
 
-      browser.click('#timeInput input[name="terra-time-minute-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-minute-time-input"]');
       browser.keys('66');
     });
 
@@ -213,7 +213,7 @@ describe('Time Input onChange operations', () => {
     before(() => {
       browser.url('/#/raw/tests/terra-time-input/time-input/time-input/on-change');
 
-      browser.click('#timeInput input[name="terra-time-minute-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-minute-time-input"]');
       browser.keys(['Delete']);
     });
 
@@ -224,7 +224,7 @@ describe('Time Input onChange operations', () => {
     before(() => {
       browser.url('/#/raw/tests/terra-time-input/time-input/time-input/on-change');
 
-      browser.click('#timeInput input[name="terra-time-hour-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-hour-time-input"]');
       browser.keys('747');
     });
 
@@ -235,9 +235,9 @@ describe('Time Input onChange operations', () => {
     before(() => {
       browser.url('/#/raw/tests/terra-time-input/time-input/time-input/on-change');
 
-      browser.click('#timeInput input[name="terra-time-hour-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-hour-time-input"]');
       browser.keys('1223');
-      browser.click('#timeInput input[name="terra-time-hour-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-hour-time-input"]');
       browser.keys(['ArrowLeft', 'ArrowRight', 'Delete']);
     });
 
@@ -248,10 +248,10 @@ describe('Time Input onChange operations', () => {
     before(() => {
       browser.url('/#/raw/tests/terra-time-input/time-input/time-input/on-change');
 
-      browser.click('#timeInput input[name="terra-time-hour-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-hour-time-input"]');
       browser.keys('1223');
-      browser.click('#timeInput input[name="terra-time-hour-time-input"]');
-      browser.click('#timeInput input[name="terra-time-minute-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-hour-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-minute-time-input"]');
       browser.keys(['ArrowLeft', 'ArrowRight', 'Delete']);
     });
 
@@ -264,9 +264,9 @@ describe('Time Input up and down arrow operations', () => {
     before(() => {
       browser.url('/#/raw/tests/terra-time-input/time-input/time-input/on-change');
 
-      browser.click('#timeInput input[name="terra-time-hour-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-hour-time-input"]');
       browser.keys('23');
-      browser.click('#timeInput input[name="terra-time-hour-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-hour-time-input"]');
       browser.keys(['ArrowDown']);
     });
 
@@ -277,9 +277,9 @@ describe('Time Input up and down arrow operations', () => {
     before(() => {
       browser.url('/#/raw/tests/terra-time-input/time-input/time-input/on-change');
 
-      browser.click('#timeInput input[name="terra-time-hour-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-hour-time-input"]');
       browser.keys('00');
-      browser.click('#timeInput input[name="terra-time-hour-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-hour-time-input"]');
       browser.keys(['ArrowDown']);
     });
 
@@ -290,7 +290,7 @@ describe('Time Input up and down arrow operations', () => {
     before(() => {
       browser.url('/#/raw/tests/terra-time-input/time-input/time-input/on-change');
 
-      browser.click('#timeInput input[name="terra-time-hour-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-hour-time-input"]');
       browser.keys(['ArrowUp', 'ArrowUp']);
     });
 
@@ -301,9 +301,9 @@ describe('Time Input up and down arrow operations', () => {
     before(() => {
       browser.url('/#/raw/tests/terra-time-input/time-input/time-input/on-change');
 
-      browser.click('#timeInput input[name="terra-time-hour-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-hour-time-input"]');
       browser.keys('23');
-      browser.click('#timeInput input[name="terra-time-hour-time-input"]');
+      browser.click('[id=timeInput] input[name="terra-time-hour-time-input"]');
       browser.keys(['ArrowUp']);
     });
 

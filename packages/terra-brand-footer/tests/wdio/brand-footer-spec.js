@@ -10,7 +10,7 @@ describe('BrandFooter', () => {
     Terra.should.matchScreenshot({ viewports });
     Terra.should.themeCombinationOfCustomProperties({
       testName: 'themed',
-      selector: '#wrapper',
+      selector: '[id=wrapper]',
       properties: {
         '--terra-brand-footer-margin-bottom': '4px',
         '--terra-brand-footer-margin-top': '4px',
@@ -56,7 +56,7 @@ describe('BrandFooter', () => {
     Terra.should.matchScreenshot({ viewports });
     Terra.should.themeCombinationOfCustomProperties({
       testName: 'themed',
-      selector: '#wrapper',
+      selector: '[id=wrapper]',
       properties: {
         '--terra-brand-footer-margin-bottom': '4px',
         '--terra-brand-footer-margin-top': '4px',

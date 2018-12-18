@@ -1,4 +1,4 @@
-const selector = '#root';
+const selector = '[id=root]';
 
 Terra.viewports('tiny', 'medium', 'large').forEach((viewport) => {
   describe('Complete notification-dialog title, message and actions', () => {
@@ -120,7 +120,7 @@ Terra.viewports('tiny', 'medium', 'large').forEach((viewport) => {
 
     Terra.should.themeCombinationOfCustomProperties({
       testName: 'themed',
-      selector: '#root',
+      selector,
       properties: {
         '--notification-dialog-background': '#FFFF33',
         '--notification-dialog-body-font-size': '0.15rem',
@@ -145,7 +145,7 @@ Terra.viewports('tiny', 'medium', 'large').forEach((viewport) => {
 
     Terra.should.themeCombinationOfCustomProperties({
       testName: 'themed',
-      selector: '#root',
+      selector,
       properties: {
         '--terra-notification-dialog-alert-icon': '#000',
       },
@@ -161,7 +161,7 @@ Terra.viewports('tiny', 'medium', 'large').forEach((viewport) => {
 
     Terra.should.themeCombinationOfCustomProperties({
       testName: 'themed',
-      selector: '#root',
+      selector,
       properties: {
         '--terra-notification-dialog-actions-flex-direction': 'row-reverse',
         '--terra-notification-dialog-footer-padding': '0',

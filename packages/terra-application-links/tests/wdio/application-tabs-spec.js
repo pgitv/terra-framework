@@ -4,12 +4,12 @@ describe('ApplicationTabs', () => {
   describe('Displays a default application tabs', () => {
     beforeEach(() => {
       browser.url('/#/raw/tests/terra-application-links/application-links/application-tabs-default');
-      browser.waitForVisible('#test-tabs [data-application-tabs-more]');
-      browser.moveToObject('#test-tabs [data-application-tabs-more]');
+      browser.waitForVisible('[id=test-tabs] [data-application-tabs-more]');
+      browser.moveToObject('[id=test-tabs] [data-application-tabs-more]');
     });
 
-    Terra.should.matchScreenshot('#test-tabs', { selector: '#test-tabs', viewports });
-    Terra.should.beAccessible({ viewports, context: '#test-tabs' });
+    Terra.should.matchScreenshot('[id=test-tabs]', { selector: '[id=test-tabs]', viewports });
+    Terra.should.beAccessible({ viewports, context: '[id=test-tabs]' });
     Terra.should.themeCombinationOfCustomProperties({
       selector: '#test-tabs',
       testName: 'themed',
@@ -40,8 +40,8 @@ describe('ApplicationTabs', () => {
   describe('Displays collapsed application tabs', () => {
     beforeEach(() => {
       browser.url('/#/raw/tests/terra-application-links/application-links/application-tabs-default');
-      browser.waitForVisible('#test-tabs [data-application-tabs-more]');
-      browser.click('#test-tabs [data-application-tabs-more]');
+      browser.waitForVisible('[id=test-tabs] [data-application-tabs-more]');
+      browser.click('[id=test-tabs] [data-application-tabs-more]');
       browser.waitForVisible('[data-application-tab-menu-content]');
       browser.pause(150);
       browser.moveToObject('[data-application-tab-menu-content] > *:first-child');
@@ -67,14 +67,14 @@ describe('ApplicationTabs', () => {
   describe('Displays a hidden application tabs selection', () => {
     beforeEach(() => {
       browser.url('/#/raw/tests/terra-application-links/application-links/application-tabs-default');
-      browser.waitForVisible('#test-tabs [data-application-tabs-more]');
-      browser.click('#test-tabs [data-application-tabs-more] span');
+      browser.waitForVisible('[id=test-tabs] [data-application-tabs-more]');
+      browser.click('[id=test-tabs] [data-application-tabs-more] span');
       browser.waitForVisible('[data-application-tab-menu-content]');
       browser.click('[data-application-tab-menu-content] > *:first-child div');
       browser.pause(50);
     });
 
-    Terra.should.matchScreenshot('#test-tabs', { selector: '#test-tabs', viewports });
+    Terra.should.matchScreenshot('#test-tabs', { selector: '[id=test-tabs]', viewports });
   });
 
   describe('Displays a application tabs start aligned', () => {
@@ -83,7 +83,7 @@ describe('ApplicationTabs', () => {
       browser.pause(50);
     });
 
-    Terra.should.matchScreenshot('#test-tabs', { selector: '#test-tabs', viewports });
+    Terra.should.matchScreenshot('#test-tabs', { selector: '[id=test-tabs]', viewports });
   });
 
   describe('Displays a application tabs center aligned', () => {
@@ -92,7 +92,7 @@ describe('ApplicationTabs', () => {
       browser.pause(50);
     });
 
-    Terra.should.matchScreenshot('#test-tabs', { selector: '#test-tabs', viewports });
+    Terra.should.matchScreenshot('#test-tabs', { selector: '[id=test-tabs]', viewports });
   });
 
   describe('Displays a application tabs end aligned', () => {
@@ -101,14 +101,14 @@ describe('ApplicationTabs', () => {
       browser.pause(50);
     });
 
-    Terra.should.matchScreenshot('#test-tabs', { selector: '#test-tabs', viewports });
+    Terra.should.matchScreenshot('#test-tabs', { selector: '[id=test-tabs]', viewports });
   });
 
   describe('Navigates away from the site', () => {
     beforeEach(() => {
       browser.url('/#/raw/tests/terra-application-links/application-links/application-tabs-external');
       browser.pause(50);
-      browser.click('#test-tabs #test-button');
+      browser.click('[id=test-tabs] [id=test-button]');
       browser.pause(100);
     });
 
