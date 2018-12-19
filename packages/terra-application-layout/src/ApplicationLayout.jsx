@@ -12,6 +12,7 @@ import ApplicationHeader from './header/_ApplicationHeader';
 import ApplicationLayoutPropTypes from './utils/propTypes';
 import Helpers from './utils/helpers';
 import UtilityHelpers from './utils/utilityHelpers';
+import ApplicationLayoutMenuPanel from './ApplicationLayoutMenuPanel';
 
 import 'terra-base/lib/baseStyles';
 
@@ -80,11 +81,10 @@ class ApplicationLayout extends React.Component {
 
   componentDidUpdate() {
     const { activeBreakpoint, menuIsOpen, onMenuToggle } = this.props;
-
     /**
      * The menu is toggled closed if it determined to be open at medium through enormous breakpoints.
      */
-    if (activeBreakpoint !== 'tiny' && activeBreakpoint !== 'small' && menuIsOpen) {
+    if (!Helpers.isSizeCompact(activeBreakpoint) && menuIsOpen) {
       onMenuToggle();
     }
   }
@@ -125,38 +125,36 @@ class ApplicationLayout extends React.Component {
 
     const containerClassNames = cx([
       'application-layout',
-      { 'menu-is-open': menuIsOpen },
+      // { 'menu-is-open': menuIsOpen },
     ]);
 
     return (
-      <div
-        className={containerClassNames}
+      <ApplicationLayoutMenuPanel
+        isOpen={menuIsOpen}
+        onToggle={onMenuToggle}
+        panelContent={isCompact ? this.renderApplicationLayoutMenu() : undefined}
       >
-        <div className={cx('menu-panel')} aria-hidden={!menuIsOpen}>
-          {isCompact ? this.renderApplicationLayoutMenu() : undefined}
-        </div>
-        <OverlayContainer className={cx('content')}>
-          <Overlay isRelativeToContainer onRequestClose={onMenuToggle} isOpen={menuIsOpen} backgroundStyle="dark" style={{ zIndex: '1500' }} />
-          <ContentContainer
-            header={(
-              <ApplicationHeader
-                activeBreakpoint={activeBreakpoint}
-                nameConfig={nameConfig}
-                utilityConfig={utilityConfig}
-                extensions={extensions}
-                navigationItems={navigationItems}
-                navigationItemAlignment={navigationAlignment}
-                activeNavigationItemKey={activeNavigationItemKey}
-                onSelectNavigationItem={onSelectNavigationItem}
-                onMenuToggle={onMenuToggle}
-              />
+        <ContentContainer
+          header={(
+            <ApplicationHeader
+              activeBreakpoint={activeBreakpoint}
+              nameConfig={nameConfig}
+              utilityConfig={utilityConfig}
+              extensions={extensions}
+              navigationItems={navigationItems}
+              navigationItemAlignment={navigationAlignment}
+              activeNavigationItemKey={activeNavigationItemKey}
+              onSelectNavigationItem={onSelectNavigationItem}
+              onMenuToggle={onMenuToggle}
+            />
             )}
-            fill
-          >
+          fill
+        >
+          <main tabIndex="-1" className={cx('main-container')}>
             {children}
-          </ContentContainer>
-        </OverlayContainer>
-      </div>
+          </main>
+        </ContentContainer>
+      </ApplicationLayoutMenuPanel>
     );
   }
 }

@@ -1,7 +1,7 @@
 @import "~terra-breakpoints/lib/media-queries";
 
 :local {
-  .application-layout {
+  .container {
     height: 100%;
     overflow: hidden;
     position: relative;
@@ -16,45 +16,48 @@
     transition: none;
   }
 
+  .is-animated {
+    transition: transform 0.15s ease;
+  }
+
   .content {
+    float: right;
     position: relative;
     width: 100%;
     z-index: 0;
-
-    @include terra-mq-large-up {
-      width: calc(100% - #{var(--layout-slide-panel-desktop-panel-width, 18.571rem)} - 0.07143rem);
-    }
   }
 
   .menu-panel {
     background-color: var(--layout-slide-panel-background-color, #fff);
     position: absolute;
     transform: translate3d(-100%, 0, 0);
-    width: var(--layout-slide-panel-phone-panel-width, calc(100% - 3.571rem));
     z-index: 5000;
+  }
+
+  .is-open > .menu-panel {
+    transform: translate3d(0, 0, 0);
+    width: var(--layout-slide-panel-phone-panel-width, calc(100% - 3.571rem));
 
     @include terra-mq-medium-up {
+      box-shadow: 0.07143rem 0 0.3571rem var(--layout-slide-panel-panel-shadow-color, #1c1f21);
       width: var(--layout-slide-panel-tablet-panel-width, 22.857rem);
-    }
-  
+    } 
+
     @include terra-mq-large-up {
       border-right: 0.07143rem solid var(--layout-slide-panel-panel-border-color, #d3d4d5);
+      box-shadow: none;
+      transition: none;
       width: calc(0.07143rem + #{var(--layout-slide-panel-desktop-panel-width, 18.571rem)});
-    }
+    } 
+  }
+
+  .is-open > .content {
+    @include terra-mq-large-up {
+      width: calc(100% - #{var(--layout-slide-panel-desktop-panel-width, 18.571rem)} - 0.07143rem);
+    } 
   }
 
   .menu-panel[aria-hidden='true'] {
     visibility: hidden;
-  }
-
-  .menu-is-open > .menu-panel {  
-    box-shadow: 0.07143rem 0 0.3571rem var(--layout-slide-panel-panel-shadow-color, #1c1f21);
-
-    // Move the slider back to its origin when its on-screen.
-    transform: translate3d(0, 0, 0);
-  }
-
-  .main-container {
-    height: 100%;
   }
 }

@@ -3,7 +3,7 @@
  * This can be used to synchronize component rendering with responsive changes
  * to the ApplicationLayout.
  */
-const isSizeCompact = size => size === 'tiny' || size === 'small';
+const isSizeCompact = size => size === 'tiny' || size === 'small' || size === 'medium';
 
 const KEYCODES = {
   ENTER: 13,

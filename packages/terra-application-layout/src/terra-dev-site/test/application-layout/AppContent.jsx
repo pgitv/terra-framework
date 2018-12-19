@@ -6,10 +6,10 @@ import ActionHeader from 'terra-action-header';
 import ContentLayout from '../../../ContentLayout';
 import RoutingMenu from '../../../menu/RoutingMenu';
 
-const PageContent = ({ contentName, contentLayout, children }) => (
+const PageContent = ({ contentName, goBack, children }) => (
   <ContentContainer
     fill
-    header={<ActionHeader title={contentName} onBack={contentLayout.goBack} />}
+    header={<ActionHeader title={contentName} onBack={goBack} />}
   >
     {children || (
     <div style={{ padding: '5px' }}>
@@ -130,7 +130,7 @@ class AppContent extends React.Component {
       },
       page_1_item_1_menu: {
         component: (
-          <PageContent contentName="Page 1 Item 1 Menu">
+          <PageContent contentName="Page 1 Item 1 Menu" goBack={() => { history.push('/page_1'); }}>
             <RoutingMenu
               layoutConfig={{}}
               routingStackDelegate={routingStackDelegate}
@@ -182,16 +182,13 @@ class AppContent extends React.Component {
 
     return (
       <ContentLayout
-        placeholder={<div style={{ height: '100%', backgroundColor: 'grey' }} />}
-        activeComponentKey={activePage}
-        componentMap={componentMap}
-        onChange={(key) => {
-          const newPath = AppContent.pathForKey(key);
-          if (newPath) {
-            history.push(newPath);
-          }
-        }}
-      />
+        isOpen
+        panelContent={(
+          <div>hi</div>
+        )}
+      >
+        {componentMap[activePage].component}
+      </ContentLayout>
     );
   }
 }
