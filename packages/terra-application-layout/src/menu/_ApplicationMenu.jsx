@@ -131,10 +131,10 @@ class ApplicationMenu extends React.Component {
     return (
       <div className={cx('application-menu')}>
         <ApplicationMenuLayout
-          header={this.renderHeader()}
-          extensions={extensions}
+          // header={this.renderHeader()}
+          // extensions={extensions}
           content={this.renderNavigationList()}
-          footer={this.renderFooter()}
+          // footer={this.renderFooter()}
         />
       </div>
     );

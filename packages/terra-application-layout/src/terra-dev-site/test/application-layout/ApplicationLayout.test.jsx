@@ -9,11 +9,10 @@ import Image from 'terra-image';
 import Avatar from 'terra-avatar';
 import ContentContainer from 'terra-content-container';
 import Button from 'terra-button';
-// import NavigationLayout from 'terra-navigation-layout';
 import ActionHeader from 'terra-action-header';
 import { withDisclosureManager } from 'terra-disclosure-manager';
 import ModalManager from 'terra-modal-manager';
-import { ActiveBreakpointProvider } from 'terra-breakpoints';
+import { ActiveBreakpointProvider, withActiveBreakpoint } from 'terra-breakpoints';
 
 import ApplicationLayout, { Utils } from '../../../ApplicationLayout';
 import AppContent from './AppContent';
@@ -31,6 +30,34 @@ const DisclosureComponent = withDisclosureManager(({ disclosureManager, text }) 
   </ContentContainer>
 
 ));
+
+const Extensions = withDisclosureManager(withActiveBreakpoint(({ disclosureManager, activeBreakpoint }) => (
+  <span>
+    <Button
+      style={{ marginRight: '5px' }}
+      text={activeBreakpoint === 'tiny' || activeBreakpoint === 'small' ? 'E1' : 'Extension 1'}
+      onClick={() => {
+        disclosureManager.disclose({
+          preferredType: 'modal',
+          content: {
+            component: <DisclosureComponent text="Extensions Go Here" />,
+          },
+        });
+      }}
+    />
+    <Button
+      text={activeBreakpoint === 'tiny' || activeBreakpoint === 'small' ? 'E2' : 'Extension 2'}
+      onClick={() => {
+        disclosureManager.disclose({
+          preferredType: 'modal',
+          content: {
+            component: <DisclosureComponent text="Extensions Go Here" />,
+          },
+        });
+      }}
+    />
+  </span>
+)));
 
 /**
  * The navigationItems will be used to present the ApplicationLayout's navigation controls. The paths provided here must be present in
@@ -188,23 +215,7 @@ class ApplicationLayoutTest extends React.Component {
         <ApplicationLayout
           nameConfig={nameConfig}
           utilityConfig={utilityConfig}
-          extensions={(
-            <Button
-              text="Extensions"
-              onClick={() => {
-                this.setState({
-                  menuIsOpen: false,
-                }, () => {
-                  disclosureManager.disclose({
-                    preferredType: 'modal',
-                    content: {
-                      component: <DisclosureComponent text="Extensions Go Here" />,
-                    },
-                  });
-                });
-              }}
-            />
-          )}
+          extensions={<Extensions />}
           menuIsOpen={menuIsOpen}
           onMenuToggle={() => {
             this.setState(state => ({

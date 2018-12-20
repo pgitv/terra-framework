@@ -154,14 +154,16 @@ class ApplicationHeader extends React.Component {
   }
 
   renderUtilities() {
-    const { utilityConfig } = this.props;
+    const { utilityConfig, activeBreakpoint } = this.props;
+
+    const isCompact = Helpers.isSizeCompact(activeBreakpoint);
 
     if (utilityConfig) {
       return (
         <ApplicationHeaderUtility
           onChange={this.handleUtilityOnChange}
           onDisclose={this.handleUtilityDiscloseRequest}
-          title={utilityConfig.title}
+          title={!isCompact ? utilityConfig.title : undefined}
           accessory={utilityConfig.accessory}
           menuItems={utilityConfig.menuItems}
           initialSelectedKey={utilityConfig.initialSelectedKey}
@@ -180,7 +182,6 @@ class ApplicationHeader extends React.Component {
       return (
         <Popup
           attachmentBehavior="push"
-          contentAttachment="top center"
           contentHeight="auto"
           contentWidth="240"
           isArrowDisplayed
@@ -216,6 +217,8 @@ class ApplicationHeader extends React.Component {
         <ApplicationHeaderLayout
           toggle={this.renderToggle()}
           navigation={this.renderAppName()}
+          extensions={extensions}
+          utilities={this.renderUtilities()}
         />
       );
     } else {
@@ -223,8 +226,8 @@ class ApplicationHeader extends React.Component {
         <ApplicationHeaderLayout
           logo={this.renderAppName()}
           navigation={this.renderNavigationTabs()}
-          extensions={!isCompact ? extensions : null}
-          utilities={!isCompact ? this.renderUtilities() : null}
+          extensions={extensions}
+          utilities={this.renderUtilities()}
         />
       );
     }

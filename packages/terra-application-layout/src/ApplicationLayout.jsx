@@ -129,32 +129,32 @@ class ApplicationLayout extends React.Component {
     ]);
 
     return (
-      <ApplicationLayoutMenuPanel
-        isOpen={menuIsOpen}
-        onToggle={onMenuToggle}
-        panelContent={isCompact ? this.renderApplicationLayoutMenu() : undefined}
+      <ContentContainer
+        header={(
+          <ApplicationHeader
+            activeBreakpoint={activeBreakpoint}
+            nameConfig={nameConfig}
+            utilityConfig={utilityConfig}
+            extensions={extensions}
+            navigationItems={navigationItems}
+            navigationItemAlignment={navigationAlignment}
+            activeNavigationItemKey={activeNavigationItemKey}
+            onSelectNavigationItem={onSelectNavigationItem}
+            onMenuToggle={navigationItems.length ? onMenuToggle : undefined}
+          />
+        )}
+        fill
       >
-        <ContentContainer
-          header={(
-            <ApplicationHeader
-              activeBreakpoint={activeBreakpoint}
-              nameConfig={nameConfig}
-              utilityConfig={utilityConfig}
-              extensions={extensions}
-              navigationItems={navigationItems}
-              navigationItemAlignment={navigationAlignment}
-              activeNavigationItemKey={activeNavigationItemKey}
-              onSelectNavigationItem={onSelectNavigationItem}
-              onMenuToggle={onMenuToggle}
-            />
-            )}
-          fill
+        <ApplicationLayoutMenuPanel
+          isOpen={menuIsOpen}
+          onToggle={onMenuToggle}
+          panelContent={isCompact && navigationItems.length ? this.renderApplicationLayoutMenu() : undefined}
         >
           <main tabIndex="-1" className={cx('main-container')}>
             {children}
           </main>
-        </ContentContainer>
-      </ApplicationLayoutMenuPanel>
+        </ApplicationLayoutMenuPanel>
+      </ContentContainer>
     );
   }
 }
