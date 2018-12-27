@@ -44,7 +44,7 @@ describe('InfiniteList', () => {
       browser.url('/#/raw/tests/terra-infinite-list/infinite-list/infinite-list-virtual');
       browser.waitForVisible('[id=test-infinite-list] [data-infinite-list-index="0"]');
       browser.pause(150);
-      browser.click('#test-click');
+      browser.click('[id=timeInput]');
       browser.waitForVisible('[id=test-infinite-list] [data-infinite-list-index="15"]');
       browser.pause(50);
     });
@@ -61,7 +61,7 @@ describe('InfiniteList', () => {
     });
     Terra.should.matchScreenshot('before-update', { selector: '[id=test-infinite-list]' });
     it('update the child items', () => {
-      browser.click('#test-click');
+      browser.click('[id=timeInput]');
       browser.pause(50);
     });
     Terra.should.matchScreenshot('after-update', { selector: '[id=test-infinite-list]' });

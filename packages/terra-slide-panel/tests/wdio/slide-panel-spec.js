@@ -89,18 +89,18 @@ describe('Slide panel', () => {
       browser.waitForExist('[id=test-slide] [aria-hidden="true"]');
     });
 
-    Terra.should.matchScreenshot({ selector: '#root' });
+    Terra.should.matchScreenshot({ selector: '[id=root]' });
   });
 
   describe('Toggle the slide panel click', () => {
     beforeEach(() => {
       browser.url('/#/raw/tests/terra-slide-panel/slide-panel/slide-panel-toggle');
-      browser.click('#test-toggle');
+      browser.click('[id=test-toggle]');
       browser.waitForExist('[id=test-slide] [aria-hidden="false"]');
       browser.pause(150);
     });
 
-    Terra.should.matchScreenshot({ selector: '#root' });
+    Terra.should.matchScreenshot({ selector: '[id=root]' });
   });
 
   describe('Slide panel theming', () => {

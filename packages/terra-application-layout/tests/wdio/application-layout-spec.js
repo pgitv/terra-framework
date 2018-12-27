@@ -35,8 +35,8 @@ describe('ApplicationLayout', () => {
     beforeEach(() => {
       browser.setViewportSize(Terra.viewports('huge')[0]);
       browser.url('/#/raw/tests/terra-application-layout/application-layout/application-layout');
-      browser.waitForVisible('#application-layout-tab-1');
-      browser.click('#application-layout-tab-1');
+      browser.waitForVisible('[id=application-layout-tab-]1');
+      browser.click('[id=application-layout-tab-1]');
     });
 
     Terra.should.matchScreenshot({ selector: '[id=application-layout-test]' });
