@@ -9,25 +9,39 @@ import { ApplicationHeaderName } from 'terra-application-name';
 import IconMenu from 'terra-icon/lib/icon/IconMenu';
 import Popup from 'terra-popup';
 
-import 'terra-base/lib/baseStyles';
-
 import ApplicationTabs from './tabs/_ApplicationTabs';
 import ApplicationLayoutPropTypes from '../utils/propTypes';
 import Helpers from '../utils/helpers';
 
+import 'terra-base/lib/baseStyles';
 import styles from './ApplicationHeader.module.scss';
 
 const cx = classNames.bind(styles);
 
 const propTypes = {
+  /**
+   * A function to be executed upon selection of the ApplicationHeader's toggle button.
+   */
   onMenuToggle: PropTypes.func,
   /**
    * Configuration values for the ApplicationName component.
    */
   nameConfig: ApplicationLayoutPropTypes.nameConfigPropType,
+  /**
+   * Array of navigation items to render within the ApplicationHeader.
+   */
   navigationItems: PropTypes.array,
-  navigationItemAlignment: PropTypes.string,
+  /**
+   * The string specifying the desired alignment for the navigation items.
+   */
+  navigationItemAlignment: ApplicationLayoutPropTypes.navigationAlignmentPropType,
+  /**
+   * The string identifying the currently active navigation item.
+   */
   activeNavigationItemKey: PropTypes.string,
+  /**
+   * A function to be executed upon selection of a navigation item.
+   */
   onSelectNavigationItem: PropTypes.func,
   /**
    * The element to be placed within the fit start area for extensions within the layout.
@@ -38,14 +52,17 @@ const propTypes = {
    */
   utilityConfig: ApplicationLayoutPropTypes.utilityConfigPropType,
   /**
-   * Internationalization object with translation APIs. Provided by `injectIntl`.
+   * The currently active breakpoint.
+   */
+  activeBreakpoint: PropTypes.string,
+  /**
+   * @private Internationalization object with translation APIs automatically provided by a Base ancestor.
    */
   intl: intlShape,
   /**
-   * DisclosureManagerDelegate instance automatically provided by a DisclosureManagerProvider.
+   * @private DisclosureManagerDelegate instance automatically provided by a DisclosureManager ancestor.
    */
   disclosureManager: disclosureManagerShape,
-  activeBreakpoint: PropTypes.string,
 };
 
 const defaultProps = {
@@ -105,7 +122,7 @@ class ApplicationHeader extends React.Component {
 
     if (onMenuToggle) {
       return (
-        <div className={cx('toolbar-toggle')}>
+        <div className={cx('toggle-button-container')}>
           <button
             type="button"
             className={cx('toggle-button')}
@@ -219,6 +236,7 @@ class ApplicationHeader extends React.Component {
           navigation={this.renderAppName()}
           extensions={extensions}
           utilities={this.renderUtilities()}
+          skipToContentSelector="[data-terra-application-layout-main]"
         />
       );
     } else {
@@ -228,6 +246,7 @@ class ApplicationHeader extends React.Component {
           navigation={this.renderNavigationTabs()}
           extensions={extensions}
           utilities={this.renderUtilities()}
+          skipToContentSelector="[data-terra-application-layout-main]"
         />
       );
     }

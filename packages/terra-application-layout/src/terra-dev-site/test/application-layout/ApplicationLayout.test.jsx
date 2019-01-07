@@ -12,7 +12,7 @@ import Button from 'terra-button';
 import ActionHeader from 'terra-action-header';
 import { withDisclosureManager } from 'terra-disclosure-manager';
 import ModalManager from 'terra-modal-manager';
-import { ActiveBreakpointProvider, withActiveBreakpoint } from 'terra-breakpoints';
+import { ActiveBreakpointProvider, ActiveBreakpointContext, withActiveBreakpoint } from 'terra-breakpoints';
 
 import ApplicationLayout, { Utils } from '../../../ApplicationLayout';
 import AppContent from './AppContent';
@@ -142,7 +142,7 @@ class ApplicationLayoutTest extends React.Component {
 
   render() {
     const {
-      intl, history, location, disclosureManager,
+      intl, history, location, disclosureManager, activeBreakpoint,
     } = this.props;
     const { checkboxItemEnabled, menuIsOpen, activeNavigationItem } = this.state;
 
@@ -213,6 +213,7 @@ class ApplicationLayoutTest extends React.Component {
         id="application-layout-test"
       >
         <ApplicationLayout
+          activeBreakpoint={activeBreakpoint}
           nameConfig={nameConfig}
           utilityConfig={utilityConfig}
           extensions={<Extensions />}
@@ -252,7 +253,9 @@ const AppRouter = () => (
     <MemoryRouter>
       <ActiveBreakpointProvider>
         <ModalManager>
-          <WrappedApplication />
+          <ActiveBreakpointContext.Consumer>
+            {activeBreakpoint => <WrappedApplication activeBreakpoint={activeBreakpoint} />}
+          </ActiveBreakpointContext.Consumer>
         </ModalManager>
       </ActiveBreakpointProvider>
     </MemoryRouter>

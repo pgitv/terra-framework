@@ -17,7 +17,7 @@ const propTypes = {
    */
   alignment: PropTypes.oneOf(['start', 'center', 'end']),
   /**
-   *
+   * Array of objects representing the tabs.
    */
   tabs: PropTypes.arrayOf(PropTypes.shape({
     /**
@@ -29,7 +29,13 @@ const propTypes = {
      */
     text: PropTypes.string.isRequired,
   })),
+  /**
+   * A string identifying the currently active tab.
+   */
   activeTabKey: PropTypes.string,
+  /**
+   * A function to be executed upon selection of a tab.
+   */
   onTabSelect: PropTypes.func,
 };
 
@@ -138,7 +144,7 @@ class ApplicationTabs extends React.Component {
             onTabSelect(tab.key);
           }
         },
-        isSelected: tab.key === activeTabKey,
+        isActive: tab.key === activeTabKey,
       };
 
       if (this.hiddenStartIndex < 0) {

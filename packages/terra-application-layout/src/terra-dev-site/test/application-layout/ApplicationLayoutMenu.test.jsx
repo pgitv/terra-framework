@@ -2,14 +2,14 @@
 import React from 'react';
 import ModalManager from 'terra-modal-manager';
 import { MemoryRouter } from 'react-router-dom';
-import ApplicationMenu from '../../../menu/_ApplicationMenu';
+import NavigationMenu from '../../../menu/_NavigationMenu';
 import ExtensionsExample from '../common/ExtensionsExample';
 import ContentExample from '../common/ContentExample';
 
 const ApplicationLayoutMenu = () => (
   <MemoryRouter>
     <ModalManager>
-      <ApplicationMenu
+      <NavigationMenu
         id="test-menu"
         layoutConfig={{ size: 'small' }}
         nameConfig={{ title: 'app-test-title' }}

@@ -33,6 +33,14 @@ const propTypes = {
    * Utilities element to be placed at the end of the header.
    * */
   utilities: PropTypes.element,
+  /**
+   * The string selector for the element that will receive focus when the "Skip to Content" button is pressed.
+   */
+  skipToContentSelector: PropTypes.string,
+};
+
+const defaultProps = {
+  skipToContentSelector: '[data-terra-layout-main]',
 };
 
 const ApplicationHeaderLayout = ({
@@ -42,10 +50,10 @@ const ApplicationHeaderLayout = ({
   intl,
   toggle,
   utilities,
+  skipToContentSelector,
   ...customProps
 }) => {
   const headerClassNames = cx([
-    'header',
     'fill',
     customProps.className,
   ]);
@@ -86,7 +94,7 @@ const ApplicationHeaderLayout = ({
   }
 
   const skipToContent = () => {
-    const mainContainer = document.querySelector(['[data-terra-layout-main]']);
+    const mainContainer = document.querySelector(skipToContentSelector);
 
     if (mainContainer) {
       mainContainer.focus();
@@ -120,5 +128,6 @@ const ApplicationHeaderLayout = ({
 };
 
 ApplicationHeaderLayout.propTypes = propTypes;
+ApplicationHeaderLayout.defaultProps = defaultProps;
 
 export default injectIntl(ApplicationHeaderLayout);

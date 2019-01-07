@@ -25,7 +25,10 @@ const propTypes = {
    * The click callback of the tab.
    */
   onTabClick: PropTypes.func,
-  isSelected: PropTypes.bool,
+  /**
+   * Boolean indicating whether or not the Tab should render as active.
+   */
+  isActive: PropTypes.bool,
 };
 
 class ApplicationTab extends React.Component {
@@ -81,17 +84,17 @@ class ApplicationTab extends React.Component {
     const {
       isCollapsed,
       text,
-      isSelected,
+      isActive,
     } = this.props;
 
     const tabClassNames = cx([
       { tab: !isCollapsed },
       { 'collapsed-tab': isCollapsed },
-      { 'is-disabled': isSelected && !isCollapsed },
+      { 'is-disabled': isActive && !isCollapsed },
       { 'is-active': this.state.active },
       { 'is-focused': this.state.focused },
     ]);
-    const tabAttr = { 'aria-current': isSelected };
+    const tabAttr = { 'aria-current': isActive };
 
     let ComponentClass = 'div';
     if (!isCollapsed) {

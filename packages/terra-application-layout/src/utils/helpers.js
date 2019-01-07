@@ -15,3 +15,8 @@ export default {
   isSizeCompact,
   KEYCODES,
 };
+
+export {
+  isSizeCompact,
+  KEYCODES,
+};

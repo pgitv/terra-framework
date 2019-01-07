@@ -32,6 +32,7 @@
     "prop-types": "^15.5.8",
     "react-router-dom": "^4.2.2",
     "resize-observer-polyfill": "^1.4.1",
+    "tabbable": "^3.1.1",
     "terra-action-header": "^1.14.0",
     "terra-application-header-layout": "^2.20.0",
     "terra-application-menu-layout": "^2.15.0",
@@ -51,6 +52,7 @@
     "terra-navigation-side-menu": "^1.16.0",
     "terra-overlay": "^2.36.1",
     "terra-popup": "^4.18.1",
+    "terra-scroll": "^1.17.0",
     "terra-slide-panel": "^2.23.0"
   },
   "scripts": {

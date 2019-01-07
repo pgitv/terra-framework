@@ -1,18 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import ContentContainer from 'terra-content-container';
-import { withActiveBreakpoint } from 'terra-breakpoints';
-import Overlay from 'terra-overlay';
-import OverlayContainer from 'terra-overlay/lib/OverlayContainer';
 
-import RoutingMenu from './menu/RoutingMenu';
-import ApplicationMenu from './menu/_ApplicationMenu';
+import NavigationMenu from './menu/_NavigationMenu';
 import ApplicationHeader from './header/_ApplicationHeader';
 import ApplicationLayoutPropTypes from './utils/propTypes';
-import Helpers from './utils/helpers';
+import Helpers, { isSizeCompact } from './utils/helpers';
 import UtilityHelpers from './utils/utilityHelpers';
-import ApplicationLayoutMenuPanel from './ApplicationLayoutMenuPanel';
+import MenuPanel from './menu/_MenuPanel';
 
 import 'terra-base/lib/baseStyles';
 
@@ -46,11 +41,11 @@ const propTypes = {
    */
   navigationItems: ApplicationLayoutPropTypes.navigationItemsPropType,
   /**
-   * The string key pertaining to the navigation item determined to be active.
+   * The string key identifying the navigation item determined to be active.
    */
   activeNavigationItemKey: PropTypes.string,
   /**
-   * Function executed by the ApplicationLayout upon selection of a navigation item.
+   * A function executed upon selection of a navigation item.
    */
   onSelectNavigationItem: PropTypes.func,
   /**
@@ -62,7 +57,7 @@ const propTypes = {
    */
   children: PropTypes.node,
   /**
-   * The active breakpoint for the current window size. Provided automatically by withActiveBreakpoint().
+   * The currently active breakpoint.
    */
   activeBreakpoint: PropTypes.string,
 };
@@ -76,7 +71,7 @@ class ApplicationLayout extends React.Component {
     super(props);
 
     this.handleNavigationItemSelection = this.handleNavigationItemSelection.bind(this);
-    this.renderApplicationLayoutMenu = this.renderApplicationLayoutMenu.bind(this);
+    this.renderNavigationMenu = this.renderNavigationMenu.bind(this);
   }
 
   componentDidUpdate() {
@@ -84,7 +79,7 @@ class ApplicationLayout extends React.Component {
     /**
      * The menu is toggled closed if it determined to be open at medium through enormous breakpoints.
      */
-    if (!Helpers.isSizeCompact(activeBreakpoint) && menuIsOpen) {
+    if (!isSizeCompact(activeBreakpoint) && menuIsOpen) {
       onMenuToggle();
     }
   }
@@ -97,13 +92,13 @@ class ApplicationLayout extends React.Component {
     }
   }
 
-  renderApplicationLayoutMenu() {
+  renderNavigationMenu() {
     const {
       nameConfig, utilityConfig, extensions, activeBreakpoint, onMenuToggle, navigationItems, activeNavigationItemKey,
     } = this.props;
 
     return (
-      <ApplicationMenu
+      <NavigationMenu
         nameConfig={nameConfig}
         navigationItems={navigationItems}
         activeNavigationItemKey={activeNavigationItemKey}
@@ -121,40 +116,29 @@ class ApplicationLayout extends React.Component {
       nameConfig, utilityConfig, navigationAlignment, navigationItems, extensions, activeBreakpoint, children, menuIsOpen, onMenuToggle, activeNavigationItemKey, onSelectNavigationItem,
     } = this.props;
 
-    const isCompact = Helpers.isSizeCompact(activeBreakpoint);
-
-    const containerClassNames = cx([
-      'application-layout',
-      // { 'menu-is-open': menuIsOpen },
-    ]);
+    const isCompact = isSizeCompact(activeBreakpoint);
 
     return (
-      <ContentContainer
-        header={(
-          <ApplicationHeader
-            activeBreakpoint={activeBreakpoint}
-            nameConfig={nameConfig}
-            utilityConfig={utilityConfig}
-            extensions={extensions}
-            navigationItems={navigationItems}
-            navigationItemAlignment={navigationAlignment}
-            activeNavigationItemKey={activeNavigationItemKey}
-            onSelectNavigationItem={onSelectNavigationItem}
-            onMenuToggle={navigationItems.length ? onMenuToggle : undefined}
-          />
-        )}
-        fill
-      >
-        <ApplicationLayoutMenuPanel
+      <div className={cx('application-layout')}>
+        <ApplicationHeader
+          activeBreakpoint={activeBreakpoint}
+          nameConfig={nameConfig}
+          utilityConfig={utilityConfig}
+          extensions={extensions}
+          navigationItems={navigationItems}
+          navigationItemAlignment={navigationAlignment}
+          activeNavigationItemKey={activeNavigationItemKey}
+          onSelectNavigationItem={onSelectNavigationItem}
+          onMenuToggle={navigationItems.length ? onMenuToggle : undefined}
+        />
+        <MenuPanel
           isOpen={menuIsOpen}
           onToggle={onMenuToggle}
-          panelContent={isCompact && navigationItems.length ? this.renderApplicationLayoutMenu() : undefined}
+          panelContent={isCompact && navigationItems.length ? this.renderNavigationMenu() : undefined}
         >
-          <main tabIndex="-1" className={cx('main-container')}>
-            {children}
-          </main>
-        </ApplicationLayoutMenuPanel>
-      </ContentContainer>
+          {children}
+        </MenuPanel>
+      </div>
     );
   }
 }
@@ -162,9 +146,7 @@ class ApplicationLayout extends React.Component {
 ApplicationLayout.propTypes = propTypes;
 ApplicationLayout.defaultProps = defaultProps;
 
-const WrappedApplicationLayout = withActiveBreakpoint(ApplicationLayout);
-
-export default WrappedApplicationLayout;
+export default ApplicationLayout;
 
 const Utils = {
   helpers: Helpers,
@@ -172,4 +154,4 @@ const Utils = {
   propTypes: ApplicationLayoutPropTypes,
 };
 
-export { RoutingMenu, Utils };
+export { Utils };

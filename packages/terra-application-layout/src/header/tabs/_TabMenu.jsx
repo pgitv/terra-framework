@@ -15,6 +15,9 @@ const propTypes = {
    * Should the menu be hidden, set to true if there are no hidden items.
    */
   isHidden: PropTypes.bool,
+  /**
+   * A string identifying the currently active tab.
+   */
   activeTabKey: PropTypes.string,
 };
 
