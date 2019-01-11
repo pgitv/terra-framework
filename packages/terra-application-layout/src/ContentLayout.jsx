@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import Overlay from 'terra-overlay';
-import OverlayContainer from 'terra-overlay/lib/OverlayContainer';
 import { withActiveBreakpoint } from 'terra-breakpoints';
-import tabbable from 'tabbable';
 
 import 'terra-base/lib/baseStyles';
 
@@ -13,160 +10,68 @@ import styles from './ContentLayout.module.scss';
 const cx = classNames.bind(styles);
 
 const propTypes = {
-  // /**
-  //  * Enables animations for panel state transitions.
-  //  */
-  // isAnimated: PropTypes.bool,
   /**
    * Enables panel visibility.
    */
-  isOpen: PropTypes.bool,
-  // /**
-  //  * Enables toggling for the panel.
-  //  */
-  // isToggleEnabled: PropTypes.bool,
+  menuIsVisible: PropTypes.bool,
   /**
    * The element to display in the main content area.
    */
   children: PropTypes.element,
-  // /**
-  //  * The style of panel presentation. One of `overlay`, `squish`.
-  //  */
-  // panelBehavior: PropTypes.oneOf(['overlay', 'squish']),
   /**
    * The component to display in the panel content area.
    */
-  panelContent: PropTypes.node,
-  /**
-   * The function called when panel state changes are desired.
-   */
-  onToggle: PropTypes.func,
-  // /**
-  //  * String to display on menu hover target.
-  //  */
-  // toggleText: PropTypes.string,
-  /**
-   * Current breakpoint size.
-   */
-  activeBreakpoint: PropTypes.string.isRequired,
-};
-
-const defaultProps = {
-  // isAnimated: false,
-  isOpen: false,
-  // isToggleEnabled: false,
-  // panelBehavior: 'overlay',
+  menuContent: PropTypes.node,
 };
 
 class ContentLayout extends React.Component {
-  constructor(props) {
-    super(props);
-    // this.setPanelNode = this.setPanelNode.bind(this);
-    // this.handleTransitionEnd = this.handleTransitionEnd.bind(this);
-    // this.preparePanelForTransition = this.preparePanelForTransition.bind(this);
-
-    this.isHidden = !props.isOpen;
-  }
-
-  // componentDidMount() {
-  //   if (this.panelNode) {
-  //     this.panelNode.addEventListener('transitionend', this.handleTransitionEnd);
-  //   }
-  // }
-
-  // componentDidUpdate() {
-  //   this.lastIsOpen = this.props.isOpen;
-  // }
-
-  // componentWillUnmount() {
-  //   if (this.panelNode) {
-  //     this.panelNode.removeEventListener('transitionend', this.handleTransitionEnd);
-  //   }
-  // }
-
-  // setPanelNode(node) {
-  //   this.panelNode = node;
-  // }
-
-  // handleTransitionEnd() {
-  //   if (!this.props.isOpen && this.panelNode) {
-  //     this.panelNode.setAttribute('aria-hidden', 'true');
-  //     this.isHidden = true;
-
-  //     // Sends focus back to the application layout header toggle button if it exists
-  //     if (document.querySelector('button[data-application-header-toggle]')) {
-  //       document.querySelector('button[data-application-header-toggle]').focus();
-  //     // Else, we'll send focus back to first interactable element in the main panel
-  //     } else if (tabbable(document.querySelector('[data-terra-layout-main]'))[0]) {
-  //       tabbable(document.querySelector('[data-terra-layout-main]'))[0].focus();
-  //     }
-  //   }
-  // }
-
-  // preparePanelForTransition() {
-  //   // React 16.3 will be deprecating componentWillRecieveProps and componentWillUpdate, and removed in 17, so code execution prior to render becomes difficult.
-  //   // As a result of this change, we are executing the code in the render block.
-  //   if (this.props.isOpen && !this.lastIsOpen && this.panelNode) {
-  //     // If the panel is opening remove the hidden attribute so the animation performs correctly.
-  //     this.panelNode.setAttribute('aria-hidden', 'false');
-  //     this.isHidden = false;
-  //     if (tabbable(this.panelNode)[0]) {
-  //       tabbable(this.panelNode)[0].focus();
-  //     }
-  //   }
-  // }
-
   render() {
     const {
-      isAnimated,
-      isOpen,
-      isToggleEnabled,
+      menuIsVisible,
       children,
-      panelBehavior,
-      panelContent,
+      menuContent,
       activeBreakpoint,
-      onToggle,
-      toggleText,
-      ...customProps
     } = this.props;
 
-    const isCompact = activeBreakpoint === 'tiny' || activeBreakpoint === 'small';
-    const isOverlayOpen = isOpen && isCompact;
+    if (activeBreakpoint === 'tiny' || activeBreakpoint === 'small') {
+      if (menuContent && menuIsVisible) {
+        return (
+          <div className={cx('container')}>
+            {menuContent}
+          </div>
+        );
+      }
 
-    const slidePanelClassNames = cx([
-      'layout-slide-panel',
-      { 'is-open': isOpen },
-      { 'is-overlay': isCompact },
-      { 'is-squish': !isCompact },
-      customProps.className,
-    ]);
+      if (children) {
+        return (
+          <div className={cx('container')}>
+            {children}
+          </div>
+        );
+      }
+    }
 
-    const panelClasses = cx([
-      'panel',
-      { 'is-tiny': activeBreakpoint === 'tiny' },
-      { 'is-small': activeBreakpoint === 'small' },
-    ]);
+    if (menuContent && menuIsVisible) {
+      return (
+        <div className={cx(['container'])}>
+          <div className={cx('panel')}>
+            {menuContent}
+          </div>
+          <div className={cx('content')}>
+            {children}
+          </div>
+        </div>
+      );
+    }
 
     return (
-      <div
-        {...customProps}
-        className={slidePanelClassNames}
-      >
-        <div className={panelClasses} aria-hidden={this.isHidden ? 'true' : 'false'} ref={this.setPanelNode}>
-          {panelContent}
-        </div>
-        <OverlayContainer className={cx('content')}>
-          <Overlay isRelativeToContainer onRequestClose={onToggle} isOpen={isOverlayOpen} backgroundStyle="light" />
-          <main data-terra-layout-main tabIndex="-1" className={cx('main-container')}>
-            {children}
-          </main>
-        </OverlayContainer>
+      <div className={cx(['container'])}>
+        {children}
       </div>
     );
   }
 }
 
 ContentLayout.propTypes = propTypes;
-ContentLayout.defaultProps = defaultProps;
 
 export default withActiveBreakpoint(ContentLayout);

@@ -235,7 +235,7 @@ class ApplicationLayoutTest extends React.Component {
             });
           }}
         >
-          {/* <AppContent /> */}
+          <AppContent />
         </ApplicationLayout>
       </ContentContainer>
     );
