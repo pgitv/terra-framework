@@ -9,15 +9,6 @@ const propTypes = {
 };
 
 class SecondaryNavigationMenu extends React.Component {
-  static buildItemMap(menuItems) {
-    const childMap = {};
-    menuItems.forEach((item) => {
-      childMap[item.key] = item;
-    });
-
-    return childMap;
-  }
-
   static buildAncestorMap(menuItems) {
     const ancestorMap = {};
     menuItems.forEach((item) => {
@@ -48,13 +39,12 @@ class SecondaryNavigationMenu extends React.Component {
   constructor(props) {
     super(props);
 
-    // const initialSelectedKey = 'about';
+    this.onMenuChange = this.onMenuChange.bind(this);
 
-    this.itemMap = SecondaryNavigationMenu.buildItemMap(props.menuItems);
     this.ancestorMap = SecondaryNavigationMenu.buildAncestorMap(props.menuItems);
 
     const initialState = {};
-    const selectedItem = this.itemMap[props.initialSelectedKey];
+    const selectedItem = props.menuItems.find(item => item.key === props.initialSelectedKey);
     const parentItem = this.ancestorMap[props.initialSelectedKey];
 
     if (selectedItem.childKeys && selectedItem.childKeys.length) {
@@ -69,10 +59,50 @@ class SecondaryNavigationMenu extends React.Component {
     this.state = initialState;
   }
 
+  onMenuChange(event, selectionData) {
+    const { onChildItemSelection } = this.props;
+    const { selectionPath } = this.state;
+
+    const newChildKey = selectionData.selectedChildKey;
+    const newMenuKey = selectionData.selectedMenuKey;
+
+    // If an endpoint has been reached, reset selection path and update.
+    if (newChildKey && selectionData.metaData && selectionData.metaData.path) {
+      this.setState({
+        selectionPath: SecondaryNavigationMenu.buildSelectionPath(newChildKey, this.ancestorMap),
+        selectedChildKey: newChildKey,
+        selectedMenuKey: newMenuKey,
+      }, () => {
+        if (onChildItemSelection) {
+          onChildItemSelection(newChildKey, selectionData.metaData);
+        }
+      });
+
+      return;
+    }
+
+    if (selectionPath.indexOf(newChildKey) >= 0) {
+      this.setState({
+        selectedMenuKey: newMenuKey,
+        selectedChildKey: newChildKey,
+      });
+    } else if (selectionPath.indexOf(newMenuKey) >= 0) {
+      this.setState({
+        selectedMenuKey: newMenuKey,
+        selectedChildKey: selectionPath[selectionPath.indexOf(newMenuKey) + 1],
+      });
+    } else {
+      this.setState({
+        selectedMenuKey: newMenuKey,
+        selectedChildKey: undefined,
+      });
+    }
+  }
+
   render() {
-    const { menuItems, onChildItemSelection } = this.props;
+    const { menuItems } = this.props;
     const {
-      selectedMenuKey, selectedChildKey, selectionPath,
+      selectedMenuKey, selectedChildKey,
     } = this.state;
 
     return (
@@ -80,42 +110,7 @@ class SecondaryNavigationMenu extends React.Component {
         menuItems={menuItems}
         selectedMenuKey={selectedMenuKey}
         selectedChildKey={selectedChildKey}
-        onChange={(event, selectionData) => {
-          const newChildKey = selectionData.selectedChildKey;
-          const newMenuKey = selectionData.selectedMenuKey;
-
-          // If an endpoint has been reached, reset selection path and update.
-          if (newChildKey && selectionData.metaData && selectionData.metaData.path) {
-            this.setState({
-              selectionPath: SecondaryNavigationMenu.buildSelectionPath(newChildKey, this.ancestorMap),
-              selectedChildKey: newChildKey,
-              selectedMenuKey: newMenuKey,
-            }, () => {
-              if (onChildItemSelection) {
-                onChildItemSelection(newChildKey, selectionData.metaData);
-              }
-            });
-
-            return;
-          }
-
-          if (selectionPath.indexOf(newChildKey) >= 0) {
-            this.setState({
-              selectedMenuKey: newMenuKey,
-              selectedChildKey: newChildKey,
-            });
-          } else if (selectionPath.indexOf(newMenuKey) >= 0) {
-            this.setState({
-              selectedMenuKey: newMenuKey,
-              selectedChildKey: selectionPath[selectionPath.indexOf(newMenuKey) + 1],
-            });
-          } else {
-            this.setState({
-              selectedMenuKey: newMenuKey,
-              selectedChildKey: undefined,
-            });
-          }
-        }}
+        onChange={this.onMenuChange}
       />
     );
   }
