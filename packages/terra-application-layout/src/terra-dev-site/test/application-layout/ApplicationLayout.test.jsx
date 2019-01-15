@@ -2,7 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  MemoryRouter, withRouter, Redirect, matchPath,
+  MemoryRouter, withRouter, Redirect, matchPath, Switch, Route,
 } from 'react-router-dom';
 import { injectIntl, intlShape } from 'react-intl';
 import Image from 'terra-image';
@@ -15,7 +15,8 @@ import ModalManager from 'terra-modal-manager';
 import { ActiveBreakpointProvider, ActiveBreakpointContext, withActiveBreakpoint } from 'terra-breakpoints';
 
 import ApplicationLayout, { Utils } from '../../../ApplicationLayout';
-import AppContent from './AppContent';
+import Page1Content from './Page1Content';
+import CommonPageContent from './CommonPageContent';
 
 const DisclosureComponent = withDisclosureManager(({ disclosureManager, text }) => (
   <ContentContainer
@@ -235,7 +236,15 @@ class ApplicationLayoutTest extends React.Component {
             });
           }}
         >
-          <AppContent />
+          <Switch>
+            <Route path="/page_1" render={() => <Page1Content />} />
+            <Route path="/page_2" render={() => <CommonPageContent contentName="Page 2" />} />
+            <Route path="/page_3" render={() => <CommonPageContent contentName="Page 3" />} />
+            <Route path="/page_4" render={() => <CommonPageContent contentName="Page 4" />} />
+            <Route path="/page_5" render={() => <CommonPageContent contentName="Page 5" />} />
+            <Route path="/page_6" render={() => <CommonPageContent contentName="Page 6" />} />
+            <Route path="/page_7" render={() => <CommonPageContent contentName="Page 7" />} />
+          </Switch>
         </ApplicationLayout>
       </ContentContainer>
     );
