@@ -136,7 +136,6 @@ class ApplicationLayoutTest extends React.Component {
 
     this.state = {
       checkboxItemEnabled: false,
-      menuIsOpen: false,
       activeNavigationItem: navigationItems[0],
     };
   }
@@ -145,7 +144,7 @@ class ApplicationLayoutTest extends React.Component {
     const {
       intl, history, location, disclosureManager, activeBreakpoint,
     } = this.props;
-    const { checkboxItemEnabled, menuIsOpen, activeNavigationItem } = this.state;
+    const { checkboxItemEnabled, activeNavigationItem } = this.state;
 
     const customUtilityItems = [{
       key: 'additional-1',
@@ -190,15 +189,11 @@ class ApplicationLayoutTest extends React.Component {
       menuItems: Utils.utilityHelpers.getDefaultUtilityItems(intl, userData, customUtilityItems),
       initialSelectedKey: Utils.utilityHelpers.defaultKeys.MENU,
       onChange: (event, itemData) => {
-        this.setState({
-          menuIsOpen: false,
-        }, () => {
-          disclosureManager.disclose({
-            preferredType: 'modal',
-            content: {
-              component: <DisclosureComponent text={itemData.key} />,
-            },
-          });
+        disclosureManager.disclose({
+          preferredType: 'modal',
+          content: {
+            component: <DisclosureComponent text={itemData.key} />,
+          },
         });
       },
     });
@@ -218,22 +213,12 @@ class ApplicationLayoutTest extends React.Component {
           nameConfig={nameConfig}
           utilityConfig={utilityConfig}
           extensions={<Extensions />}
-          menuIsOpen={menuIsOpen}
-          onMenuToggle={() => {
-            this.setState(state => ({
-              menuIsOpen: !state.menuIsOpen,
-            }));
-          }}
           navigationItems={navigationItems}
           activeNavigationItemKey={activeNavigationItem.key}
           onSelectNavigationItem={(navigationItemKey) => {
-            this.setState({
-              menuIsOpen: false,
-            }, () => {
-              if (this.state.activeNavigationItem !== navigationItemKey) {
-                history.push(navigationItemKey);
-              }
-            });
+            if (this.state.activeNavigationItem !== navigationItemKey) {
+              history.push(navigationItemKey);
+            }
           }}
         >
           <Switch>

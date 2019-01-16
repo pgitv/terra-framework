@@ -17,14 +17,6 @@ const cx = classNames.bind(styles);
 
 const propTypes = {
   /**
-   * Boolean indicating whether or not the ApplicationLayout's menu (containing extensions, primary navigation, and utilities) should be displayed.
-   */
-  menuIsOpen: PropTypes.bool,
-  /**
-   * Function executed by the ApplicationLayout when it wants to toggle the menu's visibility.
-   */
-  onMenuToggle: PropTypes.func,
-  /**
    * The configuration values for the ApplicationName component.
    */
   nameConfig: ApplicationLayoutPropTypes.nameConfigPropType,
@@ -67,34 +59,48 @@ const defaultProps = {
 };
 
 class ApplicationLayout extends React.Component {
+  static getDerivedStateFromProps(props, state) {
+    if (state.menuIsOpen && !isSizeCompact(props.activeBreakpoint)) {
+      return {
+        menuIsOpen: false,
+      };
+    }
+
+    return null;
+  }
+
   constructor(props) {
     super(props);
 
+    this.handleMenuToggle = this.handleMenuToggle.bind(this);
     this.handleNavigationItemSelection = this.handleNavigationItemSelection.bind(this);
     this.renderNavigationMenu = this.renderNavigationMenu.bind(this);
-  }
 
-  componentDidUpdate() {
-    const { activeBreakpoint, menuIsOpen, onMenuToggle } = this.props;
-    /**
-     * The menu is toggled closed if it determined to be open at medium through enormous breakpoints.
-     */
-    if (!isSizeCompact(activeBreakpoint) && menuIsOpen) {
-      onMenuToggle();
-    }
+    this.state = {
+      menuIsOpen: false,
+    };
   }
 
   handleNavigationItemSelection(event, data) {
-    const { onSelectNavigationItem } = this.props;
+    this.setState({
+      menuIsOpen: false,
+    }, () => {
+      const { onSelectNavigationItem } = this.props;
+      if (onSelectNavigationItem) {
+        onSelectNavigationItem(data.selectedChildKey);
+      }
+    });
+  }
 
-    if (onSelectNavigationItem) {
-      onSelectNavigationItem(data.selectedChildKey);
-    }
+  handleMenuToggle() {
+    this.setState(state => ({
+      menuIsOpen: !state.menuIsOpen,
+    }));
   }
 
   renderNavigationMenu() {
     const {
-      nameConfig, utilityConfig, extensions, activeBreakpoint, onMenuToggle, navigationItems, activeNavigationItemKey,
+      nameConfig, utilityConfig, extensions, activeBreakpoint, navigationItems, activeNavigationItemKey,
     } = this.props;
 
     return (
@@ -106,15 +112,16 @@ class ApplicationLayout extends React.Component {
         extensions={extensions}
         utilityConfig={utilityConfig}
         activeBreakpoint={activeBreakpoint}
-        toggleMenu={onMenuToggle}
+        toggleMenu={this.handleMenuToggle}
       />
     );
   }
 
   render() {
     const {
-      nameConfig, utilityConfig, navigationAlignment, navigationItems, extensions, activeBreakpoint, children, menuIsOpen, onMenuToggle, activeNavigationItemKey, onSelectNavigationItem,
+      nameConfig, utilityConfig, navigationAlignment, navigationItems, extensions, activeBreakpoint, children, activeNavigationItemKey, onSelectNavigationItem,
     } = this.props;
+    const { menuIsOpen } = this.state;
 
     const isCompact = isSizeCompact(activeBreakpoint);
 
@@ -129,11 +136,11 @@ class ApplicationLayout extends React.Component {
           navigationItemAlignment={navigationAlignment}
           activeNavigationItemKey={activeNavigationItemKey}
           onSelectNavigationItem={onSelectNavigationItem}
-          onMenuToggle={navigationItems.length ? onMenuToggle : undefined}
+          onMenuToggle={navigationItems.length ? this.handleMenuToggle : undefined}
         />
         <MenuPanel
           isOpen={menuIsOpen}
-          onToggle={onMenuToggle}
+          onToggle={this.handleMenuToggle}
           panelContent={isCompact && navigationItems.length ? this.renderNavigationMenu() : undefined}
         >
           {children}
