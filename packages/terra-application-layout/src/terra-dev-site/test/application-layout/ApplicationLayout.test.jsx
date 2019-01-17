@@ -15,7 +15,7 @@ import ModalManager from 'terra-modal-manager';
 import { ActiveBreakpointProvider, ActiveBreakpointContext, withActiveBreakpoint } from 'terra-breakpoints';
 
 import ApplicationLayout, { Utils } from '../../../ApplicationLayout';
-import Page1Content from './Page1Content';
+import Page1 from './Page1';
 import CommonPageContent from './CommonPageContent';
 
 const DisclosureComponent = withDisclosureManager(({ disclosureManager, text }) => (
@@ -222,7 +222,7 @@ class ApplicationLayoutTest extends React.Component {
           }}
         >
           <Switch>
-            <Route path="/page_1" render={() => <Page1Content />} />
+            <Route path="/page_1" render={() => <Page1 />} />
             <Route path="/page_2" render={() => <CommonPageContent contentName="Page 2" />} />
             <Route path="/page_3" render={() => <CommonPageContent contentName="Page 3" />} />
             <Route path="/page_4" render={() => <CommonPageContent contentName="Page 4" />} />

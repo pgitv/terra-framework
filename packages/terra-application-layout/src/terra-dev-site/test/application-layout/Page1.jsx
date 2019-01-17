@@ -4,9 +4,8 @@ import {
 } from 'react-router-dom';
 
 import CommonPageContent from './CommonPageContent';
-import ContentLayout from '../../../ContentLayout';
+import ContentLayout, { withContentLayout } from '../../../ContentLayout';
 import RoutingSecondaryNavigationMenu from '../../../RoutingSecondaryNavigationMenu';
-
 
 const menuItems = [{
   childKeys: ['about', 'components', 'tests'],
@@ -42,7 +41,17 @@ const menuItems = [{
   },
 }];
 
-class Page1Content extends React.Component {
+const Page1Menu = withContentLayout(({ initialSelectedKey, contentLayout }) => (
+  <RoutingSecondaryNavigationMenu
+    menuItems={menuItems}
+    initialSelectedKey={initialSelectedKey}
+    onChildItemSelection={() => {
+      contentLayout.closeMenu();
+    }}
+  />
+));
+
+class Page1 extends React.Component {
   static getInitialSelectedKey(pathname) {
     if (matchPath(pathname, '/page_1/about')) {
       return 'about';
@@ -71,7 +80,7 @@ class Page1Content extends React.Component {
     super(props);
 
     this.state = {
-      initialSelectedKey: Page1Content.getInitialSelectedKey(props.location.pathname),
+      initialSelectedKey: Page1.getInitialSelectedKey(props.location.pathname),
     };
   }
 
@@ -80,10 +89,8 @@ class Page1Content extends React.Component {
 
     return (
       <ContentLayout
-        menuIsVisible
         menuContent={(
-          <RoutingSecondaryNavigationMenu
-            menuItems={menuItems}
+          <Page1Menu
             initialSelectedKey={initialSelectedKey}
           />
         )}
@@ -100,4 +107,4 @@ class Page1Content extends React.Component {
   }
 }
 
-export default withRouter(Page1Content);
+export default withRouter(Page1);

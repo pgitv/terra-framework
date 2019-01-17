@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import NavigationSideMenu from 'terra-navigation-side-menu';
+import { withActiveBreakpoint } from 'terra-breakpoints';
 
 const propTypes = {
   menuItems: PropTypes.array,
   initialSelectedKey: PropTypes.string,
   onChildItemSelection: PropTypes.func,
+  activeBreakpoint: PropTypes.string,
 };
 
 class SecondaryNavigationMenu extends React.Component {
@@ -100,16 +102,29 @@ class SecondaryNavigationMenu extends React.Component {
   }
 
   render() {
-    const { menuItems } = this.props;
+    const { menuItems, activeBreakpoint } = this.props;
     const {
       selectedMenuKey, selectedChildKey,
     } = this.state;
 
+    const isCompact = activeBreakpoint === 'tiny' || activeBreakpoint === 'small';
+
+    /**
+     * At within compact viewports, the SecondaryNavigationMenu should render each menu item as if it has
+     * a submenu, as selecting a childless item will cause the menu close.
+     */
+    let managedMenuItems = menuItems;
+    if (activeBreakpoint === 'tiny' || activeBreakpoint === 'small') {
+      managedMenuItems = managedMenuItems.map(item => (
+        Object.assign({}, item, { hasSubMenu: true })
+      ));
+    }
+
     return (
       <NavigationSideMenu
-        menuItems={menuItems}
+        menuItems={managedMenuItems}
         selectedMenuKey={selectedMenuKey}
-        selectedChildKey={selectedChildKey}
+        selectedChildKey={!isCompact ? selectedChildKey : null}
         onChange={this.onMenuChange}
       />
     );
@@ -118,4 +133,4 @@ class SecondaryNavigationMenu extends React.Component {
 
 SecondaryNavigationMenu.propTypes = propTypes;
 
-export default SecondaryNavigationMenu;
+export default withActiveBreakpoint(SecondaryNavigationMenu);

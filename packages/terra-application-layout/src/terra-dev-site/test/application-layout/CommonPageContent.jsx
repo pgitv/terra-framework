@@ -1,20 +1,21 @@
 import React from 'react';
 
 import ContentContainer from 'terra-content-container';
-import ActionHeader from 'terra-action-header';
+import ContentLayoutActionHeader from '../../../ContentLayoutActionHeader';
 
-const PageContent = ({ contentName, goBack, children }) => (
+const PageContent = ({
+  contentName, children,
+}) => (
   <ContentContainer
     fill
-    header={<ActionHeader title={contentName} onBack={goBack} />}
+    header={<ContentLayoutActionHeader title={contentName} />}
   >
     {children || (
-    <div style={{ padding: '5px' }}>
-      Page Content:
-      {' '}
-      {contentName}
-    </div>
-
+      <div style={{ padding: '5px' }}>
+        Page Content:
+        {' '}
+        {contentName}
+      </div>
     )}
   </ContentContainer>
 );
