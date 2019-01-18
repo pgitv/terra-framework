@@ -46,7 +46,9 @@ const Page1Menu = withContentLayout(({ initialSelectedKey, contentLayout }) => (
     menuItems={menuItems}
     initialSelectedKey={initialSelectedKey}
     onChildItemSelection={() => {
-      contentLayout.closeMenu();
+      if (contentLayout.closeMenu) {
+        contentLayout.closeMenu();
+      }
     }}
   />
 ));

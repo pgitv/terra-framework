@@ -43,16 +43,13 @@ const propTypes = {
 
 class ContentLayout extends React.Component {
   static getDerivedStateFromProps(props, state) {
-    /**
-     * If the ContentLayout is going from compact mode to side-by-side, we reset the compactMenuIsOpen value to ensure
-     * the children are visible if the ContentLayout returns to compact mode.
-     */
-    if (isCompactContentLayout(state.previousActiveBreakpoint) && !isCompactContentLayout(props.activeBreakpoint)) {
-      if (state.compactMenuIsOpen) {
-        return {
-          compactMenuIsOpen: false,
-        };
-      }
+    if (!isCompactContentLayout(props.activeBreakpoint) && state.compactMenuIsOpen) {
+      /**
+       * The compact menu state is reset when a non-compact breakpoint is active.
+       */
+      return {
+        compactMenuIsOpen: false,
+      };
     }
 
     return null;
@@ -69,7 +66,20 @@ class ContentLayout extends React.Component {
     this.state = {
       compactMenuIsOpen: false,
       menuIsPinnedOpen: true,
-      previousActiveBreakpoint: props.activeBreakpoint,
+      compactMenuProviderValue: {
+        closeMenu: this.closeCompactMenu,
+      },
+      defaultMenuProviderValue: {
+        closeMenu: undefined,
+      },
+      compactContentProviderValue: {
+        openMenu: this.openCompactMenu,
+      },
+      defaultContentProviderValue: {
+        pinMenu: this.pinMenu,
+        unpinMenu: this.unpinMenu,
+        menuIsPinned: true,
+      },
     };
   }
 
@@ -88,12 +98,22 @@ class ContentLayout extends React.Component {
   pinMenu() {
     this.setState({
       menuIsPinnedOpen: true,
+      defaultContentProviderValue: {
+        pinMenu: this.pinMenu,
+        unpinMenu: this.unpinMenu,
+        menuIsPinned: true,
+      },
     });
   }
 
   unpinMenu() {
     this.setState({
       menuIsPinnedOpen: false,
+      defaultContentProviderValue: {
+        pinMenu: this.pinMenu,
+        unpinMenu: this.unpinMenu,
+        menuIsPinned: false,
+      },
     });
   }
 
@@ -104,33 +124,35 @@ class ContentLayout extends React.Component {
       activeBreakpoint,
     } = this.props;
 
-    const { compactMenuIsOpen, menuIsPinnedOpen } = this.state;
+    const {
+      compactMenuIsOpen, menuIsPinnedOpen, compactMenuProviderValue, compactContentProviderValue, defaultMenuProviderValue, defaultContentProviderValue,
+    } = this.state;
 
     let renderMenu;
+    let menuProviderValue;
+    let contentProviderValue;
     if (isCompactContentLayout(activeBreakpoint)) {
       renderMenu = compactMenuIsOpen;
+      menuProviderValue = compactMenuProviderValue;
+      contentProviderValue = compactContentProviderValue;
     } else {
       renderMenu = menuIsPinnedOpen;
+      menuProviderValue = defaultMenuProviderValue;
+      contentProviderValue = defaultContentProviderValue;
     }
 
     return (
       <div className={cx(['container', { 'panel-is-open': renderMenu }])}>
         <div className={cx('panel')}>
           <ContentLayoutContext.Provider
-            value={{
-              closeMenu: isCompactContentLayout(activeBreakpoint) ? this.closeCompactMenu : () => {},
-            }}
+            value={menuProviderValue}
           >
             {menuContent}
           </ContentLayoutContext.Provider>
         </div>
         <div className={cx('content')}>
           <ContentLayoutContext.Provider
-            value={{
-              openMenu: isCompactContentLayout(activeBreakpoint) ? this.openCompactMenu : this.pinMenu,
-              closeMenu: isCompactContentLayout(activeBreakpoint) ? undefined : this.unpinMenu,
-              menuIsOpen: compactMenuIsOpen || (menuIsPinnedOpen && !isCompactContentLayout(activeBreakpoint)),
-            }}
+            value={contentProviderValue}
           >
             {children}
           </ContentLayoutContext.Provider>

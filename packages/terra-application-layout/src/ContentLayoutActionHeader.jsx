@@ -1,18 +1,17 @@
 import React from 'react';
 
 import ActionHeader from 'terra-action-header';
-import { withActiveBreakpoint } from 'terra-breakpoints';
-import { withContentLayout, isCompactContentLayout } from './ContentLayout';
+import { withContentLayout } from './ContentLayout';
 
-const ContentLayoutActionHeader = withContentLayout(withActiveBreakpoint(({
-  title, contentLayout, activeBreakpoint,
+const ContentLayoutActionHeader = withContentLayout(({
+  title, contentLayout,
 }) => (
   <ActionHeader
     title={title}
-    onBack={isCompactContentLayout(activeBreakpoint) ? contentLayout.openMenu : undefined}
-    onMaximize={!isCompactContentLayout(activeBreakpoint) && contentLayout.menuIsOpen ? contentLayout.closeMenu : undefined}
-    onMinimize={!isCompactContentLayout(activeBreakpoint) && !contentLayout.menuIsOpen ? contentLayout.openMenu : undefined}
+    onBack={contentLayout.openMenu}
+    onMaximize={contentLayout.menuIsPinned ? contentLayout.unpinMenu : undefined}
+    onMinimize={!contentLayout.menuIsPinned ? contentLayout.pinMenu : undefined}
   />
-)));
+));
 
 export default ContentLayoutActionHeader;
