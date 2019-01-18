@@ -8,13 +8,15 @@ const PageContent = ({
 }) => (
   <ContentContainer
     fill
-    header={<ContentLayoutActionHeader title={contentName} />}
   >
+    <ContentLayoutActionHeader />
     {children || (
-      <div style={{ padding: '5px' }}>
+      <div style={{ padding: '0.714rem' }}>
         Page Content:
         {' '}
         {contentName}
+        <br />
+        {'blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah '}
       </div>
     )}
   </ContentContainer>
